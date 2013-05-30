@@ -19,7 +19,7 @@
  *
  */
 	define('ENVIRONMENT', 'development');
-/*
+/*  
  *---------------------------------------------------------------
  * ERROR REPORTING
  *---------------------------------------------------------------
@@ -162,7 +162,7 @@ if (defined('ENVIRONMENT'))
 	// The name of THIS file
 	define('SELF', pathinfo(__FILE__, PATHINFO_BASENAME));
 
-	// The PHP file extension
+	// The PHP file extension  
 	// this global constant is deprecated.
 	define('EXT', '.php');
 
