@@ -15,10 +15,10 @@ class SelectAuthor extends CI_Controller
         {
             foreach ($query->result() as $row)
             {
-                //echo "id: " . $row->title();
+                echo "id: " . $row->aid;
                 echo ", name: " . $row->name . "<br />";
             }
-            echo "ff<br />";
+            echo "<br />";
         }
         else
         {
