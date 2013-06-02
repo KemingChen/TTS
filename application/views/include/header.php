@@ -39,32 +39,34 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="brand" href="#">Project name</a>
+                <a class="brand" href="#">台客書店</a>
                 <div class="nav-collapse collapse">
                     <ul class="nav">
-                        <li class="active"><a href="#">Home</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Action</a></li>
-                                <li><a href="#">Another action</a></li>
-                                <li><a href="#">Something else here</a></li>
-                                <li class="divider"></li>
-                                <li class="nav-header">Nav header</li>
-                                <li><a href="#">Separated link</a></li>
-                                <li><a href="#">One more separated link</a></li>
-                            </ul>
-                        </li>
+                        <li class="active"><a href="#">書籍瀏覽</a></li>
+                        <li><a href="#about">搜尋...施工中</a></li>
                     </ul>
+                <?if(!$isLogin){?>
                     <form class="navbar-form pull-right">
                         <input class="span2" type="text" placeholder="Email" />
                         <input class="span2" type="password" placeholder="Password" />
                         <button type="submit" class="btn">Sign in</button>
                     </form>
+                <?}else{?>
+                    <ul class="nav pull-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">會員專區 <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">交易紀錄</a></li>
+                                <li><a href="#">關注書單</a></li>
+                                <li><a href="#">購物車</a></li>
+                                <li class="divider"></li>
+                                <li class="nav-header">施工中...</li>
+                                <li><a href="#">修改密碼</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                <?}?>
                 </div><!--/.nav-collapse -->
             </div>
         </div>
     </div>
-    <div class="container">
