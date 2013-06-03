@@ -29,16 +29,25 @@ class Book extends CI_Controller
         $name = "haha";
         $aid = 1;
         $pid = 1;
-        $pubishedDate = "2013/6/2";
+        $publishedDate = "2013/6/2";
         $price = "1000";
-        $this->BookModel->createBookInformation($ISBN, $cover, $name, $aid, $pid, $pubishedDate, $price);
+        $this->BookModel->createBookInformation($ISBN, $cover, $name, $aid, $pid, $publishedDate, $price);
     }
     
     public function editBookInformation()
     {
-        
+        $this->load->model('BookModel');
+        $bid = 1;//change this to edit the book you want.
+        $ISBN = "1234567891234";
+        $cover = "cover";
+        $name = "haha";
+        $aid = 1;
+        $pid = 1;
+        $publishedDate = "2013/6/2";
+        $price = "1000";
+        $this->BookModel->editBookInformation($bid, $ISBN, $cover, $name, $aid, $pid, $publishedDate, $price);
     }
-    
+    /*
     public function select()
     {
         $this->load->database();
@@ -58,6 +67,7 @@ class Book extends CI_Controller
             echo "haha  it's nothing";  
         }
     }
+    */
 }
 
 ?>
