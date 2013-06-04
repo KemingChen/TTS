@@ -9,7 +9,7 @@ class Book extends CI_Controller
     public function onShelf()
     {
         $this->load->model('BookModel');
-        $ISBN = "1234567891234";
+        $ISBN = "1234567891234";//this need to be changed.
         $this->BookModel->updateOnShelf($ISBN);
         
     }
@@ -17,7 +17,7 @@ class Book extends CI_Controller
     public function offShelf()
     {
         $this->load->model('BookModel');
-        $ISBN = "1234567891234";
+        $ISBN = "1234567891234";//this need to be changed.
         $this->BookModel->updateOffShelf($ISBN);
     }
     
