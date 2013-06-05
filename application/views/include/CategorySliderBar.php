@@ -6,9 +6,9 @@
     <div class="span2">
         <div class="sidebar-nav">
     		<ul class="nav nav-pills nav-stacked"> 
-    			<li class="active"><a href="#"><i class="icon-chevron-right"></i>商業理財</a></li>
-                <li><a href="#"><b class="icon-chevron-right"></b>文學小說</a></li>
-                <li><a href="#"><b class="icon-chevron-right"></b>藝術設計</a></li>
+    			<li><a href="#"><i class="icon-chevron-right"></i>商業理財</a></li>
+                <li><a href="#"><i class="icon-chevron-right"></i>文學小說</a></li>
+                <li><a href="#"><i class="icon-chevron-right"></i>藝術設計</a></li>
                 <li><a href="#">...施工中</a></li>
             </ul>
         </div>
