@@ -18,7 +18,7 @@ class Template extends CI_Model
     private function getHeaderInfo()
     {
         $info = array();
-        $info["isLogin"] = true;
+        $info["isLogin"] = false;
         return $info;
     }
 }

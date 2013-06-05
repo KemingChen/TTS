@@ -14,6 +14,7 @@
             padding-top: 60px;
             padding-bottom: 40px;
         }
+}
     </style>
     <link href="<?=base_url()?>assets/css/bootstrap-responsive.css" rel="stylesheet" />
 
