@@ -60,6 +60,10 @@
                 <td><i class="icon-chevron-right"></i> <?=$price?></td>
             </tr>
         </table>
+        <div class="btn-group">
+            <button class="btn btn-middle btn-danger">加入購物車</button>
+            <button class="btn btn-middle btn-warning">加入關注</button>
+        </div>
     </div>
     <div class="span12"></div>
     <div class="span10">
