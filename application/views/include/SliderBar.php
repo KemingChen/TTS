@@ -12,8 +12,9 @@
                     $active = $menu[$i]["Active"];
                     $tag = $menu[$i]["Tag"];
                     $id = $menu[$i]["ID"];
+                    $url = base_url()."Nav/".$menu[$i]["Url"];
                     echo "<li class='$active'>";
-                    echo "<a href='#'>";
+                    echo "<a href='$url'>";
                     echo "<i class='icon-chevron-right'></i>$tag";
                     echo "</a>";
                     echo "</li>";

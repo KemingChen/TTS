@@ -7,18 +7,16 @@ class Nav extends CI_Controller
         parent::__construct();
         $this->load->model("template");
     }
-
-    public function category($category) // Category Nav
-
+    
+    public function category($category = "All")
     {
         $data["pageNum"] = $this->input->get("page");
         $data["category"] = "商業理財";
         $data["book"] = "快思慢想";
         $this->template->uCSliderBar($category, "CBooks", $data);
     }
-
-    public function book($book) // Book Nav
-
+    
+    public function book($book)
     {
         $data["book"] = "初學者的料理教科書：2500張步驟圖解，新手必備史上最簡單！看這本，保證不失敗！";
         $data["ISBN"] = "9789570410976";
@@ -39,19 +37,19 @@ class Nav extends CI_Controller
         $data = array();
         $this->template->uMSliderBar("ShopCar", "SCar", $data);
     }
-    
-    public function revisePassword()
+
+    public function rePassword()
     {
         $data = array();
-        $this->template->uMSliderBar("RevisePWD", "SCar", $data);
+        $this->template->uMSliderBar("RePassword", "SCar", $data);
     }
-    
+
     public function member()
     {
         $data = array();
         $this->template->uMSliderBar("Member", "SCar", $data);
     }
-    
+
     public function record()
     {
         $data = array();

@@ -43,7 +43,7 @@
                 <a class="brand" href="#">台客書店</a>
                 <div class="nav-collapse collapse">
                     <ul class="nav">
-                        <li class="active"><a href="#">書籍瀏覽</a></li>
+                        <li class="active"><a href="<?=base_url()?>Nav/Category">書籍瀏覽</a></li>
                         <li><a href="#about">搜尋...施工中</a></li>
                     </ul>
                 <?if(!$isLogin){?>
@@ -57,12 +57,13 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">會員專區 <b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a href="#">交易紀錄</a></li>
-                                <li><a href="#">關注書單</a></li>
-                                <li><a href="#">購物車</a></li>
+                                <li><a href="<?=base_url()?>Nav/Record">交易紀錄</a></li>
+                                <li><a href="<?=base_url()?>Nav/Concern">關注書單</a></li>
+                                <li><a href="<?=base_url()?>Nav/ShopCar">購物車</a></li>
                                 <li class="divider"></li>
                                 <li class="nav-header">施工中...</li>
-                                <li><a href="#">修改密碼</a></li>
+                                <li><a href="<?=base_url()?>Nav/Member">會員資料</a></li>
+                                <li><a href="<?=base_url()?>Nav/RePassword">修改密碼</a></li>
                             </ul>
                         </li>
                     </ul>

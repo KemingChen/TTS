@@ -58,14 +58,23 @@ class Template extends CI_Model
         array_push($cSBar, array("ID" => "C0", "Tag" => "商業理財"));
         array_push($cSBar, array("ID" => "C1", "Tag" => "文學小說"));
         array_push($cSBar, array("ID" => "C2", "Tag" => "藝術設計"));
-        $this->sliderBar["Category"] = $cSBar;
+        $this->saveSliderBar("Category", $cSBar, "Category/");
 
         $mSBar = array();
         array_push($mSBar, array("ID" => "Member", "Tag" => "會員資料"));
         array_push($mSBar, array("ID" => "Record", "Tag" => "交易紀錄"));
         array_push($mSBar, array("ID" => "ShopCar", "Tag" => "購物車"));
-        array_push($mSBar, array("ID" => "RevisePWD", "Tag" => "修改密碼"));
-        $this->sliderBar["Member"] = $mSBar;
+        array_push($mSBar, array("ID" => "RePassword", "Tag" => "修改密碼"));
+        $this->saveSliderBar("Member", $mSBar);
+    }
+
+    private function saveSliderBar($SBName, $SBar, $baseUrl = "")
+    {
+        for ($i = 0; $i < count($SBar); $i++)
+        {
+            $SBar[$i]["Url"] = $baseUrl . $SBar[$i]["ID"];
+        }
+        $this->sliderBar[$SBName] = $SBar;
     }
 }
 
