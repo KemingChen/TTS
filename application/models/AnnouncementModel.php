@@ -17,8 +17,6 @@ class AnnouncementModel extends CI_Model
     
     public function createAnnouncement($imgData)
     {
-        //$imgData = mysql_real_escape_string(file_get_contents($data['upload_data']['full_path']));
-        //$this->input->post('picture')
 	   	$data = array(
     		'description' => $this->input->post('description'),
             'picture' => $imgData
