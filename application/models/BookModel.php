@@ -32,5 +32,19 @@ class BookModel extends CI_Model
         $this->load->database();
         $query = $this->db->query("Update book set cover = '$cover', name = '$name', pid = $pid, publishedDate = '$publishedDate', price = $price, ISBN = '$ISBN', description = 'qweqweqwe', onShelf = 1 Where bid = $bid");
     }
+    
+    public function searchByCategory($category, $start, $end)
+    {
+        $this->load->database();
+        $query = $this->db->query("SELECT B.name, B.cover, B.publishedDate, B.price, B.ISBN, B.onShelf FROM BOOK AS B, CATEGORY AS C, CATEGORYCORRESPOND AS CC WHERE C.name = '$category' AND CC.cid = C.cid AND B.bid = CC.bid LIMIT $start , $end");
+        return $query;
+    }
+    
+    public function searchByID($id)
+    {
+        $this->load->database();
+        $query = $this->db->query("SELECT B.name, B.cover, B.publishedDate, B.price, B.ISBN, B.onShelf FROM BOOK AS B WHERE B.bid = $id");
+        return $query;
+    }
 }
 ?>

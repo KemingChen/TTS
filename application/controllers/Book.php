@@ -47,27 +47,56 @@ class Book extends CI_Controller
         $price = "1000";
         $this->BookModel->editBookInformation($bid, $ISBN, $cover, $name, $aid, $pid, $publishedDate, $price);
     }
-    /*
-    public function select()
+    
+    public function searchByCategory()
     {
-        $this->load->database();
-        echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">';
-        $query = $this->db->query("Select * From author");
+        $this->load->model('BookModel');
+        $category = "Science";//needs to be changed.
+        $start = 0;//從第幾筆
+        $end = 30;//到第幾筆
+        $query = $this->BookModel->searchByCategory($category, $start, $end);
         if ($query->num_rows() > 0)
         {
             foreach ($query->result() as $row)
             {
-                echo "id: " . $row->aid;
-                echo ", name: " . $row->name . "<br />";
+                echo "name: " . $row->name;
+                echo ", cover: " . $row->cover;
+                echo ", publishedDate: " . $row->publishedDate;
+                echo ", price: " . $row->price;
+                echo ", ISBN: " . $row->ISBN;
+                echo ", onshelf: " . $row->onShelf . "<br />";
             }
             echo "<br />";
         }
         else
         {
-            echo "haha  it's nothing";  
+            echo "There's no any record!";  
         }
     }
-    */
+    
+    public function searchByID()
+    {
+        $this->load->model('BookModel');
+        $id = 1;
+        $query = $this->BookModel->searchByID($id);
+        if ($query->num_rows() > 0)
+        {
+            foreach ($query->result() as $row)
+            {
+                echo "name: " . $row->name;
+                echo ", cover: " . $row->cover;
+                echo ", publishedDate: " . $row->publishedDate;
+                echo ", price: " . $row->price;
+                echo ", ISBN: " . $row->ISBN;
+                echo ", onshelf: " . $row->onShelf . "<br />";
+            }
+            echo "<br />";
+        }
+        else
+        {
+            echo "There's no any record!";  
+        }
+    }
 }
 
 ?>
