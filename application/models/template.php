@@ -8,13 +8,18 @@ class Template extends CI_Model
         $this->load->helper('url');
     }
 
-    public function tIndex($page, $data = array(), $return = false)
+    public function uCSliderBar($pageName, $data = array())// using Category Slider Bar
     {
-        $this->load->view('include/header', $this->getHeaderInfo());
-        $this->load->view($page, $data, $return);
-        $this->load->view('include/footer');
+        $return = false;
+        $info = array();
+        $info["data"] = $data;
+        $info["pageName"] = $pageName;
+        
+        $this->load->view('include/Header', $this->getHeaderInfo());
+        $this->load->view("include/CategorySliderBar", $info, $return);
+        $this->load->view('include/Footer');
     }
-
+    
     private function getHeaderInfo()
     {
         $info = array();
