@@ -33,9 +33,18 @@ class ShoppingCartModel extends CI_Model
         $query = $this->db->query("DELETE FROM SHOPPINGCARTCORRESPOND WHERE mid = $mid");
     }
     
-    public function automaticConfirmationEmail()
+    public function automaticConfirmationEmail($mid)
     {
-        
+        $this->load->database();
+        $query = $this->db->query("SELECT A.email FROM ACCOUNT AS A WHERE A.mid = $mid");
+        $this->load->library('email');
+        $this->email->from('XXXX@ntut.edu.tw','TaipeiTech Store');//Needs to be changed
+        //$mail = $query->result()->email;
+        $this->email->to('$query->result()->email');
+        $this->email->subject('Shopping Cart Confirmation');
+        $this->email->message('This is a test');
+        $this->email->send();
+        echo $this->email->print_debugger();
     }
 }
 

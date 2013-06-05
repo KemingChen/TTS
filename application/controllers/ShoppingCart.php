@@ -37,7 +37,9 @@ class ShoppingCart extends CI_Controller
     
     public function automaticConfirmationEmail()
     {
-        
+        $this->load->model('ShoppingCartModel');
+        $mid = 1;//this need to be changed.
+        $this->ShoppingCartModel->automaticConfirmationEmail($mid);
     }
     
 }
