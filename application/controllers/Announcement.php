@@ -20,7 +20,7 @@ class Announcement extends CI_Controller
     public function browse()
     {
         $data["annoucements"] = $this->AnnouncementModel->browseAnnouncement();
-        $this->template->uCSliderBar("Annoucement/browse", $data);
+        $this->template->uCSliderBar("", "Annoucement/browse", $data);
     }
     
     public function create()
@@ -35,7 +35,7 @@ class Announcement extends CI_Controller
     	
     	if ($this->form_validation->run() === FALSE)
     	{
-            $this->template->uCSliderBar("Annoucement/create", $data);
+            $this->template->uCSliderBar("", "Annoucement/create", $data);
     	}
     	else
     	{
@@ -43,7 +43,7 @@ class Announcement extends CI_Controller
         	if ( ! $this->upload->do_upload('picture'))
     		{
     			$error = array('error' => $this->upload->display_errors());
-                $this->template->uCSliderBar("Annoucement/create", $error);
+                $this->template->uCSliderBar("", "Annoucement/create", $error);
     		}
     		else
     		{
