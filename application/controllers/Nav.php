@@ -39,6 +39,24 @@ class Nav extends CI_Controller
         $data = array();
         $this->template->uMSliderBar("ShopCar", "SCar", $data);
     }
+    
+    public function revisePassword()
+    {
+        $data = array();
+        $this->template->uMSliderBar("RevisePWD", "SCar", $data);
+    }
+    
+    public function member()
+    {
+        $data = array();
+        $this->template->uMSliderBar("Member", "SCar", $data);
+    }
+    
+    public function record()
+    {
+        $data = array();
+        $this->template->uMSliderBar("Record", "SCar", $data);
+    }
 }
 
 ?>
