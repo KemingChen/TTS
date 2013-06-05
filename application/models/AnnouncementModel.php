@@ -24,6 +24,26 @@ class AnnouncementModel extends CI_Model
 	
 	   return $this->db->insert('advertisement', $data);
     }
+    
+    public function updateAnnouncement($id,$imgData)
+    {
+        $description = $this->input->post('description');
+        if($imgData!='')
+        {
+            $this->db->set('picture', $imgData);   
+        }
+        if($description)
+        {
+            $this->db->set('description',$description);
+        }
+        $this->db->where('adid', $id);
+        return $this->db->update('advertisement');
+    }
+    
+    public function deleteAnnouncement($id)
+    {
+        return $this->db->delete('advertisement', array('adid' => $id));
+    }
 }
 
 ?>
