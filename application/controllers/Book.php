@@ -35,8 +35,8 @@ class Book extends CI_Controller
     	
     	if ($this->form_validation->run() === FALSE)
     	{
-            $this->load->library('../controllers/Nav');
-            $this->nav->view("", "Category", "book/create", array());
+            //$this->load->library('../controllers/Nav');
+            $this->load->view("book/create", array());
     	}
     	else
     	{
@@ -65,8 +65,8 @@ class Book extends CI_Controller
     	
     	if ($this->form_validation->run() === FALSE)
     	{
-    	    $this->load->library('../controllers/Nav');
-            $this->nav->view("", "Category", "book/update", array());
+    	    //$this->load->library('../controllers/Nav');
+            $this->load->view("book/update", array());
     	}
     	else
     	{

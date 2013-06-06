@@ -6,6 +6,7 @@ class ShoppingCart extends CI_Controller
     {
         parent::__construct();
         $this->load->model("ShoppingCartModel");
+        $this->load->model("GmailModel");
         //上傳檔案要用的
         $this->load->helper(array('form', 'url'));
         $this->load->library('upload');
@@ -15,21 +16,16 @@ class ShoppingCart extends CI_Controller
     
     public function addShoppingCart()
     {
-        //$mid = 1;//this need to be changed.
-        //$bid = 1;//this need to be changed.
-        //$quantity = 10;//this need to be changed.
         $this->form_validation->set_rules('mid', 'mid', 'required');
     	
     	if ($this->form_validation->run() === FALSE)
     	{
-            $this->load->library('../controllers/Nav');
-            $this->nav->view("", "Category", "shoppingCart/Add", array());
+            //$this->load->library('../controllers/Nav');
+            $this->load->view("shoppingCart/Add", array());
     	}
     	else
     	{
             $this->ShoppingCartModel->addShoppingCart();
-            $mid = $this->input->post('mid');
-            $bid = $this->input->post('bid');
             $data["records"] = $this->ShoppingCartModel->browseAllRecords();
             $this->load->view('shoppingCart/browse', $data);
     	}
@@ -37,29 +33,94 @@ class ShoppingCart extends CI_Controller
     
     public function removeShoppingCart()
     {
-        $mid = 1;//this need to be changed.
-        $bid = 1;//this need to be changed.
-        $this->ShoppingCartModel->removeShoppingCart($mid, $bid);
+        $this->form_validation->set_rules('mid', 'mid', 'required');
+    	
+    	if ($this->form_validation->run() === FALSE)
+    	{
+            //$this->load->library('../controllers/Nav');
+            $this->load->view("shoppingCart/remove", array());
+    	}
+    	else
+    	{
+            $this->ShoppingCartModel->removeShoppingCart();
+            $data["records"] = $this->ShoppingCartModel->browseAllRecords();
+            $this->load->view('shoppingCart/browse', $data);
+    	}
+        //$mid = 1;//this need to be changed.
+        //$bid = 1;//this need to be changed.
+        //$this->ShoppingCartModel->removeShoppingCart($mid, $bid);
     }
     
     public function modifyShoppingCart()
     {
-        $mid = 1;//this need to be changed.
-        $bid = 1;//this need to be changed.
-        $quantity = 5;//this need to be changed.
-        $this->ShoppingCartModel->modifyShoppingCart($mid, $bid, $quantity);
+        $this->form_validation->set_rules('mid', 'mid', 'required');
+    	
+    	if ($this->form_validation->run() === FALSE)
+    	{
+            //$this->load->library('../controllers/Nav');
+            $this->load->view("shoppingCart/modify", array());
+    	}
+    	else
+    	{
+            $this->ShoppingCartModel->modifyShoppingCart();
+            $data["records"] = $this->ShoppingCartModel->browseAllRecords();
+            $this->load->view('shoppingCart/browse', $data);
+    	}
     }
     
     public function clearShoppingCart()
     {
-        $mid = 1;//this need to be changed.
-        $this->ShoppingCartModel->clearShoppingCart($mid);
+        $this->form_validation->set_rules('mid', 'mid', 'required');
+    	
+    	if ($this->form_validation->run() === FALSE)
+    	{
+            //$this->load->library('../controllers/Nav');
+            $this->load->view("shoppingCart/clear", array());
+    	}
+    	else
+    	{
+            $this->ShoppingCartModel->clearShoppingCart();
+            $data["records"] = $this->ShoppingCartModel->browseAllRecords();
+            $this->load->view('shoppingCart/browse', $data);
+    	}
     }
     
     public function automaticConfirmationEmail()
     {
-        $mid = 1;//this need to be changed.
-        $this->ShoppingCartModel->automaticConfirmationEmail($mid);
+        $this->form_validation->set_rules('mid', 'mid', 'required');
+    	
+    	if ($this->form_validation->run() === FALSE)
+    	{
+            //$this->load->library('../controllers/Nav');
+            $this->load->view("shoppingCart/sendEmail", array());
+    	}
+    	else
+    	{
+            $info = $this->ShoppingCartModel->getCustomerInformation();
+            foreach ($info->result() as $row)
+            {
+                $recipient =  $row->email;
+                $name = $row->name;
+            }
+            //$recipient = $info->result()->email;
+            $subject = 'TaipeiTech Store';
+            //$data = $this->MemberModel->getPasswordByEmail($recipient);
+            $message = 'Hello, ' . $name . "\r\n" . 'confirmation';
+            $this->GmailModel->sendMail($recipient, $subject, $message);
+            //$data["records"] = $this->ShoppingCartModel->browseAllRecords();
+            //$this->load->view('shoppingCart/browse', $data);
+    	}
+        //$recipient = 'benjaminchen81@gmail.com';
+        //$recipient = $this->input->post('email');
+        //$subject = 'TaipeiTech Store';
+        //$data = $this->MemberModel->getPasswordByEmail($recipient);
+        //$result = $data->result();
+        //$password = $result[0]->password;
+        //$name = $result[0]->name;
+        //$message = 'Hello, ' . $name . "\r\n" . 'your password:' . $password;
+        //$this->GmailModel->sendMail($recipient, $subject, $message);
+        //$mid = 1;//this need to be changed.
+        //$this->ShoppingCartModel->automaticConfirmationEmail($mid);
     }
     
 }
