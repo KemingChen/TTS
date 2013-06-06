@@ -8,13 +8,32 @@ class ConcernModel extends CI_Model
         $this->load->database();
     }
     
-    public function queryConcernBooks($memberID,$num=10,$start=0)
+    public function queryConcernBooks($memberID,$offset,$num)
     {
-        //$data["books"] = $this->db->get('concern')->where('mid',$memberID)->limit($num, $start);
-        $data["books"] = $this->db->get_where('concern', array('mid' => $memberID), $num, $start);
-        $data["totalNum"] = $this->db->count_all('concern');
-        $data["num"] = $this->db->count_all_results();
+        $sql = 'SELECT bid, name, cover FROM book NATURAL JOIN concern WHERE mid ='.$memberID.' LIMIT '.$offset.' ,'.$num;
+        $this->db->select('')->from('concern')->where('mid',$memberID);
+        $data["total_NumRows"] = $this->db->get()->num_rows();
+        $data["books"] = $this->db->query($sql);
+        $data["num_rows"] = $data["books"]->num_rows();
         return $data;
+    }
+    
+    public function addBook($memberID,$bid)
+    {
+        $data = array(
+           'mid' => $memberID ,
+           'bid' => $bid 
+        );
+        $this->db->insert('concern', $data); 
+    }
+    
+    public function deleteBook($memberID,$bid)
+    {
+        $data = array(
+           'mid' => $memberID ,
+           'bid' => $bid 
+        );
+        $this->db->delete('concern', $data); 
     }
 }
 
