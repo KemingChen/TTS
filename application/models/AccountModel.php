@@ -23,6 +23,16 @@ class AccountModel extends CI_Model
         return $data;
     }
 
+    public function browseByLimit($min, $max)
+    {
+        $this->db->select('*');
+        $this->db->from('account');
+        $this->db->where('mid >=', $min); 
+        $this->db->where('mid <=', $max); 
+        $data = $this->db->get();
+        return $data;
+    }
+    
     public function createAccount($data)
     {
         $this->db->insert('account', $data);

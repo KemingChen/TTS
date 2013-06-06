@@ -15,25 +15,28 @@ class Account extends CI_Controller
     public function browseAccountList()
     {
         $data['account'] = $this->AccountModel->browseAccountList();
-        /*
-        $data = array(
-                        'mid' => $mid,
-                        'email' => $email,
-                        'name' => $name,
-                        'available' => $available,
-                        'authority' => $authority,
-                        'zipCode' => $zipCode,
-                        'birthday' => $birthday,
-                        'address' => $address
-                     );
-        */
         if($data['account']->num_rows() > 0)
         {
             $this->load->view('Account/BrowseAccountList', $data);
         }
         else
         {
-            echo "no data.";
+            show_error("no data");
+        }
+    }
+    
+    public function browseByLimit()
+    {
+        $min = 2;
+        $max = 10;
+        $data['account'] = $this->AccountModel->browseByLimit($min, $max);
+        if($data['account']->num_rows() > 0)
+        {
+            $this->load->view('Account/BrowseAccountList', $data);
+        }
+        else
+        {
+            show_error("no data");
         }
     }
     

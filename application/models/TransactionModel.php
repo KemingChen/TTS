@@ -21,6 +21,16 @@ class TransactionModel extends CI_Model
         return $data;
     }
     
+    public function browseTransactionRecordsByLimit($min, $max)
+    {
+        $this->db->select('*');
+        $this->db->from('orderSummary');
+        $this->db->where('oid >=', $min);
+        $this->db->where('oid <=', $max);
+        $data = $this->db->get();
+        return $data;
+    }
+    
     public function cancelTheTransaction($oid)
     {
         $this->db->where('oid', $oid);

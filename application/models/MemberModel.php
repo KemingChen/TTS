@@ -19,11 +19,6 @@ class MemberModel extends CI_Model
         $this->db->insert('account', $data); 
     }
     
-    public function logout()
-    {
-        
-    }
-    
     public function modifyMemberInformation($mid, $data)
     {
         $this->db->where('mid', $mid);

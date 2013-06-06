@@ -25,6 +25,21 @@ class Transaction extends CI_Controller
         }
     }
     
+    public function browseTransactionRecordsByLimit()
+    {
+        $min = 4;
+        $max = 5;
+        $data['transaction'] = $this->TransactionModel->browseTransactionRecordsByLimit($min, $max);
+        if($data['transaction']->num_rows() > 0)
+        {
+            $this->load->view('Transaction/BrowseTransactionRecords', $data);
+        }
+        else
+        {
+            show_error("no data");
+        }
+    }
+    
     public function cancelTheTransaction($oid)
     {
         $this->TransactionModel->cancelTheTransaction($oid);

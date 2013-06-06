@@ -6,6 +6,7 @@ class Member extends CI_Controller
     {
         parent::__construct();
         $this->load->model("MemberModel");
+        $this->load->model("GmailModel");
     }
     
     public function index(){
@@ -27,11 +28,6 @@ class Member extends CI_Controller
         $this->MemberModel->register($data);
     }
     
-    public function logout()
-    {
-        
-    }
-    
     public function modifyMemberInformation()
     {
         $mid = 13;
@@ -50,26 +46,10 @@ class Member extends CI_Controller
     
     public function forgetPassword()
     {
-        $this->load->library('email');
-        $config['protocol']    = 'smtp';
-        $config['smtp_host']    = 'ssl://smtp.gmail.com';
-        $config['smtp_port']    = '465';
-        $config['smtp_timeout'] = '7';
-        $config['smtp_user']    = 'taipeitech2013@gmail.com';
-        $config['smtp_pass']    = 'qq13579qq';
-        $config['charset']    = 'utf-8';
-        $config['newline']    = "\r\n";
-        $config['mailtype'] = 'text'; // or html
-        $config['validation'] = TRUE; // bool whether to validate email or not      
-
-        $this->email->initialize($config);
-
-        $this->email->from('taipeitech2013@gmail.com', 'TaipeiTech');
-        $this->email->to('j99590314@gmail.com'); 
-        $this->email->subject('Email Test');
-        $this->email->message('Testing the email class.');  
-        $this->email->send();
-        echo $this->email->print_debugger();
+        $recipient = 'j99590314@gmail.com';
+        $subject = 'Email Test 2013/6/6 test pass';
+        $message = 'Testing the email class. 2013/6/6 test pass';
+        $this->GmailModel->sendMail($recipient, $subject, $message);
     }
 }
 
