@@ -23,12 +23,11 @@ class AccountModel extends CI_Model
         return $data;
     }
 
-    public function browseByLimit($min, $max)
+    public function browseAccountListByLimit($start, $length)
     {
         $this->db->select('*');
         $this->db->from('account');
-        $this->db->where('mid >=', $min); 
-        $this->db->where('mid <=', $max); 
+        $this->db->limit($length, $start);
         $data = $this->db->get();
         return $data;
     }

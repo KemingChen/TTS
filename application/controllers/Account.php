@@ -25,11 +25,11 @@ class Account extends CI_Controller
         }
     }
     
-    public function browseByLimit()
+    public function browseAccountListByLimit()
     {
-        $min = 2;
-        $max = 10;
-        $data['account'] = $this->AccountModel->browseByLimit($min, $max);
+        $start = 0;
+        $length = 10;
+        $data['account'] = $this->AccountModel->browseAccountListByLimit($start, $length);
         if($data['account']->num_rows() > 0)
         {
             $this->load->view('Account/BrowseAccountList', $data);
