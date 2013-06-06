@@ -8,6 +8,30 @@ class Nav extends CI_Controller
         $this->load->model("template");
     }
     
+    public function email()
+    {
+        $this->load->library('email');
+        $config['protocol']    = 'smtp';
+        $config['smtp_host']    = 'ssl://smtp.gmail.com';
+        $config['smtp_port']    = '465';
+        $config['smtp_timeout'] = '7';
+        $config['smtp_user']    = 'taipeitech2013@gmail.com';
+        $config['smtp_pass']    = 'qq13579qq';
+        $config['charset']    = 'utf-8';
+        $config['newline']    = "\r\n";
+        $config['mailtype'] = 'text'; // or html
+        $config['validation'] = TRUE; // bool whether to validate email or not      
+
+        $this->email->initialize($config);
+
+        $this->email->from('taipeitech2013@gmail.com', 'TaipeiTech');
+        $this->email->to('taipeitech2013@gmail.com'); 
+        $this->email->subject('Email Test');
+        $this->email->message('Testing the email class.');  
+        $this->email->send();
+        echo $this->email->print_debugger();
+    }
+    
     public function category($category = "All")
     {
         $data["pageNum"] = $this->input->get("page");
