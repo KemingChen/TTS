@@ -18,6 +18,12 @@ class Func extends CI_Controller
         $isLogin ? $this->header() : $this->header("Nav/Error/NoThisAccount"); 
     }
     
+    public function logout()
+    {
+        $this->authority->logout();
+        header("Location: " . base_url());
+    }
+    
     private function header($url = "")
     {
         header("Location: " . base_url() . $url);

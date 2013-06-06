@@ -87,7 +87,7 @@
                                 <li class="divider"></li>
                                 <li><a href="<?=base_url()?>Nav/Member">會員資料</a></li>
                                 <li><a href="<?=base_url()?>Nav/RePassword">修改密碼</a></li>
-                                <li><a href="<?=base_url()?>FuncAuth/Logout">登出</a></li>
+                                <li><a href="<?=base_url()?>Func/Logout">登出</a></li>
                                 <li class="divider"></li>
                                 <li><a href="<?=base_url()?>Nav/Record">交易紀錄</a></li>
                                 <li><a href="<?=base_url()?>Nav/Concern">關注書單</a></li>

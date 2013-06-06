@@ -11,21 +11,31 @@ class Template extends CI_Model
 
     public function view($activeID, $sliderBarName, $pageName, $data)
     {
-        $header = $this->getHeader($sliderBarName);
-        $sliderBar = $this->getSliderBar($activeID, $sliderBarName);
-        $this->uSliderBar($header, $sliderBar, $pageName, $data);
+        static $canShow = true;
+        if ($canShow)
+        {
+            $header = $this->getHeader($sliderBarName);
+            $sliderBar = $this->getSliderBar($activeID, $sliderBarName);
+            $this->uSliderBar($header, $sliderBar, $pageName, $data);
+        }
+        $canShow = false;
     }
 
     private function getHeader($activeID)
     {
+        $isLogin = $this->authority->isLogin();
         $this->load->model("CategoryModel");
+
         $header = array();
         array_push($header, array("ID" => "Category", "Tag" => "瀏覽書籍"));
-        array_push($header, array("ID" => "Member", "Tag" => "會員專區"));
+        if ($isLogin)
+        {
+            array_push($header, array("ID" => "Member", "Tag" => "會員專區"));
+        }
         $this->setUrl($header);
         $this->setActive($activeID, $header);
 
-        $info["isLogin"] = $this->authority->isLogin();
+        $info["isLogin"] = $isLogin;
         $info["header"] = $header;
         return $info;
     }
@@ -37,7 +47,7 @@ class Template extends CI_Model
         {
             case "Category":
                 $cData = $this->CategoryModel->getCategoryArray();
-                foreach($cData->result() as $category)
+                foreach ($cData->result() as $category)
                 {
                     array_push($sliderBar, array("ID" => $category->cid, "Tag" => $category->name));
                 }

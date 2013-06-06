@@ -6,6 +6,7 @@ class Nav extends CI_Controller
     {
         parent::__construct();
         $this->load->model("template");
+        $this->load->model("authority");
     }
 
     public function category($category = "All")
@@ -16,7 +17,7 @@ class Nav extends CI_Controller
 
         $this->template->view($category, "Category", "CategoryView", $data);
     }
-    
+
     public function book($book)
     {
         $data["book"] = "初學者的料理教科書：2500張步驟圖解，新手必備史上最簡單！看這本，保證不失敗！";
@@ -36,39 +37,56 @@ class Nav extends CI_Controller
 
     public function shopCar()
     {
+        $this->checkAuth();
+        
         $data = array();
-
         $this->template->view("ShopCar", "Member", "ShopCarView", $data);
     }
 
     public function rePassword()
     {
+        $this->checkAuth();
+        
         $data = array();
         $this->template->view("RePassword", "Member", "RevisePasswordView", $data);
     }
 
     public function member()
     {
+        $this->checkAuth();
+        
         $data = array();
         $this->template->view("Member", "Member", "MemberView", $data);
     }
 
     public function record()
     {
+        $this->checkAuth();
+        
         $data = array();
         $this->template->view("Record", "Member", "RecordView", $data);
     }
 
     public function concern()
     {
+        $this->checkAuth();
+        
         $data = array();
         $this->template->view("Concern", "Member", "ConcernView", $data);
     }
-    
+
     public function error($errorID)
     {
         $data["ErrorID"] = $errorID;
         $this->template->view("", "", "Error", $data);
+    }
+
+    private function checkAuth()
+    {
+        if (!$this->authority->isLogin())
+        {
+            $this->error("NoLogin");
+        }
     }
 }
 
