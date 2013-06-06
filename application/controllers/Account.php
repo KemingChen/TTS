@@ -55,28 +55,10 @@ class Account extends CI_Controller
         $this->AccountModel->createAccount($data);
     }
     
-    public function modifyAuthorityToAdmin($mid)
+    public function modifyAuthority($mid, $authority)
     {
         $data = array(
-                        'authority' => 'administator'
-                     );
-        $this->AccountModel->modifyAuthority($mid, $data);
-        $this->browseAccountList();
-    }
-    
-    public function modifyAuthorityToManager($mid)
-    {
-        $data = array(
-                        'authority' => 'manager'
-                     );
-        $this->AccountModel->modifyAuthority($mid, $data);
-        $this->browseAccountList();
-    }
-    
-    public function modifyAuthorityToCustomer($mid)
-    {
-        $data = array(
-                        'authority' => 'customer'
+                        'authority' => $authority
                      );
         $this->AccountModel->modifyAuthority($mid, $data);
         $this->browseAccountList();
