@@ -1,6 +1,6 @@
 <?php 
-    echo "size is " . sizeof($books->result()) . "<br />";
-    foreach ($books->result() as $row)
+    echo "size is " . sizeof($book->result()) . "<br />";
+    foreach ($book->result() as $row)
     {
         echo "bid:" . $row->bid;
         echo "name: " . $row->name;
@@ -11,4 +11,3 @@
         echo ", onshelf: " . $row->onShelf . "<br />";
     }
 ?>
-
