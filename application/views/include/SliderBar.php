@@ -24,7 +24,7 @@
             </ul>
         </div>
     </div>
-    <div class="span7">
+    <div class="span7" style="min-height: 500px;">
         <?$this->load->view($pageName, $data, false);?>
     </div>
   </div>

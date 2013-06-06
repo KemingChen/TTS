@@ -55,10 +55,23 @@
                             echo "</li>";
                         }
                     ?>
+                        
                         <li>
                             <form class="navbar-search pull-left">
-                                &nbsp;&nbsp;<input type="text" class="search-query search" placeholder="搜尋"/>
+                                <input type="text" id="searchbook" class="search-query search" placeholder="關鍵字"/>
+                                <input type="hidden" id="searchmode" />
                             </form>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-search"></i></a>
+                            <ul class="dropdown-menu">
+                                <li class="divider"></li>
+                                <li class="nav-header">搜尋模式</li>
+                                <li class="divider"></li>
+                                <li><a href="#">書名</a></li>
+                                <li><a href="#">ISBN</a></li>
+                                <li class="divider"></li>
+                            </ul>
                         </li>
                     </ul>
                 <?if(!$isLogin){?>
@@ -73,12 +86,12 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">使用者 <b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li class="divider"></li>
+                                <li><a href="<?=base_url()?>Nav/Member">會員資料</a></li>
+                                <li><a href="<?=base_url()?>Nav/RePassword">修改密碼</a></li>
+                                <li class="divider"></li>
                                 <li><a href="<?=base_url()?>Nav/Record">交易紀錄</a></li>
                                 <li><a href="<?=base_url()?>Nav/Concern">關注書單</a></li>
                                 <li><a href="<?=base_url()?>Nav/ShopCar">購物車</a></li>
-                                <li class="divider"></li>
-                                <li><a href="<?=base_url()?>Nav/Member">會員資料</a></li>
-                                <li><a href="<?=base_url()?>Nav/RePassword">修改密碼</a></li>
                                 <li class="divider"></li>
                             </ul>
                         </li>
