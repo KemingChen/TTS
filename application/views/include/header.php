@@ -74,9 +74,9 @@
                         </li>
                     </ul>
                     <?if(!$isLogin){?>
-                        <form class="navbar-form pull-right">
-                            <input class="span2" type="text" placeholder="Email" />
-                            <input class="span2" type="password" placeholder="Password" />
+                        <form class="navbar-form pull-right" action="<?=base_url()?>Func/Login">
+                            <input class="span2" name="email" type="text" placeholder="Email" />
+                            <input class="span2" name="passwd" type="password" placeholder="Password" />
                             <button type="submit" class="btn">Sign in</button>
                         </form>
                     <?}else{?>
@@ -87,6 +87,7 @@
                                 <li class="divider"></li>
                                 <li><a href="<?=base_url()?>Nav/Member">會員資料</a></li>
                                 <li><a href="<?=base_url()?>Nav/RePassword">修改密碼</a></li>
+                                <li><a href="<?=base_url()?>FuncAuth/Logout">登出</a></li>
                                 <li class="divider"></li>
                                 <li><a href="<?=base_url()?>Nav/Record">交易紀錄</a></li>
                                 <li><a href="<?=base_url()?>Nav/Concern">關注書單</a></li>

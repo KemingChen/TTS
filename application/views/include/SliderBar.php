@@ -19,7 +19,6 @@
                         echo "</li>";
                     }
                 ?>
-                <li><a href="#">...施工中</a></li>
             </ul>
         </div>
     </div>

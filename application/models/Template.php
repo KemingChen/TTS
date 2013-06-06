@@ -6,8 +6,9 @@ class Template extends CI_Model
     {
         parent::__construct();
         $this->load->helper('url');
+        $this->load->model("authority");
     }
-    
+
     public function view($activeID, $sliderBarName, $pageName, $data)
     {
         $header = $this->getHeader($sliderBarName);
@@ -17,13 +18,14 @@ class Template extends CI_Model
 
     private function getHeader($activeID)
     {
+        $this->load->model("CategoryModel");
         $header = array();
         array_push($header, array("ID" => "Category", "Tag" => "瀏覽書籍"));
         array_push($header, array("ID" => "Member", "Tag" => "會員專區"));
         $this->setUrl($header);
         $this->setActive($activeID, $header);
 
-        $info["isLogin"] = true;
+        $info["isLogin"] = $this->authority->isLogin();
         $info["header"] = $header;
         return $info;
     }
@@ -34,9 +36,11 @@ class Template extends CI_Model
         switch ($sliderBarName)
         {
             case "Category":
-                array_push($sliderBar, array("ID" => "C0", "Tag" => "商業理財"));
-                array_push($sliderBar, array("ID" => "C1", "Tag" => "文學小說"));
-                array_push($sliderBar, array("ID" => "C2", "Tag" => "藝術設計"));
+                $cData = $this->CategoryModel->getCategoryArray();
+                foreach($cData->result() as $category)
+                {
+                    array_push($sliderBar, array("ID" => $category->cid, "Tag" => $category->name));
+                }
                 $this->setUrl($sliderBar, "Category/");
                 break;
 

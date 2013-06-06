@@ -16,12 +16,7 @@ class Nav extends CI_Controller
 
         $this->template->view($category, "Category", "CategoryView", $data);
     }
-    public function getCategoryArray()
-    {
-        $this->load->model("CategoryModel");
-        $data = $this->CategoryModel->getCategoryArray();
-        $this->template->view("", "Category", "category", $data);
-    }
+    
     public function book($book)
     {
         $data["book"] = "初學者的料理教科書：2500張步驟圖解，新手必備史上最簡單！看這本，保證不失敗！";
