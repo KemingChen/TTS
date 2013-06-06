@@ -44,18 +44,17 @@
                 <a class="brand" href="<?=base_url()?>">台客書店</a>
                 <div class="nav-collapse collapse">
                     <ul class="nav">
-                    <?
-                        for($i=0;$i<count($header);$i++)
-                        {
-                            $tag = $header[$i]["Tag"];
-                            $url = base_url()."Nav/".$header[$i]["ID"];
-                            $active = $header[$i]["Active"];
-                            echo "<li class='$active'>";
-                            echo "<a href='$url'>$tag</a>";
-                            echo "</li>";
-                        }
-                    ?>
-                        
+                        <?
+                            foreach($header as $item)
+                            {
+                                $tag = $item["Tag"];
+                                $url = $item["Url"];
+                                $active = $item["Active"];
+                                echo "<li class='$active'>";
+                                echo "<a href='$url'>$tag</a>";
+                                echo "</li>";
+                            }
+                        ?>
                         <li>
                             <form class="navbar-search pull-left">
                                 <input type="text" id="searchbook" class="search-query search" placeholder="關鍵字"/>
@@ -74,13 +73,13 @@
                             </ul>
                         </li>
                     </ul>
-                <?if(!$isLogin){?>
-                    <form class="navbar-form pull-right">
-                        <input class="span2" type="text" placeholder="Email" />
-                        <input class="span2" type="password" placeholder="Password" />
-                        <button type="submit" class="btn">Sign in</button>
-                    </form>
-                <?}else{?>
+                    <?if(!$isLogin){?>
+                        <form class="navbar-form pull-right">
+                            <input class="span2" type="text" placeholder="Email" />
+                            <input class="span2" type="password" placeholder="Password" />
+                            <button type="submit" class="btn">Sign in</button>
+                        </form>
+                    <?}else{?>
                     <ul class="nav pull-right">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">使用者 <b class="caret"></b></a>
@@ -96,7 +95,7 @@
                             </ul>
                         </li>
                     </ul>
-                <?}?>
+                    <?}?>
                 </div><!--/.nav-collapse -->
             </div>
         </div>
