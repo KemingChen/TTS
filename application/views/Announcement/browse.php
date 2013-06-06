@@ -1,4 +1,6 @@
-<?php foreach ($annoucements->result() as $item): ?>
+
+size = <?= $size ?><br />
+<?php foreach ($announcements->result() as $item): ?>
 
     <?php echo $item->adid ?>
     <a href="/TTS/announcement/delete/<?php echo $item->adid?>">delete</a>
