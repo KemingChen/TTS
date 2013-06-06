@@ -19,7 +19,9 @@ class Welcome extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->load->view('welcome_message');
+	    $this->load->library('../controllers/Nav');
+        $data = array();
+        $this->nav->view("Concern", "Member", "SCar", $data);
 	}
 }
 
