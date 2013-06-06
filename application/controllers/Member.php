@@ -47,8 +47,12 @@ class Member extends CI_Controller
     public function forgetPassword()
     {
         $recipient = 'j99590314@gmail.com';
-        $subject = 'Email Test 2013/6/6 test pass';
-        $message = 'Testing the email class. 2013/6/6 test pass';
+        $subject = 'TaipeiTech Store';
+        $data = $this->MemberModel->getPasswordByEmail($recipient);
+        $result = $data->result();
+        $password = $result[0]->password;
+        $name = $result[0]->name;
+        $message = 'Hello, ' . $name . "\r\n" . 'your password:' . $password;
         $this->GmailModel->sendMail($recipient, $subject, $message);
     }
 }

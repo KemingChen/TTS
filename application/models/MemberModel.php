@@ -25,9 +25,13 @@ class MemberModel extends CI_Model
         $this->db->update('account', $data);
     }
     
-    public function forgetPassword()
+    public function getPasswordByEmail($email)
     {
-        
+        $this->db->select('name, password');
+        $this->db->from('account');
+        $this->db->where('email', $email);
+        $data = $this->db->get();
+        return $data;
     }
 }
 
