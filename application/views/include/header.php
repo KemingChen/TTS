@@ -40,10 +40,10 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="brand" href="#">台客書店</a>
+                <a class="brand" href="<?=base_url()?>">台客書店</a>
                 <div class="nav-collapse collapse">
                     <ul class="nav">
-                        <li class="active"><a href="<?=base_url()?>Nav/Category">書籍瀏覽</a></li>
+                        <li><a href="<?=base_url()?>Nav/Category">書籍瀏覽</a></li>
                         <li><a href="#about">搜尋...施工中</a></li>
                     </ul>
                 <?if(!$isLogin){?>
