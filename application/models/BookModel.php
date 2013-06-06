@@ -46,5 +46,20 @@ class BookModel extends CI_Model
         $query = $this->db->query("SELECT B.name, B.cover, B.publishedDate, B.price, B.ISBN, B.onShelf FROM BOOK AS B WHERE B.bid = $id");
         return $query;
     }
+    
+    public function browseAllBooks()
+    {
+        $this->load->database();
+        $query = $this->db->query("SELECT * FROM BOOK ");
+        return $query;
+    }
+    
+    public function countTotal()
+    {
+        $this->load->database();
+        $query = $this->db->query("SELECT bid FROM BOOK ");
+        $count = sizeof($query->result());
+        return $count;
+    }
 }
 ?>

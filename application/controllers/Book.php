@@ -2,28 +2,33 @@
 
 class Book extends CI_Controller
 {
-    /*public function index(){
-        echo"hello";
-    }*/
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model("template");
+        $this->load->model("BookModel");
+        //上傳檔案要用的
+        $this->load->helper(array('form','url'));
+        $this->load->library('upload');
+    }
     
     public function onShelf()
     {
-        $this->load->model('BookModel');
         $ISBN = "1234567891234";//this need to be changed.
-        $this->BookModel->updateOnShelf($ISBN);
-        
+        $data["books"] = $this->BookModel->updateOnShelf($ISBN);
+        $totalCount = $this->BookModel->countTotal();
+        $this->load->view('Book/Browse', $data);
     }
     
-    public function offShelf()
+    public function offShelf($ISBN)
     {
-        $this->load->model('BookModel');
-        $ISBN = "1234567891234";//this need to be changed.
+        //$ISBN = "1234567891234";//this need to be changed.
         $this->BookModel->updateOffShelf($ISBN);
+        $this->load->view('Book/'.$page, $data);
     }
     
     public function createBookInformation()
     {
-        $this->load->model('BookModel');
         $ISBN = "1234567891234";
         $cover = "cover";
         $name = "haha";
@@ -36,7 +41,6 @@ class Book extends CI_Controller
     
     public function editBookInformation()
     {
-        $this->load->model('BookModel');
         $bid = 1;//change this to edit the book you want.
         $ISBN = "1234567891234";
         $cover = "cover";
@@ -50,11 +54,11 @@ class Book extends CI_Controller
     
     public function searchByCategory()
     {
-        $this->load->model('BookModel');
         $category = "Science";//needs to be changed.
         $start = 0;//從第幾筆
         $end = 30;//到第幾筆
         $query = $this->BookModel->searchByCategory($category, $start, $end);
+        exit;
         if ($query->num_rows() > 0)
         {
             foreach ($query->result() as $row)
@@ -76,7 +80,6 @@ class Book extends CI_Controller
     
     public function searchByID()
     {
-        $this->load->model('BookModel');
         $id = 1;
         $query = $this->BookModel->searchByID($id);
         if ($query->num_rows() > 0)
@@ -96,6 +99,12 @@ class Book extends CI_Controller
         {
             echo "There's no any record!";  
         }
+    }
+    
+    public function browseAllBooks()
+    {
+        $data["books"] = $this->BookModel->browseAllBooks();
+        $this->load->view('Book/Browse', $data);
     }
 }
 
