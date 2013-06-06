@@ -9,7 +9,7 @@ class Template extends CI_Model
         $this->load->model("authority");
     }
 
-    public function view($activeID, $sliderBarName, $pageName, $data)
+    public function view($activeID, $sliderBarName, $pageName, $data = array())
     {
         static $canShow = true;
         if ($canShow)
@@ -29,9 +29,9 @@ class Template extends CI_Model
         $header = array();
         array_push($header, array("ID" => "Category", "Tag" => "瀏覽書籍"));
         if ($isLogin)
-        {
             array_push($header, array("ID" => "Member", "Tag" => "會員專區"));
-        }
+        else
+            array_push($header, array("ID" => "NonMember", "Tag" => "取得帳號"));
         $this->setUrl($header);
         $this->setActive($activeID, $header);
 
@@ -60,8 +60,13 @@ class Template extends CI_Model
                 array_push($sliderBar, array("ID" => "Concern", "Tag" => "關注書單"));
                 array_push($sliderBar, array("ID" => "ShopCar", "Tag" => "購物車"));
                 array_push($sliderBar, array("ID" => "RePassword", "Tag" => "修改密碼"));
-                $this->setUrl($sliderBar);
+                $this->setUrl($sliderBar, "Member/");
                 break;
+            
+            case "NonMember":
+                array_push($sliderBar, array("ID" => "NewMember", "Tag" => "加入會員"));
+                array_push($sliderBar, array("ID" => "ForgotPassword", "Tag" => "忘記密碼"));
+                $this->setUrl($sliderBar, "NonMember/");
         }
         $this->setActive($activeID, $sliderBar);
         return $sliderBar;

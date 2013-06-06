@@ -13,7 +13,7 @@ class Authority extends CI_Model
         $this->load->model('accountModel');
         $users = $this->accountModel->getMemberInfoByAccount($email, $password);
         $userData = $users->result();
-        if($userData[0]->available == true)
+        if(count($userData) > 0 && $userData[0]->available == true)
         {
             $this->session->set_userdata($userData[0]);
             return true;

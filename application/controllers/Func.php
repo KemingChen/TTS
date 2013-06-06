@@ -6,7 +6,6 @@ class Func extends CI_Controller
     {
         parent::__construct();
         $this->load->model("authority");
-        $this->load->helper('url');
     }
 
     public function login()
@@ -21,11 +20,12 @@ class Func extends CI_Controller
     public function logout()
     {
         $this->authority->logout();
-        header("Location: " . base_url());
+        $this->header();
     }
     
     private function header($url = "")
     {
+        $this->load->helper('url');
         header("Location: " . base_url() . $url);
     }
 }

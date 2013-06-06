@@ -8,7 +8,7 @@ class Nav extends CI_Controller
         $this->load->model("template");
         $this->load->model("authority");
     }
-
+    
     public function category($category = "All")
     {
         $data["pageNum"] = $this->input->get("page");
@@ -34,45 +34,25 @@ class Nav extends CI_Controller
 
         $this->template->view($book, "Category", "BookView", $data);
     }
-
-    public function shopCar()
+    
+    public function member($action = "Member")
     {
         $this->checkAuth();
+        $view["ShopCar"] = "ShopCarView";
+        $view["RePassword"] = "RevisePasswordView";
+        $view["Member"] = "MemberView";
+        $view["Record"] = "RecordView";
+        $view["Concern"] = "ConcernView";
         
-        $data = array();
-        $this->template->view("ShopCar", "Member", "ShopCarView", $data);
+        $this->template->view($action, "Member", $view[$action]);
     }
-
-    public function rePassword()
+    
+    public function nonMember($action = "NewMember")
     {
-        $this->checkAuth();
+        $view["NewMember"] = "ShopCarView";
+        $view["ForgotPassword"] = "ShopCarView";
         
-        $data = array();
-        $this->template->view("RePassword", "Member", "RevisePasswordView", $data);
-    }
-
-    public function member()
-    {
-        $this->checkAuth();
-        
-        $data = array();
-        $this->template->view("Member", "Member", "MemberView", $data);
-    }
-
-    public function record()
-    {
-        $this->checkAuth();
-        
-        $data = array();
-        $this->template->view("Record", "Member", "RecordView", $data);
-    }
-
-    public function concern()
-    {
-        $this->checkAuth();
-        
-        $data = array();
-        $this->template->view("Concern", "Member", "ConcernView", $data);
+        $this->template->view($action, "NonMember", $view[$action]);
     }
 
     public function error($errorID)
@@ -87,6 +67,12 @@ class Nav extends CI_Controller
         {
             $this->error("NoLogin");
         }
+    }
+    
+    private function header($url = "")
+    {
+        $this->load->helper('url');
+        header("Location: " . base_url() . $url);
     }
 }
 
