@@ -64,6 +64,12 @@ class Nav extends CI_Controller
         $data = array();
         $this->template->view("Concern", "Member", "ConcernView", $data);
     }
+    
+    public function error($errorID)
+    {
+        $data["ErrorID"] = $errorID;
+        $this->template->view("", "", "Error", $data);
+    }
 }
 
 ?>

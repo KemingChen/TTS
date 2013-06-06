@@ -74,7 +74,7 @@
                         </li>
                     </ul>
                     <?if(!$isLogin){?>
-                        <form class="navbar-form pull-right" action="<?=base_url()?>Func/Login">
+                        <form class="navbar-form pull-right" action="<?=base_url()?>Func/Login" method="post">
                             <input class="span2" name="email" type="text" placeholder="Email" />
                             <input class="span2" name="passwd" type="password" placeholder="Password" />
                             <button type="submit" class="btn">Sign in</button>

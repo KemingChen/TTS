@@ -13,21 +13,14 @@ class Func extends CI_Controller
     {
         $email = $this->input->post("email");
         $password = $this->input->post("passwd");
-
-        //去DB拿資料
-        $user = array("email" => "believe");
-        //End
-
-        $this->authority->login($user);
-
-        if ($this->authority->isLogin())
-        {
-            header("Location: " . base_url());
-        }
-        else
-        {
-
-        }
+        
+        $isLogin = $this->authority->login($email, $password);
+        $isLogin ? $this->header() : $this->header("Nav/Error/NoThisAccount"); 
+    }
+    
+    private function header($url = "")
+    {
+        header("Location: " . base_url() . $url);
     }
 }
 
