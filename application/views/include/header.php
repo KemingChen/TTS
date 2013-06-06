@@ -9,12 +9,13 @@
     <!-- Le styles -->
     <link href="<?=base_url()?>assets/css/bootstrap.css" rel="stylesheet"/>
     <style type="text/css">
-        body
-        {
+        body{
             padding-top: 60px;
             padding-bottom: 40px;
         }
-}
+        .search{
+            width: 120px;
+        }
     </style>
     <link href="<?=base_url()?>assets/css/bootstrap-responsive.css" rel="stylesheet" />
 
@@ -43,8 +44,22 @@
                 <a class="brand" href="<?=base_url()?>">台客書店</a>
                 <div class="nav-collapse collapse">
                     <ul class="nav">
-                        <li><a href="<?=base_url()?>Nav/Category">書籍瀏覽</a></li>
-                        <li><a href="#about">搜尋...施工中</a></li>
+                    <?
+                        for($i=0;$i<count($header);$i++)
+                        {
+                            $tag = $header[$i]["Tag"];
+                            $url = base_url()."Nav/".$header[$i]["ID"];
+                            $active = $header[$i]["Active"];
+                            echo "<li class='$active'>";
+                            echo "<a href='$url'>$tag</a>";
+                            echo "</li>";
+                        }
+                    ?>
+                        <li>
+                            <form class="navbar-search pull-left">
+                                &nbsp;&nbsp;<input type="text" class="search-query search" placeholder="搜尋"/>
+                            </form>
+                        </li>
                     </ul>
                 <?if(!$isLogin){?>
                     <form class="navbar-form pull-right">
@@ -55,15 +70,16 @@
                 <?}else{?>
                     <ul class="nav pull-right">
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">會員專區 <b class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">使用者 <b class="caret"></b></a>
                             <ul class="dropdown-menu">
+                                <li class="divider"></li>
                                 <li><a href="<?=base_url()?>Nav/Record">交易紀錄</a></li>
                                 <li><a href="<?=base_url()?>Nav/Concern">關注書單</a></li>
                                 <li><a href="<?=base_url()?>Nav/ShopCar">購物車</a></li>
                                 <li class="divider"></li>
-                                <li class="nav-header">施工中...</li>
                                 <li><a href="<?=base_url()?>Nav/Member">會員資料</a></li>
                                 <li><a href="<?=base_url()?>Nav/RePassword">修改密碼</a></li>
+                                <li class="divider"></li>
                             </ul>
                         </li>
                     </ul>

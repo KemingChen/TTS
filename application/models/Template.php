@@ -2,13 +2,16 @@
 
 class Template extends CI_Model
 {
+    private $header;
     private $sliderBar;
 
     public function __construct()
     {
         parent::__construct();
         $this->load->helper('url');
+
         $this->initSliderBar();
+        $this->initHeader();
     }
 
     // using Category Slider Bar
@@ -31,7 +34,7 @@ class Template extends CI_Model
         $info["pageName"] = $pageName;
         $info["menu"] = $this->getSliderBarInfo($activeID, $this->sliderBar[$SBName]);
 
-        $this->load->view('include/Header', $this->getHeaderInfo());
+        $this->load->view('include/Header', $this->getHeaderInfo($SBName));
         $this->load->view("include/SliderBar", $info, $return);
         $this->load->view('include/Footer');
     }
@@ -45,11 +48,35 @@ class Template extends CI_Model
         return $data;
     }
 
-    private function getHeaderInfo()
+    private function getHeaderInfo($SBName)
     {
+        $header = $this->header;
+        for ($i = 0; $i < count($header); $i++)
+        {
+            $header[$i]["Active"] = $header[$i]["ID"] == $SBName ? "active" : "";
+        }
+
         $info = array();
         $info["isLogin"] = true;
+        $info["header"] = $header;
         return $info;
+    }
+
+    private function initHeader()
+    {
+        $header = array();
+        array_push($header, array("ID" => "Category", "Tag" => "瀏覽書籍"));
+        array_push($header, array("ID" => "Member", "Tag" => "會員專區"));
+        $this->saveHeader($header);
+    }
+
+    private function saveHeader($header)
+    {
+        for ($i = 0; $i < count($header); $i++)
+        {
+            $header[$i]["Url"] = $header[$i]["ID"];
+        }
+        $this->header = $header;
     }
 
     private function initSliderBar()
