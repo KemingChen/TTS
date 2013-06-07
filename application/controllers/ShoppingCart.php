@@ -108,6 +108,22 @@ class ShoppingCart extends CI_Controller
     	}
     }
     
+    public function getWholeShoppingCart()
+    {
+        $this->form_validation->set_rules('mid', 'mid', 'required');
+    	
+    	if ($this->form_validation->run() === FALSE)
+    	{
+            //$this->load->library('../controllers/Nav');
+            $this->load->view("shoppingCart/getShoppingCart", array());
+    	}
+    	else
+    	{
+            $data["records"] = $this->ShoppingCartModel->getWholeShoppingCart();
+            $this->load->view('shoppingCart/browse', $data);
+    	}
+    }
+    
 }
 
 

@@ -56,6 +56,19 @@ class ShoppingCartModel extends CI_Model
         
     }
     
+    public function getWholeShoppingCart()
+    {
+        $mid = $this->input->post('mid');
+        $limit = $this->input->post('limit');
+        $offset = $this->input->post('offset');
+        $this->db->select('mid, bid, quantity');
+        $this->db->from('shoppingcartcorrespond');
+        $this->db->where('mid', $mid);
+        $this->db->limit($limit, $offset);
+        $data = $this->db->get();
+        return $data;
+    }
+    
     public function getCustomerInformation()
     {
         $mid = $this->input->post('mid');
