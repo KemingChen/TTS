@@ -85,13 +85,13 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">使用者 <b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li class="divider"></li>
-                                <li><a href="<?=base_url()?>Nav/Member">會員資料</a></li>
-                                <li><a href="<?=base_url()?>Nav/RePassword">修改密碼</a></li>
+                                <li><a href="<?=base_url()?>Nav/Member/Member">會員資料</a></li>
+                                <li><a href="<?=base_url()?>Nav/Member/RePassword">修改密碼</a></li>
                                 <li><a href="<?=base_url()?>Func/Logout">登出</a></li>
                                 <li class="divider"></li>
-                                <li><a href="<?=base_url()?>Nav/Record">交易紀錄</a></li>
-                                <li><a href="<?=base_url()?>Nav/Concern">關注書單</a></li>
-                                <li><a href="<?=base_url()?>Nav/ShopCar">購物車</a></li>
+                                <li><a href="<?=base_url()?>Nav/Member/Record">交易紀錄</a></li>
+                                <li><a href="<?=base_url()?>Nav/Member/Concern">關注書單</a></li>
+                                <li><a href="<?=base_url()?>Nav/Member/ShopCar">購物車</a></li>
                                 <li class="divider"></li>
                             </ul>
                         </li>

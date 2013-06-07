@@ -8,13 +8,12 @@ class Nav extends CI_Controller
         $this->load->model("template");
         $this->load->model("authority");
     }
-
-    public function category($category = "All")
+    
+    public function category($category = "New", $name = "New")
     {
         $data["pageNum"] = $this->input->get("page");
-        $data["category"] = "商業理財";
-        $data["book"] = "快思慢想";
-
+        $data["category"] = $name;
+        $data["book"] = "快慢思想";
         $this->template->view($category, "Category", "CategoryView", $data);
     }
 
@@ -43,16 +42,17 @@ class Nav extends CI_Controller
         $view["Member"] = "MemberView";
         $view["Record"] = "RecordView";
         $view["Concern"] = "ConcernView";
-
-        $this->template->view($action, "Member", $view[$action]);
+        $viewPage = $this->getView($action, $view);
+        $this->template->view($action, "Member", $viewPage);
     }
 
     public function nonMember($action = "NewMember")
     {
-        $view["NewMember"] = "ShopCarView";
-        $view["ForgotPassword"] = "ShopCarView";
+        $view["NewMember"] = "NewMemberView";
+        $view["ForgotPassword"] = "FgtPasswordView";
+        $viewPage = $this->getView($action, $view);
 
-        $this->template->view($action, "NonMember", $view[$action]);
+        $this->template->view($action, "NonMember", $viewPage);
     }
 
     public function error($errorID)
@@ -61,9 +61,15 @@ class Nav extends CI_Controller
         $this->template->view("", "", "Error", $data);
     }
 
+    private function getView($key, $array)
+    {
+        return array_key_exists($key, $array) ? $array[$key] : show_404();
+    }
+
     private function checkAuth()
     {
-        if (!$this->authority->isLogin()) {
+        if (!$this->authority->isLogin())
+        {
             $this->error("NoLogin");
         }
     }

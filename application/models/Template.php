@@ -23,7 +23,6 @@ class Template extends CI_Model
     private function getHeader($activeID)
     {
         $isLogin = $this->authority->isLogin();
-        $this->load->model("CategoryModel");
 
         $header = array();
         array_push($header, array("ID" => "Category", "Tag" => "瀏覽書籍"));
@@ -44,6 +43,7 @@ class Template extends CI_Model
         $sliderBar = array();
         switch ($sliderBarName) {
             case "Category":
+                $this->load->model("CategoryModel");
                 $cData = $this->CategoryModel->getCategoryArray();
                 foreach ($cData->result() as $category) {
                     array_push($sliderBar, array("ID" => $category->cid, "Tag" => $category->name));
@@ -67,7 +67,7 @@ class Template extends CI_Model
         $this->setActive($activeID, $sliderBar);
         return $sliderBar;
     }
-
+    
     private function setActive($activeID, &$data)
     {
         foreach ($data as & $item) {
