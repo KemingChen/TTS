@@ -8,7 +8,7 @@ class Nav extends CI_Controller
         $this->load->model("template");
         $this->load->model("authority");
     }
-    
+
     public function category($category = "All")
     {
         $data["pageNum"] = $this->input->get("page");
@@ -34,7 +34,7 @@ class Nav extends CI_Controller
 
         $this->template->view($book, "Category", "BookView", $data);
     }
-    
+
     public function member($action = "Member")
     {
         $this->checkAuth();
@@ -43,15 +43,15 @@ class Nav extends CI_Controller
         $view["Member"] = "MemberView";
         $view["Record"] = "RecordView";
         $view["Concern"] = "ConcernView";
-        
+
         $this->template->view($action, "Member", $view[$action]);
     }
-    
+
     public function nonMember($action = "NewMember")
     {
         $view["NewMember"] = "ShopCarView";
         $view["ForgotPassword"] = "ShopCarView";
-        
+
         $this->template->view($action, "NonMember", $view[$action]);
     }
 
@@ -63,12 +63,11 @@ class Nav extends CI_Controller
 
     private function checkAuth()
     {
-        if (!$this->authority->isLogin())
-        {
+        if (!$this->authority->isLogin()) {
             $this->error("NoLogin");
         }
     }
-    
+
     private function header($url = "")
     {
         $this->load->helper('url');

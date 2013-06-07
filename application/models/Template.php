@@ -12,8 +12,7 @@ class Template extends CI_Model
     public function view($activeID, $sliderBarName, $pageName, $data = array())
     {
         static $canShow = true;
-        if ($canShow)
-        {
+        if ($canShow) {
             $header = $this->getHeader($sliderBarName);
             $sliderBar = $this->getSliderBar($activeID, $sliderBarName);
             $this->uSliderBar($header, $sliderBar, $pageName, $data);
@@ -43,12 +42,10 @@ class Template extends CI_Model
     private function getSliderBar($activeID, $sliderBarName)
     {
         $sliderBar = array();
-        switch ($sliderBarName)
-        {
+        switch ($sliderBarName) {
             case "Category":
                 $cData = $this->CategoryModel->getCategoryArray();
-                foreach ($cData->result() as $category)
-                {
+                foreach ($cData->result() as $category) {
                     array_push($sliderBar, array("ID" => $category->cid, "Tag" => $category->name));
                 }
                 $this->setUrl($sliderBar, "Category/");
@@ -62,7 +59,6 @@ class Template extends CI_Model
                 array_push($sliderBar, array("ID" => "RePassword", "Tag" => "修改密碼"));
                 $this->setUrl($sliderBar, "Member/");
                 break;
-            
             case "NonMember":
                 array_push($sliderBar, array("ID" => "NewMember", "Tag" => "加入會員"));
                 array_push($sliderBar, array("ID" => "ForgotPassword", "Tag" => "忘記密碼"));
@@ -74,16 +70,14 @@ class Template extends CI_Model
 
     private function setActive($activeID, &$data)
     {
-        foreach ($data as & $item)
-        {
+        foreach ($data as & $item) {
             $item["Active"] = $item["ID"] == $activeID ? "active" : "";
         }
     }
 
     private function setUrl(&$array, $baseUrl = "")
     {
-        foreach ($array as & $item)
-        {
+        foreach ($array as & $item) {
             $item["Url"] = base_url() . "Nav/" . $baseUrl . $item["ID"];
         }
     }
@@ -95,6 +89,25 @@ class Template extends CI_Model
         $info["data"] = $data;
         $info["pageName"] = $pageName;
         $info["menu"] = $sliderBar;
+        if ($pageName == "ShopCarView") {
+            $info["list"] = array();
+            array_push($info["list"], array("ISBN" => "9789570410976", "Name" =>
+                "初學者的料理教科書：2500張步驟圖解，新手必備史上最簡單！看這本，保證不失敗！", "Quantity" => "2", "Price" => "480"));
+            array_push($info["list"], array("ISBN" => "9572884301", "Name" =>
+                "飼養烏龜必知的68項小常識", "Quantity" => "1", "Price" => "220"));
+            array_push($info["list"], array("ISBN" => "9789862282359", "Name" =>
+                "輕輕鬆鬆養烏龜：68個飼養小常識", "Quantity" => "2", "Price" => "440"));
+        } else
+            if ($pageName == "ConcernView") {
+                $info["list"] = array();
+                array_push($info["list"], array("ISBN" => "9789570410976", "Name" =>
+                    "初學者的料理教科書：2500張步驟圖解，新手必備史上最簡單！看這本，保證不失敗！", "Price" => "480"));
+                array_push($info["list"], array("ISBN" => "9572884301", "Name" =>
+                    "飼養烏龜必知的68項小常識", "Price" => "220"));
+                array_push($info["list"], array("ISBN" => "9789862282359", "Name" =>
+                    "輕輕鬆鬆養烏龜：68個飼養小常識", "Price" => "440"));
+            }
+
 
         $this->load->view('include/Header', $header);
         $this->load->view("include/SliderBar", $info, $return);
