@@ -8,6 +8,7 @@ class Template extends CI_Model
         $this->load->helper('url');
         $this->load->model("authority");
         $this->load->model("TransactionModel");
+        $this->load->library("session");
     }
 
     public function view($activeID, $sliderBarName, $pageName, $data = array())
@@ -107,16 +108,15 @@ class Template extends CI_Model
                 array_push($info["list"], array("ISBN" => "9789862282359", "Name" =>
                     "輕輕鬆鬆養烏龜：68個飼養小常識", "Price" => "440"));
         }else if($pageName == "Account/BrowserAccountView"){
-            $info["email"] = "housemeow@yahoo.com.tw";
-            $info["name"] = "Kai";
-            $info["birthDate"] = "1991/09/02";
-            $info["zipCode"] = "235";
-            $info["address"] = "New City";
+            $info["email"] = $this->authority->getEmail();//"housemeow@yahoo.com.tw";
+            $info["name"] = $this->authority->getName();
+            $info["birthDate"] = $this->authority->getBirthDate();
+            $info["zipCode"] = $this->authority->getZipCode();
+            $info["address"] = $this->authority->getAddress();
         }
         else if($pageName=="RecordView"){
             $info['list'] = $this->TransactionModel->browseTransactionRecords();
         }
-
 
         $this->load->view('include/Header', $header);
         $this->load->view("include/SliderBar", $info, $return);

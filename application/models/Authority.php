@@ -26,10 +26,35 @@ class Authority extends CI_Model
         $email = $this->session->userdata('email');
         return $email != false ? true : false;
     }
+    
+    public function getEmail(){
+        $email = $this->session->userdata('email');
+        return $email;
+    }
 
+    public function getName(){
+        $name = $this->session->userdata('name');
+        return $name;
+    }
+
+    public function getBirthDate(){
+        $birthDate = $this->session->userdata('birthday');
+        return $birthDate;
+    }
+    
+    public function getZipCode(){
+        $zipCode = $this->session->userdata('zipCode');
+        return $zipCode;
+    }
+    
+    public function getAddress(){
+        $address = $this->session->userdata('address');
+        return $address;
+    }
+    
     public function getMemberData()
     {
-
+        
     }
 
     public function logout()
