@@ -25,10 +25,8 @@ class Transaction extends CI_Controller
         }
     }
     
-    public function browseTransactionRecordsByLimit()
+    public function browseTransactionRecordsByLimit($start, $length)
     {
-        $start = 0;
-        $length = 5;
         $data['transaction'] = $this->TransactionModel->browseTransactionRecordsByLimit($start, $length);
         if($data['transaction']->num_rows() > 0)
         {

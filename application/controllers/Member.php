@@ -5,8 +5,8 @@ class Member extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->library('form_validation');
         $this->load->model("MemberModel");
-        $this->load->model("GmailModel");
     }
     
     public function index(){
@@ -46,14 +46,29 @@ class Member extends CI_Controller
     
     public function forgetPassword()
     {
-        $recipient = 'j99590314@gmail.com';
-        $subject = 'TaipeiTech Store';
-        $data = $this->MemberModel->getPasswordByEmail($recipient);
-        $result = $data->result();
-        $password = $result[0]->password;
-        $name = $result[0]->name;
-        $message = 'Hello, ' . $name . "\r\n" . 'your password:' . $password;
-        $this->GmailModel->sendMail($recipient, $subject, $message);
+        $this->form_validation->set_rules('email', 'email', 'required');
+    	if ($this->form_validation->run() === FALSE)
+    	{
+            $this->load->view("Member/ForgetPassword", array());
+    	}
+    	else
+    	{
+            $this->MemberModel->forgetPassword();
+    	}
+    }
+    
+    public function browseMemberInfo()
+    {
+        $this->form_validation->set_rules('email', 'email', 'required');
+    	if ($this->form_validation->run() === FALSE)
+    	{
+            $this->load->view("Member/BrowseMemberInfo", array());
+    	}
+    	else
+    	{
+            $data['account'] = $this->MemberModel->getMemberInfoByEmail();
+            $this->load->view("Member/BrowseMemberInfoResult", $data);
+    	}
     }
 }
 
