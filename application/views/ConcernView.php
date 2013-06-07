@@ -36,7 +36,7 @@
                         $isInfo = ! $isInfo;
                         echo $book["ISBN"];							
     					echo "</td><td>";
-                        echo $book["Name"]; 
+                        echo '<a href="' . base_url() . 'Nav/Book/' . $book["Name"]  . '">' . $book["Name"] . "</a>";
     					echo "</td><td>";
                         echo $book["Price"];
                         echo "</td></tr>";
