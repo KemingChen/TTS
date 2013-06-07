@@ -7,6 +7,7 @@ class Template extends CI_Model
         parent::__construct();
         $this->load->helper('url');
         $this->load->model("authority");
+        $this->load->model("TransactionModel");
     }
 
     public function view($activeID, $sliderBarName, $pageName, $data = array())
@@ -111,6 +112,9 @@ class Template extends CI_Model
             $info["birthDate"] = "1991/09/02";
             $info["zipCode"] = "235";
             $info["address"] = "New City";
+        }
+        else if($pageName=="RecordView"){
+            $info['list'] = $this->TransactionModel->browseTransactionRecords();
         }
 
 
