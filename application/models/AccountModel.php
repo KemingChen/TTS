@@ -32,9 +32,19 @@ class AccountModel extends CI_Model
         return $data;
     }
     
-    public function createAccount($data)
+    public function createAccount()
     {
-        $this->db->insert('account', $data);
+        $data = array(
+            'email' => $this->input->post('email'),
+            'password' => $this->input->post('password'),
+            'authority' => $this->input->post('authority'),
+            'zipCode' => $this->input->post('zipCode'),
+            'birthday' => $this->input->post('birthday'),
+            'address' => $this->input->post('address'),
+            'available' => $this->input->post('available'),
+            'name' => $this->input->post('name')
+    	);
+	    return $this->db->insert('Account', $data);
     }
 
     public function modifyAuthority($mid, $data)

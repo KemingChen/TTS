@@ -5,6 +5,7 @@ class Account extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->library('form_validation');
         $this->load->model("AccountModel");
     }
     
@@ -25,10 +26,8 @@ class Account extends CI_Controller
         }
     }
     
-    public function browseAccountListByLimit()
+    public function browseAccountListByLimit($start, $length)
     {
-        $start = 0;
-        $length = 10;
         $data['account'] = $this->AccountModel->browseAccountListByLimit($start, $length);
         if($data['account']->num_rows() > 0)
         {
@@ -42,17 +41,19 @@ class Account extends CI_Controller
     
     public function createAccount()
     {
-        $data = array(
-                        'email' => "test123@hotmail.com",
-                        'password' => "12345",
-                        'authority' => 'customer',
-                        'zipCode' => 123,
-                        'birthday' => '2013/05/15',
-                        'address' => "Taiwan",
-                        'available' => 1,
-                        'name' => "Date"
-                     );
-        $this->AccountModel->createAccount($data);
+        $this->form_validation->set_rules('email', 'email', 'required');
+        $this->form_validation->set_rules('password', 'password', 'required');
+        $this->form_validation->set_rules('authority', 'authority', 'required');
+        $this->form_validation->set_rules('available', 'available', 'required');
+    	if ($this->form_validation->run() === FALSE)
+    	{
+            $this->load->view("Account/CreateAccount", array());
+    	}
+    	else
+    	{
+    	    $this->AccountModel->createAccount();
+            $this->browseAccountList();
+    	}
     }
     
     public function modifyAuthority($mid, $authority)
