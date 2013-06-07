@@ -19,7 +19,7 @@ browse author with id
 <td><input id ="name" type="text"></td>
 </tr>
 <tr>
-<td>address</td>
+<td>introduction</td>
 <td><input id ="introduction" type="text"></td>
 </tr>
 </table>
