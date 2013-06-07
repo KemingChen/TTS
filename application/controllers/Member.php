@@ -15,33 +15,48 @@ class Member extends CI_Controller
     
     public function register()
     {
-        $data = array(
-                        'email' => "test100@hotmail.com",
-                        'password' => "12345",
-                        'authority' => 'customer',
-                        'zipCode' => 123,
-                        'birthday' => '2013/05/15',
-                        'address' => "Taiwan",
-                        'available' => 1,
-                        'name' => "Date"
-                     );
-        $this->MemberModel->register($data);
+        $this->form_validation->set_rules('email', 'email', 'required');
+        $this->form_validation->set_rules('password', 'password', 'required');
+    	if ($this->form_validation->run() === FALSE)
+    	{
+            $this->load->view("Member/Register", array());
+    	}
+    	else
+    	{
+            $email = $this->MemberModel->register();
+            $data['account'] = $this->MemberModel->getMemberInfoByEmail($email);
+            $this->load->view("Member/BrowseMemberInfoResult", $data);
+    	}
     }
     
-    public function modifyMemberInformation()
+    public function modifyMemberInfo()
     {
-        $mid = 13;
-        $data = array(
-                        'email' => "test99@hotmail.com",
-                        'password' => "54321",
-                        'authority' => 'customer',
-                        'zipCode' => 123,
-                        'birthday' => '2013/05/15',
-                        'address' => "Taiwan",
-                        'available' => 1,
-                        'name' => "Date"
-                     );
-        $this->MemberModel->modifyMemberInformation($mid, $data);
+        $this->form_validation->set_rules('email', 'email', 'required');
+    	if ($this->form_validation->run() === FALSE)
+    	{
+            $this->load->view("Member/ModifyMemberInformation", array());
+    	}
+    	else
+    	{
+            $email = $this->MemberModel->modifyMemberInfo();
+            $data['account'] = $this->MemberModel->getMemberInfoByEmail($email);
+            $this->load->view("Member/BrowseMemberInfoResult", $data);
+    	}
+    }
+    
+    public function modifyMemberPassword()
+    {
+        $this->form_validation->set_rules('email', 'email', 'required');
+        $this->form_validation->set_rules('password', 'password', 'required');
+        $this->form_validation->set_rules('newPassword', 'newPassword', 'required');
+    	if ($this->form_validation->run() === FALSE)
+    	{
+            $this->load->view("Member/ModifyMemberPassword", array());
+    	}
+    	else
+    	{
+            $email = $this->MemberModel->modifyMemberPassword();
+    	}
     }
     
     public function forgetPassword()
@@ -66,7 +81,7 @@ class Member extends CI_Controller
     	}
     	else
     	{
-            $data['account'] = $this->MemberModel->getMemberInfoByEmail();
+            $data['account'] = $this->MemberModel->getMemberInfoByEmailFromView();
             $this->load->view("Member/BrowseMemberInfoResult", $data);
     	}
     }

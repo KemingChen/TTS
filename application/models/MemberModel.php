@@ -8,31 +8,77 @@ class MemberModel extends CI_Model
         $this->load->helper('url');
         $this->load->database();
         $this->load->model("GmailModel");
+        $this->load->model("AccountModel");
     }
     
     public function index(){
         //echo "hello member";
     }
     
-    
-    public function register($data)
+    public function register()
     {
-        $this->db->insert('account', $data); 
+        $data = array(
+            'email' => $this->input->post('email'),
+            'password' => $this->input->post('password'),
+            'authority' => 'customer',
+            'zipCode' => $this->input->post('zipCode'),
+            'birthday' => $this->input->post('birthday'),
+            'address' => $this->input->post('address'),
+            'available' => 1,
+            'name' => $this->input->post('name')
+    	);
+        $this->db->insert('Account', $data);
+        return $data['email'];
     }
     
-    public function modifyMemberInformation($mid, $data)
+    public function modifyMemberInfo()
     {
-        $this->db->where('mid', $mid);
-        $this->db->update('account', $data);
+        $data = array(
+            'email' => $this->input->post('email'),
+            'zipCode' => $this->input->post('zipCode'),
+            'birthday' => $this->input->post('birthday'),
+            'address' => $this->input->post('address'),
+            'name' => $this->input->post('name')
+    	);
+        $email = $data['email'];
+        $this->db->where('email', $email);
+        $this->db->update('Account', $data);
+        return $email;
     }
     
-    public function getMemberInfoByEmail()
+    public function modifyMemberPassword()
+    {
+        $data = array(
+                        'email' => $this->input->post('email'),
+                        'password' => $this->input->post('password'),
+                        'newPassword' => $this->input->post('newPassword')
+    	             );
+        $email = $data['email'];
+        $password = $data['password'];
+        $newPassword = $data['newPassword'];
+        $newData = array(
+                        'password' => $newPassword
+    	                );
+        $this->db->where('email', $email);
+        $this->db->where('password', $password);
+        $this->db->update('Account', $newData);
+    }
+    
+    public function getMemberInfoByEmailFromView()
     {
         $emailData = array(
             'email' => $this->input->post('email'),
     	);
         $email = $emailData['email'];
-        //$email = 'j99590314@gmail.com';
+        $this->db->select('email, zipCode, birthday, address, name');
+        $this->db->from('account');
+        $this->db->where('email', $email);
+        $data = $this->db->get();
+        return $data;
+    }
+    
+    public function getMemberInfoByEmail($email)
+    {
         $this->db->select('email, zipCode, birthday, address, name');
         $this->db->from('account');
         $this->db->where('email', $email);

@@ -44,7 +44,7 @@ class AccountModel extends CI_Model
             'available' => $this->input->post('available'),
             'name' => $this->input->post('name')
     	);
-	    return $this->db->insert('Account', $data);
+	    $this->db->insert('Account', $data);
     }
 
     public function modifyAuthority($mid, $data)
@@ -56,14 +56,18 @@ class AccountModel extends CI_Model
     public function freeze($mid)
     {
         $this->db->where('mid', $mid);
-        $data = array('available' => 0);
+        $data = array(
+                        'available' => 0
+                     );
         $this->db->update('account', $data);
     }
 
     public function unfreeze($mid)
     {
         $this->db->where('mid', $mid);
-        $data = array('available' => 1);
+        $data = array(
+                        'available' => 1
+                     );
         $this->db->update('account', $data);
     }
 
