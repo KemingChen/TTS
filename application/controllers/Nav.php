@@ -1,5 +1,4 @@
 <?
-
 class Nav extends CI_Controller
 {
     public function __construct()
@@ -39,7 +38,7 @@ class Nav extends CI_Controller
         $this->checkAuth();
         $view["ShopCar"] = "ShopCarView";
         $view["RePassword"] = "RevisePasswordView";
-        $view["Member"] = "MemberView";
+        $view["Member"] = "Account/BrowserAccountView";
         $view["Record"] = "RecordView";
         $view["Concern"] = "ConcernView";
         $viewPage = $this->getView($action, $view);

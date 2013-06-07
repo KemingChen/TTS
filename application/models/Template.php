@@ -97,8 +97,7 @@ class Template extends CI_Model
                 "飼養烏龜必知的68項小常識", "Quantity" => "1", "Price" => "220"));
             array_push($info["list"], array("ISBN" => "9789862282359", "Name" =>
                 "輕輕鬆鬆養烏龜：68個飼養小常識", "Quantity" => "2", "Price" => "440"));
-        } else
-            if ($pageName == "ConcernView") {
+        } else if ($pageName == "ConcernView") {
                 $info["list"] = array();
                 array_push($info["list"], array("ISBN" => "9789570410976", "Name" =>
                     "初學者的料理教科書：2500張步驟圖解，新手必備史上最簡單！看這本，保證不失敗！", "Price" => "480"));
@@ -106,7 +105,13 @@ class Template extends CI_Model
                     "飼養烏龜必知的68項小常識", "Price" => "220"));
                 array_push($info["list"], array("ISBN" => "9789862282359", "Name" =>
                     "輕輕鬆鬆養烏龜：68個飼養小常識", "Price" => "440"));
-            }
+        }else if($pageName == "Account/BrowserAccountView"){
+            $info["email"] = "housemeow@yahoo.com.tw";
+            $info["name"] = "Kai";
+            $info["birthDate"] = "1991/09/02";
+            $info["zipCode"] = "235";
+            $info["address"] = "New City";
+        }
 
 
         $this->load->view('include/Header', $header);
