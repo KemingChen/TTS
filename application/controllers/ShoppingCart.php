@@ -102,25 +102,10 @@ class ShoppingCart extends CI_Controller
                 $recipient =  $row->email;
                 $name = $row->name;
             }
-            //$recipient = $info->result()->email;
             $subject = 'TaipeiTech Store';
-            //$data = $this->MemberModel->getPasswordByEmail($recipient);
             $message = 'Hello, ' . $name . "\r\n" . 'confirmation';
             $this->GmailModel->sendMail($recipient, $subject, $message);
-            //$data["records"] = $this->ShoppingCartModel->browseAllRecords();
-            //$this->load->view('shoppingCart/browse', $data);
     	}
-        //$recipient = 'benjaminchen81@gmail.com';
-        //$recipient = $this->input->post('email');
-        //$subject = 'TaipeiTech Store';
-        //$data = $this->MemberModel->getPasswordByEmail($recipient);
-        //$result = $data->result();
-        //$password = $result[0]->password;
-        //$name = $result[0]->name;
-        //$message = 'Hello, ' . $name . "\r\n" . 'your password:' . $password;
-        //$this->GmailModel->sendMail($recipient, $subject, $message);
-        //$mid = 1;//this need to be changed.
-        //$this->ShoppingCartModel->automaticConfirmationEmail($mid);
     }
     
 }

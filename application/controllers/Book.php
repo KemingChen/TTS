@@ -91,11 +91,18 @@ class Book extends CI_Controller
 
     public function searchByCategory()
     {
-        $category = "Science"; //needs to be changed.
-        $start = 0; //從第幾筆
-        $end = 30; //到第幾筆
-        $data["books"] = $this->BookModel->searchByCategory($category, $start, $end);
-        $this->load->view('Book/Browse', $data);
+        $this->form_validation->set_rules('category', 'category', 'required');
+    	
+    	if ($this->form_validation->run() === FALSE)
+    	{
+            //$this->load->library('../controllers/Nav');
+            $this->load->view("book/category", array());
+    	}
+    	else
+    	{
+            $data["books"] = $this->BookModel->searchByCategory();
+            $this->load->view('book/browse', $data);
+    	}
     }
 
     public function searchByID()

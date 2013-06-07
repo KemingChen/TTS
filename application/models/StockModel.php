@@ -6,27 +6,36 @@ class StockModel extends CI_Model
     public function __construct()
     {
         parent::__construct();
-
+        $this->load->database();
     }
     
     public function browseBooksStock()
     {
-        $this->load->database();
-        $query = $this->db->query("Select name, Sum( restAmount ) As stock From stockrecord Left Join book On stockrecord.bid = book.bid Group By stockrecord.bid");
-        return $query;
+        $this->db->select('name, Sum( restAmount ) As stock');
+        $this->db->from('stockrecord Left Join book On stockrecord.bid = book.bid');
+        $this->db->group_by("stockrecord.bid"); 
+        $data = $this->db->get();
+        return $data;
     }
     
     public function browseStockRecord()
     {
-        $this->load->database();
-        $query = $this->db->query("Select * From StockRecord");
-        return $query;
+        $this->db->select('*');
+        $this->db->from('StockRecord');
+        $data = $this->db->get();
+        return $data;
     }
     
-    public function addStockRecord($bid, $price, $amount, $restAmount, $stockTime)
+    public function addStockRecord()
     {
-        $this->load->database();
-        $query = $this->db->query("Insert Into stockRecord Values('', $bid, $price, $amount, $restAmount, '$stockTime')");
+        $data = array(
+            'bid' => $this->input->post('bid'),
+            'price' => $this->input->post('price'),
+            'amount' => $this->input->post('amount'),
+            'restAmount' => $this->input->post('restAmount'),
+            'stockTime' => $this->input->post('stockTime')
+    	);
+	    return $this->db->insert('stockRecord', $data);
     }
 }
 ?>

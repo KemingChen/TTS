@@ -6,42 +6,58 @@ class CustomSearchModel extends CI_Model
     public function __construct()
     {
         parent::__construct();
-
+        $this->load->database();
     }
     
-    public function searchByAuthor($authorName)
+    public function searchByAuthor()
     {
-        $this->load->database();
-        $query = $this->db->query("SELECT B.name, B.cover, B.publishedDate, B.price, B.ISBN, B.onShelf FROM BOOK AS B, AUTHOR AS A, WRITERCORRESPOND AS W WHERE A.name = '$authorName' AND W.aid = A.aid AND B.bid = W.bid");
-        return $query;
+        $authorName = $this->input->post('authorName');
+        $this->db->select('B.bid, B.name, B.cover, B.publishedDate, B.price, B.ISBN, B.onShelf');
+        $this->db->from('BOOK AS B, AUTHOR AS A, WRITERCORRESPOND AS W ');
+        $this->db->where("A.name = '$authorName' AND W.aid = A.aid AND B.bid = W.bid");
+        $data = $this->db->get();
+        return $data;
     }
     
-    public function searchByName($name)
+    public function searchByName()
     {
-        $this->load->database();
-        $query = $this->db->query("SELECT B.name, B.cover, B.publishedDate, B.price, B.ISBN, B.onShelf FROM BOOK AS B WHERE B.name = '$name'");
-        return $query;
+        $name = $this->input->post('name');
+        $this->db->select('B.bid, B.name, B.cover, B.publishedDate, B.price, B.ISBN, B.onShelf');
+        $this->db->from('BOOK AS B');
+        $this->db->where("B.name = '$name'");
+        $data = $this->db->get();
+        return $data;
     }
     
-    public function searchByBooksellers($bookseller)
+    public function searchByBooksellers()
     {
-        $this->load->database();
-        $query = $this->db->query("SELECT B.name, B.cover, B.publishedDate, B.price, B.ISBN, B.onShelf FROM BOOK AS B, PUBLISHER AS P WHERE P.name = '$bookseller' AND B.pid = P.pid");
-        return $query;
+        $sellerName = $this->input->post('sellerName');
+        $this->db->select('B.bid, B.name, B.cover, B.publishedDate, B.price, B.ISBN, B.onShelf');
+        $this->db->from('BOOK AS B, PUBLISHER AS P');
+        $this->db->where("P.name = '$sellerName' AND B.pid = P.pid");
+        $data = $this->db->get();
+        return $data;
     }
     
-    public function searchByPublishedDate($date)
+    public function searchByPublishedDate()
     {
-        $this->load->database();
-        $query = $this->db->query("SELECT B.name, B.cover, B.publishedDate, B.price, B.ISBN, B.onShelf FROM BOOK AS B WHERE B.publishedDate = '$date'");
-        return $query;
+        $publishedDate = $this->input->post('publishedDate');
+        $this->db->select('B.bid, B.name, B.cover, B.publishedDate, B.price, B.ISBN, B.onShelf');
+        $this->db->from('BOOK AS B');
+        $this->db->where("B.publishedDate = '$publishedDate'");
+        $data = $this->db->get();
+        return $data;
     }
     
-    public function searchByCategory($category)
+    public function searchByCategory()
     {
-        $this->load->database();
-        $query = $this->db->query("SELECT B.name, B.cover, B.publishedDate, B.price, B.ISBN, B.onShelf FROM BOOK AS B, CATEGORY AS C, CATEGORYCORRESPOND AS CC WHERE C.name = '$category' AND CC.cid = C.cid AND B.bid = CC.bid");
-        return $query;
+        $category = $this->input->post('category');
+        $publishedDate = $this->input->post('publishedDate');
+        $this->db->select('B.bid, B.name, B.cover, B.publishedDate, B.price, B.ISBN, B.onShelf');
+        $this->db->from('BOOK AS B, CATEGORY AS C, CATEGORYCORRESPOND AS CC');
+        $this->db->where("C.name = '$category' AND CC.cid = C.cid AND B.bid = CC.bid");
+        $data = $this->db->get();
+        return $data;
     }
 }
 

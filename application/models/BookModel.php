@@ -46,11 +46,6 @@ class BookModel extends CI_Model
 	   return $this->db->insert('book', $data);
     }
     
-    //public function createBookInformation($ISBN, $cover, $name, $aid, $pid, $publishedDate, $price)
-    //{
-    //    $query = $this->db->query("Insert Into book Values('', '$cover', '$cover', '$pid', '$publishedDate', '$price', '$ISBN', 'qweqweqwe', 1)");
-    //}
-    
     public function editBookInformation($cover)
     {
         $bid = $this->input->post('bid');
@@ -69,10 +64,21 @@ class BookModel extends CI_Model
         //$query = $this->db->query("Update book set cover = '$cover', name = '$name', pid = $pid, publishedDate = '$publishedDate', price = $price, ISBN = '$ISBN', description = 'qweqweqwe', onShelf = 1 Where bid = $bid");
     }
     
-    public function searchByCategory($category, $start, $end)
+    public function searchByCategory()
     {
-        $query = $this->db->query("SELECT B.bid, B.name, B.cover, B.publishedDate, B.price, B.ISBN, B.onShelf FROM BOOK AS B, CATEGORY AS C, CATEGORYCORRESPOND AS CC WHERE C.name = '$category' AND CC.cid = C.cid AND B.bid = CC.bid LIMIT $start , $end");
-        return $query;
+        $category = $this->input->post('category');
+        $limit = $this->input->post('limit');
+        $offset = $this->input->post('offset');
+        //$authorName = $this->input->post('authorName');
+        $this->db->select('B.bid, B.name, B.cover, B.publishedDate, B.price, B.ISBN, B.onShelf');
+        $this->db->from('BOOK AS B, CATEGORY AS C, CATEGORYCORRESPOND AS CC');
+        $this->db->where("C.name = '$category' AND CC.cid = C.cid AND B.bid = CC.bid ");
+        $this->db->limit($limit, $offset);
+        $data = $this->db->get();
+        return $data;
+        
+        //$query = $this->db->query("WHERE C.name = '$category' AND CC.cid = C.cid AND B.bid = CC.bid LIMIT $start , $end");
+        //return $query;
     }
     
     public function searchByID($id)

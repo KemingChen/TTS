@@ -2,58 +2,44 @@
 
 class Stock extends CI_Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model("StockModel");
+        //上傳檔案要用的
+        $this->load->helper(array('form', 'url'));
+        $this->load->library('upload');
+        $this->load->helper('form');
+    	$this->load->library('form_validation');
+    }
+    
     public function browseBooksStock()
     {
-        $this->load->model('StockModel');
-        $query = $this->StockModel->browseBooksStock();
-        if ($query->num_rows() > 0)
-        {
-            foreach ($query->result() as $row)
-            {
-                echo "name: " . $row->name;
-                echo ", stock: " . $row->stock . "<br />";
-            }
-            echo "<br />";
-        }
-        else
-        {
-            echo "There's no any record!";  
-        }
+        $data["records"] = $this->StockModel->browseBooksStock();
+        $this->load->view('Stock/browseBookStock', $data);
     }
     
     public function browseStockRecord()
     {
-        $this->load->model('StockModel');
-        $query = $this->StockModel->browseStockRecord();
-        if ($query->num_rows() > 0)
-        {
-            foreach ($query->result() as $row)
-            {
-                echo "srid: " . $row->srid;
-                echo ", bid: " . $row->bid;
-                echo ", price: " . $row->price;
-                echo ", amount: " . $row->amount;
-                echo ", restAmount: " . $row->restAmount;
-                echo ", stockTime: " . $row->stockTime . "<br />";
-            }
-            echo "<br />";
-        }
-        else
-        {
-            echo "There's no any record!";  
-        }
-        
+        $data["records"] = $this->StockModel->browseStockRecord();
+        $this->load->view('Stock/browseStockRecord', $data);
     }
     
     public function addStockRecord()
     {
-        $this->load->model('StockModel');
-        $bid = 1;
-        $price = 2000;
-        $amount = 23;
-        $restAmount = 12;
-        $stockTime = '2013/1/1';
-        $this->StockModel->addStockRecord($bid, $price, $amount, $restAmount, $stockTime);
+        $this->form_validation->set_rules('bid', 'bid', 'required');
+    	
+    	if ($this->form_validation->run() === FALSE)
+    	{
+            //$this->load->library('../controllers/Nav');
+            $this->load->view("Stock/Add", array());
+    	}
+    	else
+    	{
+            $this->StockModel->addStockRecord();
+            $data["records"] = $this->StockModel->browseStockRecord();
+            $this->load->view('stock/browseStockRecord', $data);
+    	}
     }    
 }
 
