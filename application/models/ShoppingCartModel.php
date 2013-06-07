@@ -9,34 +9,30 @@ class ShoppingCartModel extends CI_Model
         $this->load->database();
     }
     
-    public function addShoppingCart()
+    public function addShoppingCart($mid, $bid, $quantity)
     {
         $data = array(
-            'mid' => $this->input->post('mid'),
-            'bid' => $this->input->post('bid'),
-            'quantity' => $this->input->post('quantity')
+            'mid' => $mid,
+            'bid' => $bid,
+            'quantity' => $quantity
     	);
 	    return $this->db->insert('shoppingcartcorrespond', $data);
         //$query = $this->db->query("INSERT INTO SHOPPINGCARTCORRESPOND (mid, bid, quantity) VALUES ($mid, $bid, $quantity)");
     } 
     
-    public function removeShoppingCart()
+    public function removeShoppingCart($mid, $bid)
     {
-        $mid = $this->input->post('mid');
-        $bid = $this->input->post('bid');
         $this->db->where('mid',$mid);
         $this->db->where('bid',$bid);
         $this->db->delete('shoppingcartcorrespond');
         //$query = $this->db->query("DELETE FROM SHOPPINGCARTCORRESPOND WHERE mid = $mid AND bid = $bid");
     }
     
-    public function modifyShoppingCart()
+    public function modifyShoppingCart($mid, $bid, $quantity)
     {
         $data = array(
-               'quantity' => $this->input->post('quantity'),
+               'quantity' => $quantity,
             );
-        $mid = $this->input->post('mid');
-        $bid = $this->input->post('bid');
         $this->db->where('mid',$mid);
         $this->db->where('bid',$bid);
         $this->db->update('shoppingcartcorrespond', $data); 
@@ -45,7 +41,7 @@ class ShoppingCartModel extends CI_Model
     
     public function clearShoppingCart($mid)
     {
-        $mid = $this->input->post('mid');
+        //$mid = $this->input->post('mid');
         $this->db->where('mid',$mid);
         $this->db->delete('shoppingcartcorrespond');
         //$query = $this->db->query("DELETE FROM SHOPPINGCARTCORRESPOND WHERE mid = $mid");
@@ -56,11 +52,11 @@ class ShoppingCartModel extends CI_Model
         
     }
     
-    public function getWholeShoppingCart()
+    public function getWholeShoppingCart($mid, $limit, $offset)
     {
-        $mid = $this->input->post('mid');
-        $limit = $this->input->post('limit');
-        $offset = $this->input->post('offset');
+        //$mid = $this->input->post('mid');
+        //$limit = $this->input->post('limit');
+        //$offset = $this->input->post('offset');
         $this->db->select('mid, bid, quantity');
         $this->db->from('shoppingcartcorrespond');
         $this->db->where('mid', $mid);
@@ -69,9 +65,8 @@ class ShoppingCartModel extends CI_Model
         return $data;
     }
     
-    public function getCustomerInformation()
+    public function getCustomerInformation($mid)
     {
-        $mid = $this->input->post('mid');
         $this->db->select('name, email');
         $this->db->from('account');
         $this->db->where('mid', $mid);

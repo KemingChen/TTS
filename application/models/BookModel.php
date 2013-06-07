@@ -9,22 +9,22 @@ class BookModel extends CI_Model
         $this->load->database();
     }
     
-    public function updateOnShelf($ISBN)
+    public function updateOnShelf($bid)
     {
         $data = array(
                'onshelf' => true,
             );
-        $this->db->where('ISBN', $ISBN);
+        $this->db->where('bid', $bid);
         $this->db->update('book', $data); 
         //$query = $this->db->query("Update book set onshelf = true where ISBN='$ISBN'");
     }
     
-    public function updateOffShelf($ISBN)
+    public function updateOffShelf($bid)
     {
         $data = array(
                'onshelf' => false,
             );
-        $this->db->where('ISBN', $ISBN);
+        $this->db->where('bid', $bid);
         $this->db->update('book', $data); 
         //$query = $this->db->query("Update book set onshelf = false where ISBN='$ISBN'");
     }
@@ -64,15 +64,16 @@ class BookModel extends CI_Model
         //$query = $this->db->query("Update book set cover = '$cover', name = '$name', pid = $pid, publishedDate = '$publishedDate', price = $price, ISBN = '$ISBN', description = 'qweqweqwe', onShelf = 1 Where bid = $bid");
     }
     
-    public function searchByCategory()
+    public function searchByCategory($categoryID, $limit, $offset)
     {
-        $category = $this->input->post('category');
-        $limit = $this->input->post('limit');
-        $offset = $this->input->post('offset');
+        //$category = $this->input->post('category');
+        //$limit = $this->input->post('limit');
+        //$offset = $this->input->post('offset');
         //$authorName = $this->input->post('authorName');
+        //$category = urldecode($category);
         $this->db->select('B.bid, B.name, B.cover, B.publishedDate, B.price, B.ISBN, B.onShelf');
         $this->db->from('BOOK AS B, CATEGORY AS C, CATEGORYCORRESPOND AS CC');
-        $this->db->where("C.name = '$category' AND CC.cid = C.cid AND B.bid = CC.bid ");
+        $this->db->where("C.cid = '$categoryID' AND CC.cid = C.cid AND B.bid = CC.bid ");
         $this->db->limit($limit, $offset);
         $data = $this->db->get();
         return $data;
@@ -81,10 +82,16 @@ class BookModel extends CI_Model
         //return $query;
     }
     
-    public function searchByID($id)
+    public function searchByID($id, $limit, $offset)
     {
-        $query = $this->db->query("SELECT B.bid, B.name, B.cover, B.publishedDate, B.price, B.ISBN, B.onShelf FROM BOOK AS B WHERE B.bid = $id");
-        return $query;
+        $this->db->select('B.bid, B.name, B.cover, B.publishedDate, B.price, B.ISBN, B.onShelf');
+        $this->db->from('BOOK AS B');
+        $this->db->where("B.bid = $id ");
+        $this->db->limit($limit, $offset);
+        $data = $this->db->get();
+        return $data;
+        //$query = $this->db->query("SELECT  FROM BOOK AS B WHERE B.bid = $id limit");
+        //return $query;
     }
     
     public function browseAllBooks()
@@ -93,9 +100,9 @@ class BookModel extends CI_Model
         return $query;
     }
     
-    public function browseSelectedBook($ISBN)
+    public function browseSelectedBook($bid)
     {
-        $query = $this->db->query("SELECT * FROM BOOK WHERE ISBN = '$ISBN'");
+        $query = $this->db->query("SELECT * FROM BOOK WHERE bid = '$bid'");
         return $query;
     }
     
