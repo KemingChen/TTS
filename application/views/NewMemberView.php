@@ -1,27 +1,32 @@
-<style>
-    .max{
-        width: 100%;
-        height: 100%;
-    }
-    
-    .line{
-        min-height: 30px;
-        font-size: 18px;
-    }
-</style>
-<div class="row-fluid">
-<form><?php echo validation_errors(); ?>
-<?php echo form_open_multipart('Account/createAccount') ?>
-    email <input type="email" name="email" size="20"/>
-	password <input type="password" name="password" size="20"/>
-    authority <input type="text" name="authority" size="8"/>
-    zipCode <input type="number" name="zipCode" size="1"/>
-    birthday <input type="date" name="birthday" size="6"/>
-    address <input type="text" name="address" size="20"/>
-    available <input type="text" name="available" size="1"/>
-    name <input type="text" name="name" size="10"/>
-    phoneNumber <input type="text" name="phoneNumber" size="10"/>
-	<input type="submit" name="submit" value="Create" /> 
-</form>
-
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="span12">
+			<form>
+            <?php echo validation_errors(); ?>
+            <?php echo form_open_multipart('Account/createAccount') ?>
+				<fieldset>
+					 <legend>加入會員</legend>
+                      <label>Email</label>
+                      <input type="email" name="email"/>
+                      <label>密碼</label>
+                      <input type="password" name="password" size="20"/>
+                      <label>權限</label>
+                      <input type="text" name="authority"/>
+                      <label>郵遞區號</label>
+                      <input type="number" name="zipCode"/>
+                      <label>地址</label>
+                      <input type="text" name="address"/>
+                      <label>生日</label>
+                      <input type="date" name="birthday"/>
+                      <label>Availiable</label>
+                      <input type="text" name="available"/>
+                      <label>名稱</label>
+                      <input type="text" name="name"/>
+                      <label>電話</label>
+                      <input type="text" name="phoneNumber"/>
+                      <button type="submit" name="submit" class="btn">Submit</button>
+				</fieldset>
+			</form>
+		</div>
+	</div>
 </div>
