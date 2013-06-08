@@ -35,6 +35,11 @@ class Member extends CI_Controller
         $this->MemberModel->addPhone($mid, $phone);
     }
     
+    public function modifyPhone($mid, $phone, $newPhone)
+    {
+        $this->MemberModel->modifyPhone($mid, $phone, $newPhone);
+    }
+    
     public function modifyMemberInfo()
     {
         $this->form_validation->set_rules('email', 'email', 'required');
@@ -90,6 +95,19 @@ class Member extends CI_Controller
             $data['account'] = $this->MemberModel->getMemberInfoByEmailFromView();
             $this->load->view("Member/BrowseMemberInfoResult", $data);
     	}
+    }
+    
+    public function browsePhoneByMid($mid)
+    {
+        $data['phone'] = $this->AccountModel->browsePhoneByMid($mid);
+        if($data['phone']->num_rows() > 0)
+        {
+            $this->load->view('Account/BrowsePhoneByMid', $data);
+        }
+        else
+        {
+            show_error("no data");
+        }
     }
 }
 

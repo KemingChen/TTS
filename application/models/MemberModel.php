@@ -47,15 +47,25 @@ class MemberModel extends CI_Model
         $this->db->insert('cellphonenumbercorrespond', $data);
     }
     
+    public function modifyPhone($mid, $phone, $newPhone)
+    {
+        $newData = array(
+            'phoneNumber' => $newPhone
+        );
+        $this->db->where('mid', $mid);
+        $this->db->where('phoneNumber', $phone);
+        $this->db->update('cellphonenumbercorrespond', $newData);
+    }
+    
     public function modifyMemberInfo()
     {
         $data = array(
-            'email' => $this->input->post('email'),
-            'zipCode' => $this->input->post('zipCode'),
-            'birthday' => $this->input->post('birthday'),
-            'address' => $this->input->post('address'),
-            'name' => $this->input->post('name')
-    	);
+                        'email' => $this->input->post('email'),
+                        'zipCode' => $this->input->post('zipCode'),
+                        'birthday' => $this->input->post('birthday'),
+                        'address' => $this->input->post('address'),
+                        'name' => $this->input->post('name')
+    	             );
         $email = $data['email'];
         $this->db->where('email', $email);
         $this->db->update('Account', $data);

@@ -1,4 +1,4 @@
-<?php echo "size" . $account->num_rows() . "<br/>" ?>
+<?php echo "size: " . $account->num_rows() . "<br/>" ?>
 <?php foreach ($account->result() as $row): ?>
 <a href="/TTS/Account/freeze/<?php echo $row->mid?>">freeze</a>
 <a href="/TTS/Account/unfreeze/<?php echo $row->mid?>">unfreeze</a>

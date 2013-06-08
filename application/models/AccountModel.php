@@ -32,6 +32,15 @@ class AccountModel extends CI_Model
         return $data;
     }
     
+    public function browsePhoneByMid($mid)
+    {
+        $this->db->select('mid, phoneNumber');
+        $this->db->from('cellphonenumbercorrespond');
+        $this->db->where('mid', $mid);
+        $data = $this->db->get();
+        return $data;
+    }
+    
     public function createAccount()
     {
         $accountData = array(
