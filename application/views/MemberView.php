@@ -7,7 +7,7 @@
                     width: 20%;
                 }
             </style>
-            <form action="javascript: alert('送出修改')" method="post">
+            <form action="javascript: showReminderMsg('已送出修改...施工中...');" method="post">
     			<table class="table table-striped" id="memberinfo">
     				<tbody>
     					<tr>
