@@ -18,6 +18,6 @@
     <script src="<?=base_url()?>assets/js/bootstrap-collapse.js"></script>
     <script src="<?=base_url()?>assets/js/bootstrap-carousel.js"></script>
     <script src="<?=base_url()?>assets/js/bootstrap-typeahead.js"></script>
-
+    <div class="modal-backdrop hide fade in"></div>
   </body>
 </html>

@@ -25,7 +25,7 @@ class Template extends CI_Model
     private function getHeader($activeID)
     {
         $isLogin = $this->authority->isLogin();
-
+        
         $header = array();
         array_push($header, array("ID" => "Category", "Tag" => "瀏覽書籍"));
         if ($isLogin)
@@ -37,6 +37,7 @@ class Template extends CI_Model
 
         $info["isLogin"] = $isLogin;
         $info["header"] = $header;
+        $info["username"] = $this->authority->getName();
         return $info;
     }
 

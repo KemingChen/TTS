@@ -82,7 +82,7 @@
                     <?}else{?>
                     <ul class="nav pull-right">
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">使用者 <b class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user"></i><?=$username?> <b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li class="divider"></li>
                                 <li><a href="<?=base_url()?>Nav/Member/Member">會員資料</a></li>
@@ -99,5 +99,24 @@
                     <?}?>
                 </div><!--/.nav-collapse -->
             </div>
+        </div>
+    </div>
+    <script>
+        function showReminderMsg(msg)
+        {
+            $("#reminder").modal('show');
+            $("#reminderMsg").html(msg);
+        }
+    </script>
+    
+    <div id="reminder" class="modal hide fade in">
+        <div class="modal-header">
+            <h3>溫馨提醒</h3>
+        </div>
+        <div class="modal-body">
+            <h4 class="red" align="center" id="reminderMsg"><h4>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">我知道了</button>
         </div>
     </div>

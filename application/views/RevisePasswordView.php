@@ -1,12 +1,24 @@
 <script>
-    $("#repassword").click(function(){
-        alert("我不能動");
-    });
+    function repassword()
+    {
+        var passwd = $("#newpasswd").val(), oldpasswd = $("#newpasswd").val();
+        if(passwd == "" || oldpasswd == "")
+        {
+            showReminderMsg("密碼不能為空");
+            return false;
+        }
+        else if(passwd != $("#checkpasswd").val())
+        {
+            showReminderMsg("新密碼 兩次不相符");
+            return false;
+        }
+        return true;
+    }
 </script>
 <div class="container-fluid">
 	<div class="row-fluid">
 		<div class="span12">
-			<form>
+			<form action="javascript: alert('OK');" method="post" onsubmit="return repassword()">
 				<fieldset>
 					<legend>修改密碼</legend>
                     <div>
@@ -22,7 +34,7 @@
                         <input id="checkpasswd" type="password" placeholder="New Password" /> 
                     </div>
                     <div>
-                        <button id="repassword" type="submit" class="btn">確定修改</button>
+                        <button type="submit" class="btn">確定修改</button>
                     </div>
 				</fieldset>
 			</form>
