@@ -68,7 +68,7 @@ class ShoppingCart extends CI_Controller
     public function getWholeShoppingCart($mid, $limit=3, $offset=0)
     {
         $data = $this->ShoppingCartModel->getWholeShoppingCart($mid, $limit, $offset);
-        $this->load->view('shoppingCart/browse', $data);
+        $this->load->view('shoppingCart/browseWhole', $data);
     }
     
 }
