@@ -1,27 +1,50 @@
 <div class="container-fluid">
 	<div class="row-fluid">
 		<div class="span12">
-			<h3>
-				交易紀錄
-			</h3>
+			<h3>交易紀錄</h3>
+            <script>
+                function showRecordInfo(data)
+                {
+                    $("#recordinfo").modal('show');
+                    
+                }
+            </script>
+            <div id="recordinfo" class="modal hide fade in">
+                <div class="modal-header">
+                    <h3>交易明細(2 at 2013-06-22 state asasfd)</h3>
+                </div>
+                <div class="modal-body">
+                    <h4 class="red" align="center">顯示多筆交易資料<h4>
+                    <div class="container-fluid">
+                    	<div class="row-fluid">
+                    		<div class="span10">
+                                <table class="table">
+                    				<thead>
+                    					<tr>
+                    						<th>交易編號</th>
+                    						<th>購買時間</th>
+                    						<th>交易狀態</th>
+                    						<th>金額</th>
+                                            <th></th>
+                    					</tr>
+                    				</thead>
+                    			</table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">關閉</button>
+                </div>
+            </div>
 			<table class="table">
 				<thead>
 					<tr>
-						<th>
-							交易編號
-						</th>
-						<th>
-							購買時間
-						</th>
-						<th>
-							交易狀態
-						</th>
-						<th>
-							金額
-						</th>
-                        <th>
-                            
-                        </th>
+						<th>交易編號</th>
+						<th>購買時間</th>
+						<th>交易狀態</th>
+						<th>金額</th>
+                        <th></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -45,7 +68,7 @@
     					echo "</td><td>";
                         echo $record->totalPrice;
     					echo "</td><td>";
-                        echo '<a href="'. "#". '">觀看</a>';
+                        echo '<button type="button" class="btn btn-mini btn-info" onclick="showRecordInfo(1)">詳細資料</button>';
                         echo "</td></tr>";
                     }
                     ?>

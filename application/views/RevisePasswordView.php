@@ -9,7 +9,7 @@
         }
         else if(passwd != $("#checkpasswd").val())
         {
-            showReminderMsg("新密碼 兩次不相符");
+            showReminderMsg("密碼不相符");
             return false;
         }
         return true;

@@ -9,15 +9,9 @@
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th>
-							ISBN
-						</th>
-						<th>
-                            書名
-						</th>
-						<th>
-							金額
-						</th>
+						<th>ISBN</th>
+						<th>書名</th>
+						<th>金額</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -35,10 +29,12 @@
                         }
                         $isInfo = ! $isInfo;
                         echo $book["ISBN"];							
-    					echo "</td><td>";
+    					echo "</td><td style='width: 65%;'>";
                         echo '<a href="' . base_url() . 'Nav/Book/' . $book["Name"]  . '">' . $book["Name"] . "</a>";
     					echo "</td><td>";
                         echo $book["Price"];
+                        echo "</td><td>";
+                        echo '<button type="button" class="btn btn-mini btn-danger">移除</button>';
                         echo "</td></tr>";
                     }
                     ?>

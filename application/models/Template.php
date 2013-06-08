@@ -108,7 +108,7 @@ class Template extends CI_Model
                     "飼養烏龜必知的68項小常識", "Price" => "220"));
                 array_push($info["list"], array("ISBN" => "9789862282359", "Name" =>
                     "輕輕鬆鬆養烏龜：68個飼養小常識", "Price" => "440"));
-        }else if($pageName == "Account/BrowserAccountView"){
+        }else if($pageName == "MemberView"){
             $info["email"] = $this->authority->getEmail();//"housemeow@yahoo.com.tw";
             $info["name"] = $this->authority->getName();
             $info["birthDate"] = $this->authority->getBirthDate();
