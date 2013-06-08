@@ -10,109 +10,106 @@ class Book extends CI_Controller
         $this->load->helper(array('form', 'url'));
         $this->load->library('upload');
         $this->load->helper('form');
-    	$this->load->library('form_validation');
+    	$this->load->library('form_validation'); 
+        $this->load->model("template");
+    }
+    
+    public function index()
+    {
+        $this->listAll();
+    }
+    
+    public function listAll($offset=0,$limit=10)
+    {
+        $data = $this->BookModel->listAllBook($offset,$limit);
+        $this->template->view("", "", "Book/ListAll", $data);
+    }
+    
+    public function browse($bid)
+    {
+        $data = $this->BookModel->browse($bid);
+        $this->template->view("", "", "Book/browse", $data);
     }
 
     public function onShelf($bid)
     {
-        //$ISBN = "1234567891234"; //this need to be changed.
-        $this->BookModel->updateOnShelf($bid);
-        $data["book"] = $this->BookModel->browseSelectedBook($bid);
-        $this->load->view('Book/BrowseABook', $data);
+        $this->BookModel->updateOnShelf($bid,true);
+        $this->browse($bid);
     }
 
     public function offShelf($bid)
     {
-        //$ISBN = "1234567891234"; //this need to be changed.
-        $this->BookModel->updateOffShelf($bid);
-        $data["book"] = $this->BookModel->browseSelectedBook($bid);
-        $this->load->view('Book/BrowseABook', $data);
+        $this->BookModel->updateOnShelf($bid,false);
+        $this->browse($bid);
     }
-
-    public function createBookInformation()
+    
+    public function create()
     {
     	$this->form_validation->set_rules('isbn', 'isbn', 'required');
     	
     	if ($this->form_validation->run() === FALSE)
     	{
-            $this->load->view("book/create", array());
-            //$this->template->view("", "", "book/create", "");
+            $this->template->view("", "", "book/create", "");
     	}
     	else
     	{
     	    //先檢查upload的限制  如果通過再上傳
         	if ( ! $this->upload->do_upload('cover'))
     		{
-    			$error = array('error' => $this->upload->display_errors());
-                show_error("select a cover!");
-                //$this->template->uCSliderBar("Annoucement/create", $error);
+                show_error($this->upload->display_errors());
     		}
     		else
     		{
     			$data = array('upload_data' => $this->upload->data());
                 $cover = file_get_contents($data['upload_data']['full_path']);
-                $this->BookModel->createBookInformation($cover);
-                $isbn = $this->input->post('isbn');
-                $bid = $this->BookModel->getIDByISBN($isbn);
-                $data["book"] = $this->BookModel->browseSelectedBook($bid);
-                $this->load->view('Book/BrowseABook', $data);
+                $bid = $this->BookModel->createBookInformation($cover);
+                $this->browse($bid);
     		}
     	}
     }
 
-    public function editBookInformation()
+    public function update($bid)
     {
         $this->form_validation->set_rules('isbn', 'isbn', 'required');
-    	
+    	$data["bid"] = $bid;
     	if ($this->form_validation->run() === FALSE)
     	{
-    	    //$this->load->library('../controllers/Nav');
-            $this->load->view("book/update", array());
+            $this->template->view("", "", "book/update", $data);
     	}
     	else
     	{
     	    //先檢查upload的限制  如果通過再上傳
         	if ( ! $this->upload->do_upload('cover'))
     		{
-    			$error = array('error' => $this->upload->display_errors());
-                $this->template->uCSliderBar("Annoucement/update", $error);
+    			show_error($this->upload->display_errors());
     		}
     		else
     		{
     			$data = array('upload_data' => $this->upload->data());
                 $cover = file_get_contents($data['upload_data']['full_path']);
                 
-                $this->BookModel->editBookInformation($cover);
-                $isbn = $this->input->post('isbn');
-                $data["book"] = $this->BookModel->browseSelectedBook($isbn);
-                $this->load->view('Book/BrowseABook', $data);
+                $this->BookModel->editBookInformation($bid,$cover);
+                $this->browse($bid);
     		}
     	}
     }
     
-    public function insertCategoryCorrespond($bid, $cid)
+    public function insertCategory($bid, $cid)
     {
-        $this->BookModel->createCategoryCorrespond($bid, $cid);
-        $data["records"] = $this->BookModel->browseCategoryCorrespond();
-        $this->load->view('book/browsecategorycorrespond', $data);
+        $this->BookModel->insertCategory($bid, $cid);
+        $this->browse($bid);
     }
-
-    public function searchByCategory($categoryID, $limit=3, $offset=0)
+    
+    public function insertWriter($bid,$aid)
     {
-        $data["books"] = $this->BookModel->searchByCategory($categoryID, $limit, $offset);
-        $this->load->view('book/browse', $data);
+        $this->BookModel->insertWriter($bid, $aid);
+        $this->browse($bid);
     }
-
-    public function searchByID($id, $limit=3, $offset=0)
+    
+    public function insertTranslator($bid,$aid)
     {
-        $data["books"] = $this->BookModel->searchByID($id, $limit, $offset);
-        $this->load->view('Book/Browse', $data);
-    }
-
-    public function browseAllBooks()
-    {
-        $data["books"] = $this->BookModel->browseAllBooks();
-        $this->load->view('Book/Browse', $data);
+        $this->BookModel->insertTranslator($bid, $aid);
+        $this->browse($bid);
     }
 }
 
