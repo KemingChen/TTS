@@ -6,5 +6,6 @@
     birthday <input type="text" name="birthday" size="6"/>
     address <input type="text" name="address" size="20"/>
     name <input type="text" name="name" size="10"/>
+    phoneNumber <input type="text" name="phoneNumber" size="10"/>
 	<input type="submit" name="submit" value="Register" /> 
 </form>

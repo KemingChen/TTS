@@ -17,7 +17,7 @@ class MemberModel extends CI_Model
     
     public function register()
     {
-        $data = array(
+        $accountData = array(
             'email' => $this->input->post('email'),
             'password' => $this->input->post('password'),
             'authority' => 'customer',
@@ -27,8 +27,15 @@ class MemberModel extends CI_Model
             'available' => 1,
             'name' => $this->input->post('name')
     	);
-        $this->db->insert('Account', $data);
-        return $data['email'];
+        $this->db->insert('Account', $accountData);
+        $email = $accountData['email'];
+        $mid = $this->AccountModel->getMidByEmail($email);
+        $phoneData = array(
+            'mid' => $mid,
+            'phoneNumber' => $this->input->post('phoneNumber')
+    	);
+        $this->db->insert('cellphonenumbercorrespond', $phoneData);
+        return $email;
     }
     
     public function addPhone($mid, $phone)

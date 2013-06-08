@@ -34,7 +34,7 @@ class AccountModel extends CI_Model
     
     public function createAccount()
     {
-        $data = array(
+        $accountData = array(
             'email' => $this->input->post('email'),
             'password' => $this->input->post('password'),
             'authority' => $this->input->post('authority'),
@@ -44,7 +44,14 @@ class AccountModel extends CI_Model
             'available' => $this->input->post('available'),
             'name' => $this->input->post('name')
     	);
-	    $this->db->insert('Account', $data);
+        $this->db->insert('account', $accountData);
+        $email = $accountData['email'];
+        $mid = $this->getMidByEmail($email);
+        $phoneData = array(
+            'mid' => $mid,
+            'phoneNumber' => $this->input->post('phoneNumber')
+    	);
+	    $this->db->insert('cellphonenumbercorrespond', $phoneData);
     }
     
     public function modifyAuthority($mid, $data)
@@ -79,6 +86,17 @@ class AccountModel extends CI_Model
         $this->db->from('account');
         $data = $this->db->get();
         return $data;
+    }
+    
+    public function getMidByEmail($email)
+    {
+        $this->db->select('mid');
+        $this->db->from('account');
+        $this->db->where('email', $email);
+        $data = $this->db->get();
+        $result = $data->result();
+        $mid = $result[0]->mid;
+        return $mid;
     }
 }
 

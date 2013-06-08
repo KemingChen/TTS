@@ -17,6 +17,7 @@ class Member extends CI_Controller
     {
         $this->form_validation->set_rules('email', 'email', 'required');
         $this->form_validation->set_rules('password', 'password', 'required');
+        $this->form_validation->set_rules('phoneNumber', 'phoneNumber', 'required');
     	if ($this->form_validation->run() === FALSE)
     	{
             $this->load->view("Member/Register", array());

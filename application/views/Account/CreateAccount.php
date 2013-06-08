@@ -8,5 +8,6 @@
     address <input type="text" name="address" size="20"/>
     available <input type="text" name="available" size="1"/>
     name <input type="text" name="name" size="10"/>
+    phoneNumber <input type="text" name="phoneNumber" size="10"/>
 	<input type="submit" name="submit" value="Create" /> 
 </form>
