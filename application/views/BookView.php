@@ -41,10 +41,6 @@
                 </td>
             </tr>
             <tr>
-                <td>語言</td>
-                <td><i class="icon-chevron-right"></i>???</td>
-            </tr>
-            <tr>
                 <td>出版社</td>
                 <td><i class="icon-chevron-right"></i> <?=$book->pname?></td>
             </tr>
