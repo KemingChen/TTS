@@ -25,7 +25,7 @@ class Template extends CI_Model
     private function getHeader($activeID)
     {
         $isLogin = $this->authority->isLogin();
-        
+
         $header = array();
         array_push($header, array("ID" => "Category", "Tag" => "瀏覽書籍"));
         if ($isLogin)
@@ -36,7 +36,7 @@ class Template extends CI_Model
         $this->setActive($activeID, $header);
 
         $info["isLogin"] = $isLogin;
-        $info["header"] = $header;
+        $info["list"] = $header;
         $info["username"] = $this->authority->getName();
         return $info;
     }
@@ -70,11 +70,11 @@ class Template extends CI_Model
         $this->setActive($activeID, $sliderBar);
         return $sliderBar;
     }
-    
+
     private function setActive($activeID, &$data)
     {
         foreach ($data as & $item) {
-            $item["Active"] = $item["ID"] == $activeID ? "active" : "";
+            $item["Active"] = $item["ID"] == $activeID ? "active" : ""; //null equal ""
         }
     }
 
@@ -100,7 +100,8 @@ class Template extends CI_Model
                 "飼養烏龜必知的68項小常識", "Quantity" => "1", "Price" => "220"));
             array_push($info["list"], array("ISBN" => "9789862282359", "Name" =>
                 "輕輕鬆鬆養烏龜：68個飼養小常識", "Quantity" => "2", "Price" => "440"));
-        } else if ($pageName == "ConcernView") {
+        } else
+            if ($pageName == "ConcernView") {
                 $info["list"] = array();
                 array_push($info["list"], array("ISBN" => "9789570410976", "Name" =>
                     "初學者的料理教科書：2500張步驟圖解，新手必備史上最簡單！看這本，保證不失敗！", "Price" => "480"));
@@ -108,16 +109,17 @@ class Template extends CI_Model
                     "飼養烏龜必知的68項小常識", "Price" => "220"));
                 array_push($info["list"], array("ISBN" => "9789862282359", "Name" =>
                     "輕輕鬆鬆養烏龜：68個飼養小常識", "Price" => "440"));
-        }else if($pageName == "MemberView"){
-            $info["email"] = $this->authority->getEmail();//"housemeow@yahoo.com.tw";
-            $info["name"] = $this->authority->getName();
-            $info["birthDate"] = $this->authority->getBirthDate();
-            $info["zipCode"] = $this->authority->getZipCode();
-            $info["address"] = $this->authority->getAddress();
-        }
-        else if($pageName=="RecordView"){
-            $info['list'] = $this->TransactionModel->browseTransactionRecords();
-        }
+            } else
+                if ($pageName == "MemberView") {
+                    $info["email"] = $this->authority->getEmail(); //"housemeow@yahoo.com.tw";
+                    $info["name"] = $this->authority->getName();
+                    $info["birthDate"] = $this->authority->getBirthDate();
+                    $info["zipCode"] = $this->authority->getZipCode();
+                    $info["address"] = $this->authority->getAddress();
+                } else
+                    if ($pageName == "RecordView") {
+                        $info['list'] = $this->TransactionModel->browseTransactionRecords();
+                    }
 
         $this->load->view('include/Header', $header);
         $this->load->view("include/SliderBar", $info, $return);
@@ -128,6 +130,45 @@ class Template extends CI_Model
     {
         print_r($array);
         exit;
+    }
+
+    public function loadView($headerActiveID, $slideBarList, $content, $contentData)
+    {
+        $this->loadHeader($headerActiveID);
+        $this->loadSlideBarContent($slideBarList, $content, $contentData);
+        $this->loadFooter();
+    }
+
+    private function loadHeader($activeID)
+    {
+        $isLogin = $this->authority->isLogin();
+        $list = $this->MenuModel->getHeaderList();
+        $this->updateActive($list, $activeID);
+        $data = array('list' => $list);
+        $data["isLogin"] = $isLogin;
+        $data["username"] = $this->authority->getName();
+        $this->load->view("include/header", $data);
+    }
+
+    private function updateActive(&$data, $activeID)
+    {
+        foreach ($data as & $item) {
+            $item["Active"] = $item["ID"] == $activeID ? "active" : "";
+        }
+    }
+
+    private function loadSlideBarContent($slideBarList, $content, $contentData)
+    {
+        $slideBarData = array('list' => $slideBarList);
+        $this->load->view("include/slideBarContentHeader", $slideBarData);
+        $this->load->view($content, $contentData);
+        $this->load->view("include/slideBarContentFooter");
+    }
+
+    private function loadFooter()
+    {
+        $this->load->view('include/Footer');
+
     }
 }
 

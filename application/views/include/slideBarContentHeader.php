@@ -7,8 +7,8 @@
         <div class="sidebar-nav">
     		<ul class="nav nav-pills nav-stacked"> 
                 <?
-                foreach ($menu as $item) {
-                    $active = $item["Active"];
+                foreach ($list as $item) {
+                    $active = isset($item["Active"]) ? $item["Active"] : "";
                     $tag = $item["Tag"];
                     $url = $item["Url"];
                     echo "<li class='$active'>";
@@ -22,6 +22,3 @@
         </div>
     </div>
     <div class="span7" style="min-height: 500px;">
-        <? $this->load->view($pageName, $data, false); ?>
-    </div>
-  </div>

@@ -45,11 +45,11 @@
                 <div class="nav-collapse collapse">
                     <ul class="nav">
                         <?
-                            foreach($header as $item)
+                            foreach($list as $item)
                             {
                                 $tag = $item["Tag"];
                                 $url = $item["Url"];
-                                $active = $item["Active"];
+                                $active = isset($item["Active"])? $item["Active"] : null;
                                 echo "<li class='$active'>";
                                 echo "<a href='$url'>$tag</a>";
                                 echo "</li>";

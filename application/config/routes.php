@@ -38,7 +38,8 @@
 |
 */
 
-$route['default_controller'] = "Nav/Category";
+//$route['default_controller'] = "Nav/Category";
+$route['default_controller'] = "View";
 $route['404_override'] = '';
 
 
