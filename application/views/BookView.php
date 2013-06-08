@@ -11,53 +11,76 @@
 </style>
 <ul class="breadcrumb">
     <li>書籍<span class="divider">/</span></li>
-    <li><a href="<?=base_url("Nav/Category/$category")?>"><?=$category?></a><span class="divider">/</span></li>
-    <li><?=$book?></li>
+    <li><a href="<?=base_url("Nav/Category/$cname")?>"><?=$cname?></a><span class="divider">/</span></li>
+    <li><?=$book->name?></li>
 </ul>
 <div class="row-fluid">
     <div class="span12">
-        <h3><?=$book?></h3>
+        <h3><?=$book->name?></h3>
     </div>
     <div class="span4">
-        <img class="img-polaroid max" src="<?=base_url()?>/img/9789570410976.jpg" />
+        <img style="width: 100%;height: 100%;" src="data:image/jpeg;base64,<?=base64_encode($book->cover)?>" />
     </div>
     <div class="span6 offset1">
         <table class="table">
             <tr>
                 <td>ISBN</td>
-                <td><i class="icon-chevron-right"></i> <?=$ISBN?></td>
+                <td><i class="icon-chevron-right"></i> <?=$book->ISBN?></td>
             </tr>
             <tr>
                 <td>作者</td>
-                <td><i class="icon-chevron-right"></i> <?=$author?></td>
+                <td>
+                <i class="icon-chevron-right"></i> 
+                <?php
+                foreach($writer as $item){
+                ?>
+                    <div class="label label-info"><?=$item->name?></div>
+                <?php
+                }
+                ?>
+                </td>
             </tr>
             <tr>
                 <td>語言</td>
-                <td><i class="icon-chevron-right"></i> <?=$language?></td>
+                <td><i class="icon-chevron-right"></i>???</td>
             </tr>
             <tr>
                 <td>出版社</td>
-                <td><i class="icon-chevron-right"></i> <?=$publisher?></td>
+                <td><i class="icon-chevron-right"></i> <?=$book->pname?></td>
             </tr>
             <tr>
                 <td>譯者</td>
-                <td><i class="icon-chevron-right"></i> <?=$translator?></td>
+                <td>
+                    <i class="icon-chevron-right"></i> 
+                    <?php
+                    foreach($translator as $item){
+                    ?>
+                        <div class="label label-info"><?=$item->name?></div>
+                    <?php
+                    }
+                    ?>
+                </td>
             </tr>
             <tr>
                 <td>日期</td>
-                <td><i class="icon-chevron-right"></i> <?=$date?></td>
+                <td><i class="icon-chevron-right"></i> <?=$book->publishedDate?></td>
             </tr>
             <tr>
                 <td>分類</td>
                 <td>
                     <i class="icon-chevron-right"></i> 
-                    <div class="label label-info"><?=$category?></div>
-                    <div class="label label-info">生活</div>
+                    <?php
+                    foreach($category as $item){
+                    ?>
+                    <div class="label label-info"><?=$item->name?></div>
+                    <?php
+                    }
+                    ?>
                 </td>
             </tr>
             <tr>
                 <td>定價</td>
-                <td><i class="icon-chevron-right"></i> <?=$price?></td>
+                <td><i class="icon-chevron-right"></i> <?=$book->price?></td>
             </tr>
         </table>
         <div class="btn-group">
@@ -68,6 +91,6 @@
     <div class="span12"></div>
     <div class="span10">
         <h4 class="line">內容簡介</h4>
-        <?=$description?>
+        <?=$book->description?>
     </div>
 </div>

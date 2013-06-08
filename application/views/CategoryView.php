@@ -21,7 +21,7 @@
             $counter++;
                 ?>
                 <td>
-                    <a href="<?=base_url("Nav/Book/$book->name")?>">
+                    <a href="<?=base_url("ViewBook/book/$cid/$book->bid")?>">
                         <div class="well well-small book" align="center">
                             <img style="width: 100%;height: 100%;" src="data:image/jpeg;base64,<?=base64_encode($book->cover)?>" />
                             <div><?=$book->name?></div>
