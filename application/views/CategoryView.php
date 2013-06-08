@@ -11,74 +11,33 @@
     <li><?=$category?></li>
 </ul>
 <table class="table table-striped">
-    <tr>
-        <td>
-            <a href="<?=base_url("Nav/Book/$book")?>">
-                <div class="well well-small book" align="center">
-                    <div>快思慢想</div>
-                    <img style="width: 100%;height: 100%;" src="<?=base_url()?>/img/9789570410976.jpg" />
-                </div>
-            </a>
-        </td>
-        <td>
-            <a href="<?=base_url("Nav/Book/$book")?>">
-                <div class="well well-small book" align="center">
-                    <div>快思慢想</div>
-                    <img style="width: 100%;height: 100%;" src="<?=base_url()?>/img/9789570410976.jpg" />
-                </div>
-            </a>
-        </td>
-        <td>
-            <a href="<?=base_url("Nav/Book/$book")?>">
-                <div class="well well-small book" align="center">
-                    <div>快思慢想</div>
-                    <img style="width: 100%;height: 100%;" src="<?=base_url()?>/img/9789570410976.jpg" />
-                </div>
-            </a>
-        </td>
-        <td>
-            <a href="<?=base_url("Nav/Book/$book")?>">
-                <div class="well well-small book" align="center">
-                    <div>快思慢想</div>
-                    <img style="width: 100%;height: 100%;" src="<?=base_url()?>/img/9789570410976.jpg" />
-                </div>
-            </a>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <a href="<?=base_url("Nav/Book/$book")?>">
-                <div class="well well-small book" align="center">
-                    <div>快思慢想</div>
-                    <img style="width: 100%;height: 100%;" src="<?=base_url()?>/img/9789570410976.jpg" />
-                </div>
-            </a>
-        </td>
-        <td>
-            <a href="<?=base_url("Nav/Book/$book")?>">
-                <div class="well well-small book" align="center">
-                    <div>快思慢想</div>
-                    <img style="width: 100%;height: 100%;" src="<?=base_url()?>/img/9789570410976.jpg" />
-                </div>
-            </a>
-        </td>
-        <td>
-            <a href="<?=base_url("Nav/Book/$book")?>">
-                <div class="well well-small book" align="center">
-                    <div>快思慢想</div>
-                    <img style="width: 100%;height: 100%;" src="<?=base_url()?>/img/9789570410976.jpg" />
-                </div>
-            </a>
-        </td>
-        <td>
-            <a href="<?=base_url("Nav/Book/$book")?>">
-                <div class="well well-small book" align="center">
-                    <div>快思慢想</div>
-                    <img style="width: 100%;height: 100%;" src="<?=base_url()?>/img/9789570410976.jpg" />
-                </div>
-            </a>
-        </td>
-    </tr>
+    <?php
+        $counter = 0;
+        echo "<tr>";
+        if(count($list)==0){
+            echo "<td></td><td></td><td></td><td></td>";
+        }
+        foreach($list as $book){
+            $counter++;
+                ?>
+                <td>
+                    <a href="<?=base_url("Nav/Book/$book->name")?>">
+                        <div class="well well-small book" align="center">
+                            <img style="width: 100%;height: 100%;" src="data:image/jpeg;base64,<?=base64_encode($book->cover)?>" />
+                            <div><?=$book->name?></div>
+                        </div>
+                    </a>
+                </td>
+                <?php
+            if($counter%4==0){
+                echo "</tr>";
+            }
+        }
+        for(;$counter%4!=0;$counter++){
+            echo "<td></td>";
+        }
+        echo "</tr>";
+    ?>
 </table>
 <div class="pagination" align="center">
     <ul>

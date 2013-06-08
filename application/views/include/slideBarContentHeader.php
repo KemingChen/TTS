@@ -10,7 +10,7 @@
                 foreach ($list as $item) {
                     $active = isset($item["Active"]) ? $item["Active"] : "";
                     $tag = $item["Tag"];
-                    $url = $item["Url"];
+                    $url = base_url($item["Url"]);
                     echo "<li class='$active'>";
                     echo "<a href='$url'>";
                     echo "<i class='icon-chevron-right'></i>$tag";

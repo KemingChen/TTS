@@ -48,7 +48,7 @@
                             foreach($list as $item)
                             {
                                 $tag = $item["Tag"];
-                                $url = $item["Url"];
+                                $url = base_url().$item["Url"];
                                 $active = isset($item["Active"])? $item["Active"] : null;
                                 echo "<li class='$active'>";
                                 echo "<a href='$url'>$tag</a>";

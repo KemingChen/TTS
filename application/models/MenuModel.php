@@ -29,7 +29,7 @@ class MenuModel extends CI_Model
         $query = $this->CategoryModel->getCategoryArray();
         $list = array();
         foreach ($query->result() as $category) {
-            $list[$category->cid] = array("ID" => $category->cid, "Tag" => $category->name, "Url" => base_url().
+            $list[$category->cid] = array("ID" => $category->cid, "Tag" => $category->name, "Url" => 
                 "View/Category/" . $category->cid);
         }
         return $list;

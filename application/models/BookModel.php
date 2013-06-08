@@ -75,13 +75,13 @@ class BookModel extends CI_Model
         //$query = $this->db->query("Update book set cover = '$cover', name = '$name', pid = $pid, publishedDate = '$publishedDate', price = $price, ISBN = '$ISBN', description = 'qweqweqwe', onShelf = 1 Where bid = $bid");
     }
     
-    public function searchByCategory($categoryID, $limit, $offset)
+    public function searchByCategory($categoryID, $limit=10, $offset=0)
     {
         $this->db->select('b.bid, b.cover, b.name, a.name as author, p.name as publisher, b.publishedDate, b.price, b.ISBN, b.onShelf');
         $this->db->from('book as b, author as a, writercorrespond as wc, publisher as p, CATEGORY AS C, CATEGORYCORRESPOND AS CC');
         $this->db->where("C.cid = '$categoryID' AND CC.cid = C.cid AND B.bid = CC.bid AND wc.bid = b.bid AND a.aid = wc.aid AND p.pid = b.pid");
         $this->db->limit($limit, $offset);
-        $data = $this->db->get();
+        $data = $this->db->get()->result();
         return $data;
     }
         
