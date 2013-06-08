@@ -21,11 +21,60 @@ class TransactionModel extends CI_Model
         return $data;
     }
     
+    public function browseTransactionRecordsByTimeInterval($start, $end)
+    {
+        $this->db->select('*');
+        $this->db->from('orderSummary');
+        $this->db->where('orderTime >=', $start);
+        $this->db->where('orderTime <=', $end);
+        $data = $this->db->get();
+        return $data;
+    }
+    
+    public function browseTransactionRecordsByState($state)
+    {
+        $this->db->select('*');
+        $this->db->from('orderSummary');
+        $this->db->where('state', $state);
+        $data = $this->db->get();
+        return $data;
+    }
+    
     public function browseTransactionRecordsByLimit($start, $length)
     {
         $this->db->select('*');
         $this->db->from('orderSummary');
         $this->db->limit($length, $start);
+        $data = $this->db->get();
+        return $data;
+    }
+    
+    public function browseTransactionRecordsByMid($mid)
+    {
+        $this->db->select('*');
+        $this->db->from('orderSummary');
+        $this->db->where('mid', $mid);
+        $data = $this->db->get();
+        return $data;
+    }
+    
+    public function browseTransactionRecordsByTimeIntervalById($mid, $start, $end)
+    {
+        $this->db->select('*');
+        $this->db->from('orderSummary');
+        $this->db->where('mid', $mid);
+        $this->db->where('orderTime >=', $start);
+        $this->db->where('orderTime <=', $end);
+        $data = $this->db->get();
+        return $data;
+    }
+    
+    public function browseTransactionRecordsByStateByMid($mid, $state)
+    {
+        $this->db->select('*');
+        $this->db->from('orderSummary');
+        $this->db->where('state', $state);
+        $this->db->where('mid', $mid);
         $data = $this->db->get();
         return $data;
     }

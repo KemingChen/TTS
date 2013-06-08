@@ -25,12 +25,77 @@ class Transaction extends CI_Controller
         }
     }
     
+    public function browseTransactionRecordsByTimeInterval($start, $end)
+    {
+        $data['transaction'] = $this->TransactionModel->browseTransactionRecordsByTimeInterval($start, $end);
+        if($data['transaction']->num_rows() > 0)
+        {
+            $this->load->view('Transaction/BrowseTransactionRecords', $data);
+        }
+        else
+        {
+            show_error("no data");
+        }
+    }
+    
+    public function browseTransactionRecordsByState($state)
+    {
+        $data['transaction'] = $this->TransactionModel->browseTransactionRecordsByState($state);
+        if($data['transaction']->num_rows() > 0)
+        {
+            $this->load->view('Transaction/BrowseTransactionRecords', $data);
+        }
+        else
+        {
+            show_error("no data");
+        }
+    }
+    
     public function browseTransactionRecordsByLimit($start, $length)
     {
         $data['transaction'] = $this->TransactionModel->browseTransactionRecordsByLimit($start, $length);
         if($data['transaction']->num_rows() > 0)
         {
             $this->load->view('Transaction/BrowseTransactionRecords', $data);
+        }
+        else
+        {
+            show_error("no data");
+        }
+    }
+    
+    public function browseTransactionRecordsByMid($mid)
+    {
+        $data['transaction'] = $this->TransactionModel->browseTransactionRecordsByMid($mid);
+        if($data['transaction']->num_rows() > 0)
+        {
+            $this->load->view('Transaction/BrowseTransactionRecordsByMid', $data);
+        }
+        else
+        {
+            show_error("no data");
+        }
+    }
+    
+    public function browseTransactionRecordsByTimeIntervalById($mid, $start, $end)
+    {
+        $data['transaction'] = $this->TransactionModel->browseTransactionRecordsByTimeIntervalById($mid, $start, $end);
+        if($data['transaction']->num_rows() > 0)
+        {
+            $this->load->view('Transaction/BrowseTransactionRecordsByMid', $data);
+        }
+        else
+        {
+            show_error("no data");
+        }
+    }
+    
+    public function browseTransactionRecordsByStateByMid($mid, $state)
+    {
+        $data['transaction'] = $this->TransactionModel->browseTransactionRecordsByStateByMid($mid, $state);
+        if($data['transaction']->num_rows() > 0)
+        {
+            $this->load->view('Transaction/BrowseTransactionRecordsByMid', $data);
         }
         else
         {
