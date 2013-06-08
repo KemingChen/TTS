@@ -13,12 +13,11 @@ class MenuModel extends CI_Model
     {
         $isLogin = $this->authority->isLogin();
         $list = array();
-        array_push($list, array("Url" => "View", "ID" => "Category", "Tag" =>
-            "瀏覽書籍"));
+        array_push($list, array("Url" => "View", "ID" => "Category", "Tag" => "瀏覽書籍"));
         if ($isLogin) {
             array_push($list, array("Url" => "Nav/Member", "ID" => "Member", "Tag" => "會員專區"));
         } else {
-            array_push($list, array("Url" => "Nav/NonMember", "ID" => "NonMember", "Tag" =>
+            array_push($list, array("Url" => "NewMember", "ID" => "NonMember", "Tag" =>
                 "取得帳號"));
         }
         return $list;
@@ -29,16 +28,19 @@ class MenuModel extends CI_Model
         $query = $this->CategoryModel->getCategoryArray();
         $list = array();
         foreach ($query->result() as $category) {
-            $list[$category->cid] = array("ID" => $category->cid, "Tag" => $category->name, "Url" => 
-                "View/Category/" . $category->cid);
+            $list[$category->cid] = array("ID" => $category->cid, "Tag" => $category->name,
+                "Url" => "View/Category/" . $category->cid);
         }
         return $list;
     }
-    
-    public function getNonMemberList(){
+
+    public function getNonMemberList()
+    {
         $list = array();
-        array_push($list, array("ID" => "NewMember", "Tag" => "加入會員'", "Url" => "NewMember"));
-        array_push($list, array("ID" => "ForgotPassword", "Tag" => "忘記密碼", "Url" => "ForgotPassword"));
+        $list["NewMember"] = array("ID" => "NewMember", "Tag" => "加入會員", "Url" =>
+            "NewMember");
+        $list["ForgotPassword"] = array("ID" => "ForgotPassword", "Tag" => "忘記密碼", "Url" =>
+            "ForgotPassword");
         return $list;
     }
 
