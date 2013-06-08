@@ -12,6 +12,7 @@ class CustomSearchModel extends CI_Model
     public function searchByAuthor($authorName)
     {
         //$authorName = $this->input->post('authorName');
+        //$data["total_NumRows"] = $this->db->count_all_results($this->tableName);
         $this->db->select('B.bid, B.name, B.cover, B.publishedDate, B.price, B.ISBN, B.onShelf');
         $this->db->from('BOOK AS B, AUTHOR AS A, WRITERCORRESPOND AS W ');
         $this->db->where("A.name = '$authorName' AND W.aid = A.aid AND B.bid = W.bid");

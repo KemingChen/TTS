@@ -9,6 +9,9 @@
     price <input type="text" name="price" size="20"/>
     ISBN <input type="text" name="isbn" size="20"/>
     onshelf <input type="text" name="onshelf" size="20"/>
+    <br /><br /><br />
+    categoryID<input type="text" name="categoryID" size="20"/>
 	<input type="submit" name="submit" value="Create" /> 
+    
 
 </form>

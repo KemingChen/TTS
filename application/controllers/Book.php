@@ -35,8 +35,8 @@ class Book extends CI_Controller
     	
     	if ($this->form_validation->run() === FALSE)
     	{
-            //$this->load->library('../controllers/Nav');
             $this->load->view("book/create", array());
+            //$this->template->view("", "", "book/create", "");
     	}
     	else
     	{
@@ -44,16 +44,17 @@ class Book extends CI_Controller
         	if ( ! $this->upload->do_upload('cover'))
     		{
     			$error = array('error' => $this->upload->display_errors());
-                $this->template->uCSliderBar("Annoucement/create", $error);
+                show_error("select a cover!");
+                //$this->template->uCSliderBar("Annoucement/create", $error);
     		}
     		else
     		{
     			$data = array('upload_data' => $this->upload->data());
                 $cover = file_get_contents($data['upload_data']['full_path']);
-                
                 $this->BookModel->createBookInformation($cover);
                 $isbn = $this->input->post('isbn');
-                $data["book"] = $this->BookModel->browseSelectedBook($isbn);
+                $bid = $this->BookModel->getIDByISBN($isbn);
+                $data["book"] = $this->BookModel->browseSelectedBook($bid);
                 $this->load->view('Book/BrowseABook', $data);
     		}
     	}
@@ -88,14 +89,21 @@ class Book extends CI_Controller
     		}
     	}
     }
+    
+    public function insertCategoryCorrespond($bid, $cid)
+    {
+        $this->BookModel->createCategoryCorrespond($bid, $cid);
+        $data["records"] = $this->BookModel->browseCategoryCorrespond();
+        $this->load->view('book/browsecategorycorrespond', $data);
+    }
 
-    public function searchByCategory($categoryID, $limit, $offset)
+    public function searchByCategory($categoryID, $limit=3, $offset=0)
     {
         $data["books"] = $this->BookModel->searchByCategory($categoryID, $limit, $offset);
         $this->load->view('book/browse', $data);
     }
 
-    public function searchByID($id, $limit, $offset)
+    public function searchByID($id, $limit=3, $offset=0)
     {
         $data["books"] = $this->BookModel->searchByID($id, $limit, $offset);
         $this->load->view('Book/Browse', $data);

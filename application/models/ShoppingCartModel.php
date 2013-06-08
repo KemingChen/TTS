@@ -52,16 +52,16 @@ class ShoppingCartModel extends CI_Model
         
     }
     
-    public function getWholeShoppingCart($mid, $limit, $offset)
+    public function getWholeShoppingCart($mid, $limit=3, $offset=0)
     {
-        //$mid = $this->input->post('mid');
-        //$limit = $this->input->post('limit');
-        //$offset = $this->input->post('offset');
-        $this->db->select('mid, bid, quantity');
-        $this->db->from('shoppingcartcorrespond');
-        $this->db->where('mid', $mid);
+        $this->db->select('sc.mid, sc.quantity, sc.bid, b.name, b.isbn, b.price');
+        $this->db->from('shoppingcartcorrespond as sc, book as b');
+        $this->db->where("sc.mid = $mid AND b.bid = sc.bid");
         $this->db->limit($limit, $offset);
-        $data = $this->db->get();
+        $data["cart"] = $this->db->get();
+        $this->db->select('')->from('shoppingcartcorrespond')->where('mid',$mid);
+        $data["total_NumRows"] = $this->db->get()->num_rows();
+        $data["num_rows"] = $data["cart"]->num_rows();
         return $data;
     }
     
@@ -79,6 +79,16 @@ class ShoppingCartModel extends CI_Model
     {
         $query = $this->db->query("SELECT * FROM shoppingcartcorrespond ");
         return $query;
+    }
+    
+    public function confirmEmailContent($mid)
+    {
+        $this->db->select('sc.bid, b.name, SUM(sc.quantity) as totalQuantity, SUM(sc.quantity * b.price) as totalPrice');
+        $this->db->from('shoppingcartcorrespond as sc, book as b');
+        $this->db->where("sc.mid = $mid AND b.bid = sc.bid");
+        $this->db->group_by("sc.bid");
+        $data = $this->db->get();
+        return $data;
     }
 }
 
