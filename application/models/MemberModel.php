@@ -31,6 +31,15 @@ class MemberModel extends CI_Model
         return $data['email'];
     }
     
+    public function addPhone($mid, $phone)
+    {
+        $data = array(
+            'mid' => $mid,
+            'phoneNumber' => $phone
+    	);
+        $this->db->insert('cellphonenumbercorrespond', $data);
+    }
+    
     public function modifyMemberInfo()
     {
         $data = array(

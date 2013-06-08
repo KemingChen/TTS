@@ -29,6 +29,11 @@ class Member extends CI_Controller
     	}
     }
     
+    public function addPhone($mid, $phone)
+    {
+        $this->MemberModel->addPhone($mid, $phone);
+    }
+    
     public function modifyMemberInfo()
     {
         $this->form_validation->set_rules('email', 'email', 'required');

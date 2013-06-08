@@ -46,7 +46,7 @@ class AccountModel extends CI_Model
     	);
 	    $this->db->insert('Account', $data);
     }
-
+    
     public function modifyAuthority($mid, $data)
     {
         $this->db->where('mid', $mid);
