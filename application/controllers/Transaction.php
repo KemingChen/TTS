@@ -13,6 +13,12 @@ class Transaction extends CI_Controller
         echo "hello account";
     }
     
+    public function manageOrderState($oid, $state)
+    {
+        $this->TransactionModel->manageOrderState($oid, $state);
+        $this->browseTransactionRecords();
+    }
+    
     public function browseTransactionRecords()
     {
         $data['transaction'] = $this->TransactionModel->browseTransactionRecords();

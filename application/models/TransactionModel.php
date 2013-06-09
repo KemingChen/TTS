@@ -13,6 +13,15 @@ class TransactionModel extends CI_Model
     public function index(){
         //echo "hello transaction";
     }
+    
+    public function manageOrderState($oid, $state)
+    {
+        $data = array(
+                                'state' => $state
+        );
+        $this->db->where('oid', $oid);
+        $this->db->update('orderSummary', $data);
+    }
 
     public function browseTransactionRecords()
     {
