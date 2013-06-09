@@ -8,6 +8,8 @@ class Stock extends CI_Controller
         $this->load->model("MenuModel");
         $this->load->model("AnnouncementModel");
         $this->load->model("StockModel");
+        $this->load->model("BookModel");
+        $this->load->library("pagination");
     }
 
     public function index($offset = 0)
@@ -16,13 +18,21 @@ class Stock extends CI_Controller
     }
     
     public function page($offset){
+        
+        $config['base_url'] = base_url('Stock/page');
+        $config['total_rows'] = $this->BookModel->getTotalAmount();//$data["count"];
+        $config['per_page'] = 20;
+        $config['num_links'] = 5;
+        $config['full_tag_open'] = '<div class="pagination pagination-centered"><ul>';
+        $config['full_tag_close'] = '</ul></div>';
+        $this->pagination->initialize($config);
+
+
         $slideBarList = $this->MenuModel->getManagerList();
-
         $slideBarList["Stock"]['Active'] = "active";
-
         $content = "StockView";
-        $data['size'] = $this->AnnouncementModel->getAnnouncementSize();
-        $data["list"] = $this->AnnouncementModel->getAnnouncementList();
+        $data["list"] = $this->BookModel->getAllBooks($offset, 20);//$result["books"];
+        $data["pagination"] = $this->pagination->create_links();
         $this->template->loadView("Manager", $slideBarList, $content, $data);
     }
     

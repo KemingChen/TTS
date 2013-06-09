@@ -19,6 +19,13 @@ class BookModel extends CI_Model
         return $data;
     }
     
+    public function getAllBooks($offset,$limit){
+        $this->db->select("bid, name, ISBN")->from("book")->limit($limit, $offset);
+        $query = $this->db->get();
+        $result = $query->result();
+        return $result;
+    }
+    
     public function browse($bid)
     {
         $sql = 'SELECT book.*,publisher.name as pname FROM `book`,publisher WHERE book.pid=publisher.pid and book.bid='.$bid;
@@ -49,6 +56,11 @@ class BookModel extends CI_Model
     
     public function getOffShelfAmount(){
         $this->db->from('book')->where('onshelf', FALSE);
+        return $this->db->count_all_results();
+    }
+    
+    public function getTotalAmount(){
+        $this->db->from('book');
         return $this->db->count_all_results();
     }
         
