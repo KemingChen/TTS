@@ -14,11 +14,9 @@
     {
         console.log(obj);
         $.ajax({url: "<?=base_url("Concern/Add")?>"+"/"+bid}).
-            done(function(data){
-                if(data != "OK")
-                    alert(data);
-                else
-                    showReminderMsg("已加入");
+            always(function(data){
+                console.log(data);
+                showReminderMsg("已加入");
             });
     }
 </script>
