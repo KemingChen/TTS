@@ -79,7 +79,7 @@ class ViewMember extends CI_Controller
         $slideBarList = $this->MenuModel->getMemberList();
         $action = $action === null ? key($slideBarList) : $action;
         $data = $this->{"do$action"}($content);
-        $slideBarList[$ID]['Active'] = "active";
+        $slideBarList[$action]['Active'] = "active";
         $this->template->loadView("Member", $slideBarList, $content, $data);
     }
 }
