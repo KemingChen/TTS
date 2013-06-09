@@ -1,4 +1,5 @@
 <?
+
 class View extends CI_Controller
 {
     public function __construct()
@@ -12,21 +13,15 @@ class View extends CI_Controller
 
     public function index()
     {
-        $slideBarList = $this->MenuModel->getCategoryList();
-        $first_key = key($slideBarList); // First Element's Key
-        $slideBarList[$first_key]['Active'] = "active";
-        
-        $content = "CategoryView";
-        $data["category"] = $this->CategoryModel->getCategoryName($first_key);
-        $data["cid"] = $first_key;
-        $data['list'] = $this->BookModel->searchByCategory($first_key);
-
-        $this->template->loadView("Category", $slideBarList, $content, $data);
+        $this->Category();
     }
 
-    public function Category($categoryID, $page=1)
+    public function Category($categoryID = null, $page = 1)
     {
         $slideBarList = $this->MenuModel->getCategoryList();
+        
+        // key($slideBarList) First Element's Key
+        $categoryID = $categoryID === null ? key($slideBarList) : $categoryID;
         $slideBarList[$categoryID]['Active'] = "active";
 
         $content = "CategoryView";
