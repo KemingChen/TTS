@@ -1,36 +1,26 @@
 <?
+
 class Concern extends CI_Controller
 {
     public function __construct()
     {
         parent::__construct();
-        $this->load->model("template");
+        $this->load->model("authority");
         $this->load->model("ConcernModel");
-        $this->load->model("MenuModel");
     }
-    
-    public function index()
+
+    public function Add($bid)
     {
-        //$this->concernBooks($memberID);
+        $mid = $this->authority->getMemberID();
+        $this->ConcernModel->addBook($mid, $bid);
+        echo "OK";
     }
-    
-    public function BrowseBooks($memberID,$offset=0,$selectNum=3)
+
+    public function Remove($bid)
     {
-        $slideBarList = $this->MenuModel->getMemberList();
-        $data = $this->ConcernModel->queryConcernBooks($memberID,$offset,$selectNum);
-        $this->template->loadView("Member", $slideBarList, "Concern/browse", $data);
-    }
-    
-    public function AddBook($memberID,$bid)
-    {
-        $this->ConcernModel->addBook($memberID,$bid);
-        $this->BrowseBooks($memberID);
-    }
-    
-    public function DeleteBook($memberID,$bid)
-    {
-        $this->ConcernModel->deleteBook($memberID,$bid);
-        $this->BrowseBooks($memberID);
+        $mid = $this->authority->getMemberID();
+        $this->ConcernModel->deleteBook($mid, $bid);
+        echo "OK";
     }
 }
 

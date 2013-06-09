@@ -54,6 +54,7 @@ class ViewMember extends CI_Controller
         $mid = $this->authority->getMemberID();
         $selectNum = 10;
         $offset = $selectNum * ($page - 1);
+        
         $array = $this->ConcernModel->queryConcernBooks($mid, $offset, $selectNum);
         $info["page"] = $page;
         $info["pages"] = $array["total_NumRows"] / $selectNum;

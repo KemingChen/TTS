@@ -9,6 +9,19 @@
         font-size: 18px;
     }
 </style>
+<script>
+    function addConcern(obj, bid)
+    {
+        console.log(obj);
+        $.ajax({url: "<?=base_url("Concern/Add")?>"+"/"+bid}).
+            done(function(data){
+                if(data != "OK")
+                    alert(data);
+                else
+                    showReminderMsg("已加入");
+            });
+    }
+</script>
 <ul class="breadcrumb">
     <li>書籍<span class="divider">/</span></li>
     <li><a href="<?=base_url("View/Category/$cid/$page")?>"><?=$cname?></a><span class="divider">/</span></li>
@@ -81,7 +94,7 @@
         </table>
         <div class="btn-group">
             <button class="btn btn-middle btn-danger">加入購物車</button>
-            <button class="btn btn-middle btn-warning">加入關注</button>
+            <button class="btn btn-middle btn-warning" onclick="addConcern(this, <?=$book->bid?>)">加入關注</button>
         </div>
     </div>
     <div class="span12"></div>

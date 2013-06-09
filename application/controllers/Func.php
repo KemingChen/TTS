@@ -23,7 +23,7 @@ class Func extends CI_Controller
         $this->header();
     }
     
-    public function addConcern()
+    public function addConcernBook()
     {
         
     }

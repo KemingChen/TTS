@@ -1,5 +1,15 @@
-
-
+<script>
+    function removeConcern(obj, bid)
+    {
+        console.log(obj);
+        $.ajax({url: "<?=base_url("Concern/Remove")?>"+"/"+bid}).
+            done(function(data){
+                if(data != "OK")
+                    alert(data);
+            });
+        $(obj).parent().parent().remove();
+    }
+</script>
 <div class="container-fluid">
 	<div class="row-fluid">
 		<div class="span12">
@@ -28,7 +38,7 @@
     					echo "</td><td>";
                         echo $book->price;
                         echo "</td><td>";
-                        echo '<button type="button" class="btn btn-mini btn-danger">移除</button>';
+                        echo '<button type="button" class="btn btn-mini btn-danger" onclick="removeConcern(this, '.$book->bid.')">移除</button>';
                         echo "</td></tr>";
                     }
                     ?>
