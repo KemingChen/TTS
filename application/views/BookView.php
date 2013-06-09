@@ -19,6 +19,22 @@
                 showReminderMsg("已加入");
             });
     }
+    function addShopCar(obj, bid)
+    {
+        textValue = $("#quantity").val();
+        console.log(textValue);
+        if(textValue==""){
+            showReminderMsg("請輸入數字");
+        }else if(textValue<1){
+            showReminderMsg("至少購買一本");
+        }else{
+            quantity = parseInt(textValue, 10);
+            $.ajax({url: "<?=base_url("ShoppingCart/addBook")?>" + "/" + bid + "/" + quantity}).
+                always(function(data){
+                    showReminderMsg("已加入");
+                });
+        }
+    }
 </script>
 <ul class="breadcrumb">
     <li>書籍<span class="divider">/</span></li>
@@ -90,10 +106,20 @@
                 <td><i class="icon-chevron-right"></i> <?=$book->price?></td>
             </tr>
         </table>
+        <?php
+        if($isLogin){
+        ?>
+        <div>
+            <label>數量:</label>
+            <input id="quantity" type="number" value="1"/>
+        </div>
         <div class="btn-group">
-            <button class="btn btn-middle btn-danger">加入購物車</button>
+            <button class="btn btn-middle btn-danger" onclick="addShopCar(this, <?=$book->bid?>)">加入購物車</button>
             <button class="btn btn-middle btn-warning" onclick="addConcern(this, <?=$book->bid?>)">加入關注</button>
         </div>
+        <?php
+        }
+        ?>
     </div>
     <div class="span12"></div>
     <div class="span10">

@@ -13,10 +13,19 @@ class ShoppingCart extends CI_Controller
         $this->load->library('upload');
         $this->load->helper('form');
     	$this->load->library('form_validation');
+        $this->load->model("authority");
     }
     
     public function addShoppingCart($mid, $bid, $quantity)
     {
+        $this->ShoppingCartModel->addShoppingCart($mid, $bid, $quantity);
+        $data["records"] = $this->ShoppingCartModel->browseAllRecords();
+        $this->load->view('shoppingCart/browse', $data);
+    }
+    
+    public function addBook($bid, $quantity)
+    {
+        $mid = $this->authority->getMemberID();
         $this->ShoppingCartModel->addShoppingCart($mid, $bid, $quantity);
         $data["records"] = $this->ShoppingCartModel->browseAllRecords();
         $this->load->view('shoppingCart/browse', $data);
@@ -27,6 +36,15 @@ class ShoppingCart extends CI_Controller
         $this->ShoppingCartModel->removeShoppingCart($mid, $bid);
         $data["records"] = $this->ShoppingCartModel->browseAllRecords();
         $this->load->view('shoppingCart/browse', $data);
+    }
+    
+    public function removeBook($bid)
+    {
+        $mid = $this->authority->getMemberID();
+        $this->ShoppingCartModel->removeShoppingCart($mid, $bid);
+        $data["records"] = $this->ShoppingCartModel->browseAllRecords();
+        //$this->load->view('shoppingCart/browse', $data);
+        echo "OK";
     }
     
     public function modifyShoppingCart($mid, $bid, $quantity)

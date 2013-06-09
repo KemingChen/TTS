@@ -9,14 +9,28 @@ class ShoppingCartModel extends CI_Model
         $this->load->database();
     }
     
+    public function getQuantity($mid, $bid){
+        $query = $this->db->get_where("shoppingcartcorrespond", array("mid" => $mid, "bid"=> $bid));
+        $list = $query->result();
+        return $list[0]->quantity;
+    }
+    
     public function addShoppingCart($mid, $bid, $quantity)
     {
-        $data = array(
-            'mid' => $mid,
-            'bid' => $bid,
-            'quantity' => $quantity
-    	);
-	    return $this->db->insert('shoppingcartcorrespond', $data);
+        $query = $this->db->get_where("shoppingcartcorrespond", array("mid" => $mid, "bid"=> $bid));
+        $result = $query->result();
+        if(count($result)>0){
+            //have this record
+            $originQuantity = $this->getQuantity($mid, $bid);
+    	    $this->modifyShoppingCart($mid, $bid, $originQuantity + $quantity);
+        }else{
+            $data = array(
+                'mid' => $mid,
+                'bid' => $bid,
+                'quantity' => $quantity
+        	);
+    	    return $this->db->insert('shoppingcartcorrespond', $data);
+        }
         //$query = $this->db->query("INSERT INTO SHOPPINGCARTCORRESPOND (mid, bid, quantity) VALUES ($mid, $bid, $quantity)");
     } 
     
@@ -54,7 +68,7 @@ class ShoppingCartModel extends CI_Model
     
     public function getWholeShoppingCart($mid, $limit=3, $offset=0)
     {
-        $this->db->select('sc.mid, sc.quantity, sc.bid, b.name, b.isbn, b.price');
+        $this->db->select('sc.mid, sc.quantity as Quantity, sc.bid, b.name as Name, b.isbn as ISBN, b.price as Price');
         $this->db->from('shoppingcartcorrespond as sc, book as b');
         $this->db->where("sc.mid = $mid AND b.bid = sc.bid");
         $this->db->limit($limit, $offset);

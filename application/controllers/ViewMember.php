@@ -9,6 +9,7 @@ class ViewMember extends CI_Controller
         parent::__construct();
         $this->load->model("template");
         $this->load->model("MenuModel");
+        $this->load->model("ShoppingCartModel");
     }
 
     public function index()
@@ -54,7 +55,7 @@ class ViewMember extends CI_Controller
         $mid = $this->authority->getMemberID();
         $selectNum = 10;
         $offset = $selectNum * ($page - 1);
-        
+
         $array = $this->ConcernModel->queryConcernBooks($mid, $offset, $selectNum);
         $info["page"] = $page;
         $info["pages"] = $array["total_NumRows"] / $selectNum;
@@ -65,14 +66,10 @@ class ViewMember extends CI_Controller
     private function doShopCar(&$content)
     {
         $content = "ShopCarView";
+        $mid = $this->authority->getMemberID();
 
-        $info["list"] = array();
-        array_push($info["list"], array("ISBN" => "9789570410976", "Name" =>
-            "初學者的料理教科書：2500張步驟圖解，新手必備史上最簡單！看這本，保證不失敗！", "Quantity" => "2", "Price" => "480"));
-        array_push($info["list"], array("ISBN" => "9572884301", "Name" =>
-            "飼養烏龜必知的68項小常識", "Quantity" => "1", "Price" => "220"));
-        array_push($info["list"], array("ISBN" => "9789862282359", "Name" =>
-            "輕輕鬆鬆養烏龜：68個飼養小常識", "Quantity" => "2", "Price" => "440"));
+        $data = $this->ShoppingCartModel->getWholeShoppingCart($mid, 10, 0);
+        $info["list"] = $data['cart']->result();
         return $info;
     }
 

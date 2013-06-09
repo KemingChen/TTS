@@ -1,3 +1,15 @@
+<script>
+    function removeShoppingCart(obj, bid)
+    {
+        console.log(obj);
+        $.ajax({url: "<?=base_url("ShoppingCart/removeBook")?>"+"/"+bid}).
+            done(function(data){
+                if(data != "OK")
+                    alert(data);
+            });
+        $(obj).parent().parent().remove();
+    }
+</script>
 <div class="container-fluid">
 	<div class="row-fluid">
 		<div class="span12">
@@ -28,15 +40,15 @@
                             echo "<tr><td>";
                         }
                         $isInfo = ! $isInfo;
-                        echo $book["ISBN"];							
+                        echo $book->ISBN;							
     					echo "</td><td style='width: 50%;'>";
-                        echo '<a href="' . base_url() . 'Nav/Book/' . $book["Name"]  . '">' . $book["Name"] . "</a>";
+                        echo '<a href="' . base_url() . 'ViewBook/book/' . $book->bid . '">' . $book->Name . "</a>";
     					echo "</td><td>";
-                        echo $book["Quantity"]; 
+                        echo $book->Quantity; 
     					echo "</td><td>";
-                        echo $book["Price"];
+                        echo $book->Price;
                         echo "</td><td>";
-                        echo '<button type="button" class="btn btn-mini btn-danger">取消訂購</button>';
+                        echo '<button type="button" class="btn btn-mini btn-danger" onclick="removeShoppingCart(this, '.$book->bid.')">取消訂購</button>';
                         echo "</td></tr>";
                     }
                     ?>

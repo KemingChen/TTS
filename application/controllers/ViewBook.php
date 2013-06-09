@@ -8,6 +8,7 @@ class ViewBook extends CI_Controller
         $this->load->model("MenuModel");
         $this->load->model("CategoryModel");
         $this->load->model("BookModel");
+        $this->load->model("authority");
     }
 
     public function book($bid=1, $cid=null, $page=1)
@@ -32,6 +33,7 @@ class ViewBook extends CI_Controller
                 break;
             }
         }
+        $data['isLogin'] = $this->authority->isLogin();
         $slideBarList[$cid]['Active'] = "active";
         $this->template->loadView("Category", $slideBarList, $content, $data);
     }
