@@ -41,7 +41,7 @@ class Book extends CI_Controller
     public function listBooksOffShelf($offset=0,$limit=10)
     {
         $data = $this->BookModel->selectBooks_by_OnShelfAttr(0,$offset=0,$limit=10);
-        $this->load->view('Book/listBookOffShelf',$data);
+        $this->load->view('Book/listBookOnShelf',$data);
     }
     
     public function onShelf($bid)
