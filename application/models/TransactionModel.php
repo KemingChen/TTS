@@ -80,17 +80,34 @@ class TransactionModel extends CI_Model
         return $data;
     }
     
+    public function browseOrderItemsByOid($oid)
+    {
+        $this->db->select('o.quantity, o.soldPrice, b.name');
+        $this->db->from('orderitem as o, book as b');
+        $this->db->where("o.oid = $oid AND o.bid = b.bid");
+        $data = $this->db->get();
+        return $data;
+    }
+    
     public function cancelTheTransaction($oid)
     {
+        $this->db->trans_start();
+        $this->deleteOrderItemByOid($oid);
         $this->db->where('oid', $oid);
-        $this->db->delete('orderSummary'); 
+        $this->db->delete('orderSummary');
+        $this->db->trans_complete(); 
+    }
+    
+    public function deleteOrderItemByOid($oid)
+    {
+        $this->db->where('oid', $oid);
+        $this->db->delete('orderItem');
     }
     
     public function order($mid, $data)
     {
         $this->db->trans_start();
         $shoppingCartData = $this->getShoppingCartDataByMid($mid);
-        echo $shoppingCartData->num_rows();
         if($shoppingCartData->num_rows() > 0)
         {
             $this->db->insert('orderSummary', $data);
@@ -103,8 +120,8 @@ class TransactionModel extends CI_Model
             $this->db->where('oid', $oid);
             $this->db->update('ordersummary', $totalPriceData);
             $this->ShoppingCartModel->clearShoppingCart($mid);
-            $this->db->trans_complete();
         }
+        $this->db->trans_complete();
         
     }
     
@@ -159,7 +176,7 @@ class TransactionModel extends CI_Model
     {
         $this->db->select('*');
         $this->db->from('stockrecord');
-        $this->where('bid', $bid);
+        $this->db->where('bid', $bid);
         $data = $this->db->get();
         if ($data->num_rows() > 0)
         {

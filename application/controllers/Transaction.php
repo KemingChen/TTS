@@ -104,6 +104,20 @@ class Transaction extends CI_Controller
         }
     }
     
+    public function browseOrderItemsByOid($oid)
+    {
+        $data['orderItems'] = $this->TransactionModel->browseOrderItemsByOid($oid);
+        $data['oid'] = $oid;
+        if($data['orderItems']->num_rows() > 0)
+        {
+            $this->load->view('Transaction/BrowseOrderItems', $data);
+        }
+        else
+        {
+            show_error("no data");
+        }
+    }
+    
     public function cancelTheTransaction($oid)
     {
         $this->TransactionModel->cancelTheTransaction($oid);
