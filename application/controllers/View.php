@@ -8,7 +8,7 @@ class View extends CI_Controller
         $this->load->model("template");
         $this->load->model("MenuModel");
         $this->load->model("CategoryModel");
-        $this->load->model("BookModel");
+        $this->load->model("BrowseModel");
     }
 
     public function index()
@@ -31,7 +31,9 @@ class View extends CI_Controller
         $data["category"] = $this->CategoryModel->getCategoryName($categoryID);
         $data["cid"] = $categoryID;
         $data["page"] = $page;
-        $data['list'] = $this->BookModel->searchByCategory($categoryID, $limit, $offset);
+        $array = $this->BrowseModel->GetBookByCategory($categoryID, $offset, $limit);
+        $data["list"] = $array["books"];
+        $data["pages"] = ceil($array["total_num_rows"] / $limit);
         $this->template->loadView("Category", $slideBarList, $content, $data);
     }
 }
