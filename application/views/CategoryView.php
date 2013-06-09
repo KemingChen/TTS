@@ -13,12 +13,12 @@
 <table class="table table-striped">
     <?php
         $limit = 4;
-        $counter = 0;
+        $counter = 0;   
         foreach($list as $book)
         {
             echo $counter%$limit==0 ? "<tr>" : ""; 
             ?>
-                <td>
+                <td style="width: <?=(100/$limit."%")?>;">
                     <a href="<?=base_url("ViewBook/book/$cid/$page/$book->bid")?>">
                         <div class="well well-small book" align="center">
                             <img style="width: 100%;" src="data:image/jpeg;base64,<?=base64_encode($book->cover)?>" />

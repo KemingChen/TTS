@@ -19,16 +19,19 @@ class View extends CI_Controller
     public function Category($categoryID = null, $page = 1)
     {
         $slideBarList = $this->MenuModel->getCategoryList();
-        
+
         // key($slideBarList) First Element's Key
         $categoryID = $categoryID === null ? key($slideBarList) : $categoryID;
         $slideBarList[$categoryID]['Active'] = "active";
 
+        $limit = 8;
+        $offset = ($page - 1) * 8;
+        
         $content = "CategoryView";
         $data["category"] = $this->CategoryModel->getCategoryName($categoryID);
         $data["cid"] = $categoryID;
         $data["page"] = $page;
-        $data['list'] = $this->BookModel->searchByCategory($categoryID);
+        $data['list'] = $this->BookModel->searchByCategory($categoryID, $limit, $offset);
         $this->template->loadView("Category", $slideBarList, $content, $data);
     }
 }
