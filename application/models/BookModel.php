@@ -33,6 +33,15 @@ class BookModel extends CI_Model
         return $data;
     }
     
+    public function selectBooks_by_OnShelfAttr($onshelf,$offset,$limit)
+    {
+        $this->db->select('bid,ISBN,name')->from('book')->where('onshelf',$onshelf)->limit($limit,$offset);
+        $data['books'] = $this->db->get()->result();
+        $this->db->select('')->from('book')->where('onshelf',$onshelf);
+        $data['total_num_rows'] = $this->db->count_all_results();
+        return $data;
+    }
+        
     public function updateOnShelf($bid,$true_or_false)
     {
         $data = array(
