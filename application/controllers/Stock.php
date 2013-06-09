@@ -7,10 +7,15 @@ class Stock extends CI_Controller
         $this->load->model("template");
         $this->load->model("MenuModel");
         $this->load->model("AnnouncementModel");
+        $this->load->model("StockModel");
     }
 
-    public function index($page = 1)
+    public function index($offset = 0)
     {
+        $this->page($offset);
+    }
+    
+    public function page($offset){
         $slideBarList = $this->MenuModel->getManagerList();
 
         $slideBarList["Stock"]['Active'] = "active";
@@ -20,6 +25,7 @@ class Stock extends CI_Controller
         $data["list"] = $this->AnnouncementModel->getAnnouncementList();
         $this->template->loadView("Manager", $slideBarList, $content, $data);
     }
+    
 
     public function browseBooksStock($offset=0,$limit=10)
     {
