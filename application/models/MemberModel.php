@@ -121,12 +121,9 @@ class MemberModel extends CI_Model
         return $data;
     }
     
-    public function forgetPassword()
+    public function forgetPassword($email = "")
     {
-        $emailData = array(
-            'email' => $this->input->post('email'),
-    	);
-        $recipient = $emailData['email'];
+        $recipient = $email;
         $subject = 'TaipeiTech Store';
         $data = $this->MemberModel->getPasswordByEmail($recipient);
         $result = $data->result();

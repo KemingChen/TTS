@@ -79,7 +79,8 @@ class Member extends CI_Controller
     	}
     	else
     	{
-            $this->MemberModel->forgetPassword();
+            $email = $this->input->post('email');
+            $this->MemberModel->forgetPassword($email);
     	}
     }
     
