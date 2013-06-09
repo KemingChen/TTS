@@ -13,9 +13,9 @@ class ViewMember extends CI_Controller
         $this->Me(null);
     }
 
-    public function Me($ID)
+    public function Me($action)
     {
-        $this->view($ID);
+        $this->view($action);
     }
 
     private function doInfo(&$content)
@@ -70,21 +70,15 @@ class ViewMember extends CI_Controller
     
     private function doPassword(&$content)
     {
-        $content = "MemberView";
-        
-        $info["email"] = $this->authority->getEmail();
-        $info["name"] = $this->authority->getName();
-        $info["birthDate"] = $this->authority->getBirthDate();
-        $info["zipCode"] = $this->authority->getZipCode();
-        $info["address"] = $this->authority->getAddress();
-        return $info;
+        $content = "RevisePasswordView";
+        return array();
     }
     
-    private function view($ID)
+    private function view($action)
     {
         $slideBarList = $this->MenuModel->getMemberList();
-        $ID = $ID === null ? key($slideBarList) : $ID;
-        $data = $this->{"do$ID"}($content);
+        $action = $action === null ? key($slideBarList) : $action;
+        $data = $this->{"do$action"}($content);
         $slideBarList[$ID]['Active'] = "active";
         $this->template->loadView("Member", $slideBarList, $content, $data);
     }

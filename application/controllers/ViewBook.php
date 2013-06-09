@@ -10,7 +10,7 @@ class ViewBook extends CI_Controller
         $this->load->model("BookModel");
     }
 
-    public function book($cid=1, $bid=1)
+    public function book($cid=1, $page=1, $bid=1)
     {
         $slideBarList = $this->MenuModel->getCategoryList();
         $slideBarList[$cid]['Active'] = "active";
@@ -18,6 +18,8 @@ class ViewBook extends CI_Controller
         
         $data["cname"] = $this->CategoryModel->getCategoryName($cid);
         $data["cid"] = $cid;
+        $data["page"] = $page;
+        
         $array = $this->BookModel->browse($bid);
         $data["book"] = $array["book"];
         $data['writer'] = $array["writer"];

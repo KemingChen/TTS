@@ -27,6 +27,7 @@ class View extends CI_Controller
         $content = "CategoryView";
         $data["category"] = $this->CategoryModel->getCategoryName($categoryID);
         $data["cid"] = $categoryID;
+        $data["page"] = $page;
         $data['list'] = $this->BookModel->searchByCategory($categoryID);
         $this->template->loadView("Category", $slideBarList, $content, $data);
     }

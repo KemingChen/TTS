@@ -7,7 +7,7 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <!-- Le styles -->
-    <link href="<?=base_url()?>assets/css/bootstrap.css" rel="stylesheet"/>
+    <link href="<?=base_url("assets/css/bootstrap.css")?>" rel="stylesheet"/>
     <style type="text/css">
         body{
             padding-top: 60px;
@@ -17,7 +17,7 @@
             width: 120px;
         }
     </style>
-    <link href="<?=base_url()?>assets/css/bootstrap-responsive.css" rel="stylesheet" />
+    <link href="<?=base_url("assets/css/bootstrap-responsive.css")?>" rel="stylesheet" />
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -25,11 +25,11 @@
     <![endif]-->
 
     <!-- Fav and touch icons -->
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="<?=base_url()?>assets/ico/apple-touch-icon-144-precomposed.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="<?=base_url()?>assets/ico/apple-touch-icon-114-precomposed.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="<?=base_url()?>assets/ico/apple-touch-icon-72-precomposed.png" />
-    <link rel="apple-touch-icon-precomposed" href="<?=base_url()?>assets/ico/apple-touch-icon-57-precomposed.png" />
-    <link rel="shortcut icon" href="<?=base_url()?>assets/ico/favicon.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="<?=base_url("assets/ico/apple-touch-icon-144-precomposed.png")?>" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="<?=base_url("assets/ico/apple-touch-icon-114-precomposed.png")?>" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="<?=base_url("assets/ico/apple-touch-icon-72-precomposed.png")?>" />
+    <link rel="apple-touch-icon-precomposed" href="<?=base_url("assets/ico/apple-touch-icon-57-precomposed.png")?>" />
+    <link rel="shortcut icon" href="<?=base_url("assets/ico/favicon.png")?>" />
 
 </head>
 <body>
@@ -74,7 +74,7 @@
                         </li>
                     </ul>
                     <?if(!$isLogin){?>
-                        <form class="navbar-form pull-right" action="<?=base_url()?>Func/Login" method="post">
+                        <form class="navbar-form pull-right" action="<?=base_url("Func/Login")?>" method="post">
                             <input class="span2" name="email" type="text" placeholder="Email" />
                             <input class="span2" name="passwd" type="password" placeholder="Password" />
                             <button type="submit" class="btn">Sign in</button>
