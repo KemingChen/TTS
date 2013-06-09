@@ -27,6 +27,11 @@ class Authority extends CI_Model
         return $email != false ? true : false;
     }
     
+    public function getMemberID(){
+        $mid = $this->session->userdata('mid');
+        return $mid;
+    }
+
     public function getEmail(){
         $email = $this->session->userdata('email');
         return $email;

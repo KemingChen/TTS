@@ -23,6 +23,11 @@ class Func extends CI_Controller
         $this->header();
     }
     
+    public function addConcern()
+    {
+        
+    }
+    
     private function header($url = "")
     {
         $this->load->helper('url');

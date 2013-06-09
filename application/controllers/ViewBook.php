@@ -10,22 +10,29 @@ class ViewBook extends CI_Controller
         $this->load->model("BookModel");
     }
 
-    public function book($cid=1, $page=1, $bid=1)
+    public function book($bid=1, $cid=null, $page=1)
     {
         $slideBarList = $this->MenuModel->getCategoryList();
-        $slideBarList[$cid]['Active'] = "active";
         $content = "BookView";
-        
-        $data["cname"] = $this->CategoryModel->getCategoryName($cid);
-        $data["cid"] = $cid;
-        $data["page"] = $page;
         
         $array = $this->BookModel->browse($bid);
         $data["book"] = $array["book"];
         $data['writer'] = $array["writer"];
         $data['translator'] = $array["translator"];
-        $data['category'] = $array['category'];
+        $data["category"] = $array['category'];
+        $data["page"] = $page;
+        $cid = $cid === null ? $data["category"][0]->cid : $cid;
         
+        $data["cid"] = $cid;
+        foreach ($data["category"] as $object)
+        {
+            if($object->cid == $data["cid"]) 
+            {
+                $data["cname"] = $object->name;
+                break;
+            }
+        }
+        $slideBarList[$cid]['Active'] = "active";
         $this->template->loadView("Category", $slideBarList, $content, $data);
     }
 }

@@ -10,7 +10,7 @@ class ConcernModel extends CI_Model
     
     public function queryConcernBooks($memberID,$offset,$num)
     {
-        $sql = 'SELECT bid, ISBN, name FROM book NATURAL JOIN concern WHERE mid ='.$memberID.' LIMIT '.$offset.' ,'.$num;
+        $sql = 'SELECT bid, ISBN, name, price FROM book NATURAL JOIN concern WHERE mid ='.$memberID.' LIMIT '.$offset.' ,'.$num;
         $this->db->select('')->from('concern')->where('mid',$memberID);
         $data["total_NumRows"] = $this->db->get()->num_rows();
         $data["books"] = $this->db->query($sql);

@@ -19,7 +19,7 @@
             echo $counter%$limit==0 ? "<tr>" : ""; 
             ?>
                 <td style="width: <?=(100/$limit."%")?>;">
-                    <a href="<?=base_url("ViewBook/book/$cid/$page/$book->bid")?>">
+                    <a href="<?=base_url("ViewBook/book/$book->bid/$page")?>">
                         <div class="well well-small book" align="center">
                             <img style="width: 100%;" src="data:image/jpeg;base64,<?=base64_encode($book->cover)?>" />
                             <div><?=$book->name?></div>

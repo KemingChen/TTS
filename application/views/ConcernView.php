@@ -20,19 +20,13 @@
                     
                     foreach($list as $book)
                     {
-                        if($isInfo){
-                            echo '<tr class="info"><td>';
-                        }
-                        else
-                        {
-                            echo "<tr><td>";
-                        }
+                        echo $isInfo ? '<tr class="info"><td>' : "<tr><td>";
                         $isInfo = ! $isInfo;
-                        echo $book["ISBN"];							
+                        echo $book->ISBN;							
     					echo "</td><td style='width: 65%;'>";
-                        echo '<a href="' . base_url() . 'Nav/Book/' . $book["Name"]  . '">' . $book["Name"] . "</a>";
+                        echo '<a href="'.base_url('ViewBook/Book/'.$book->bid).'">'.$book->name."</a>";
     					echo "</td><td>";
-                        echo $book["Price"];
+                        echo $book->price;
                         echo "</td><td>";
                         echo '<button type="button" class="btn btn-mini btn-danger">移除</button>';
                         echo "</td></tr>";
@@ -40,31 +34,25 @@
                     ?>
 				</tbody>
 			</table>
-			<div class="pagination pagination-centered">
-				<ul>
-					<li>
-						<a href="#">Prev</a>
-					</li>
-					<li>
-						<a href="#">1</a>
-					</li>
-					<li>
-						<a href="#">2</a>
-					</li>
-					<li>
-						<a href="#">3</a>
-					</li>
-					<li>
-						<a href="#">4</a>
-					</li>
-					<li>
-						<a href="#">5</a>
-					</li>
-					<li>
-						<a href="#">Next</a>
-					</li>
-				</ul>
-			</div>
+			<div class="pagination" align="center">
+                <ul>    
+                <?php
+                    $url = base_url("ViewMember/Me/Concern")."/";
+                    $page-1 >= 1 ? PrintPageliTag("Prev", $url.($page-1)) : "";
+                    for($i=1;$i<=$pages;$i++)
+                    {
+                        PrintPageliTag($i, $url.$i, $i==$page ? "active" : "");
+                    }
+                    $page+1 <= $pages ? PrintPageliTag("Next", $url.($page+1)) : "";
+                    
+                    
+                    function PrintPageliTag($word, $url, $active = "")
+                    {
+                        echo "<li class='$active'><a href='$url'>$word</a></li>";
+                    } 
+                ?>
+                </ul>
+            </div>
 		</div>
 	</div>
 </div>
