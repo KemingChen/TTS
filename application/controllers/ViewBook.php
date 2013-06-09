@@ -10,7 +10,7 @@ class ViewBook extends CI_Controller
         $this->load->model("BookModel");
     }
 
-    public function book($bid=1, $cid=1, $page=1)
+    public function book($bid=1, $cid=null, $page=1)
     {
         $slideBarList = $this->MenuModel->getCategoryList();
         $content = "BookView";
