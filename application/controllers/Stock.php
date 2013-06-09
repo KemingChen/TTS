@@ -36,9 +36,9 @@ class Stock extends CI_Controller
         $this->load->view('Stock/browseStockRecord', $data);
     }
     
-    public function addStockRecord($bid, $price, $amount, $restAmount, $stockTime)
+    public function addStockRecord($bid, $price, $amount)
     {
-        $this->StockModel->addStockRecord($bid, $price, $amount, $restAmount, $stockTime);
+        $this->StockModel->addStockRecord($bid, $price, $amount);
         echo 'OK';
     }    
 }

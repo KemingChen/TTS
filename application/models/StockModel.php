@@ -33,14 +33,14 @@ class StockModel extends CI_Model
         return $data;
     }
     
-    public function addStockRecord($bid, $price, $amount, $restAmount, $stockTime)
+    public function addStockRecord($bid, $price, $amount)
     {
         $data = array(
             'bid' => $bid,
             'price' => $price,
             'amount' => $amount,
-            'restAmount' => $restAmount,
-            'stockTime' => $stockTime
+            'restAmount' => $amount,
+            'stockTime' => date('Y-m-d')
     	);
 	    return $this->db->insert('stockRecord', $data);
     }
