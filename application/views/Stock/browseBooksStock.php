@@ -1,9 +1,9 @@
-<?php 
-    echo "size is " . sizeof($records->result()) . "<br />";
-    foreach ($records->result() as $row)
+<?php
+    echo 'total num = '.$total_num.'<br/>';
+    foreach($stocks as $stock)
     {
-        echo "name:" . $row->name;
-        echo ", stock: " . $row->stock . "<br />";
+        print_r($stock);
+        echo '<br>';
     }
 ?>
 

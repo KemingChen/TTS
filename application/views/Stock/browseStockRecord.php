@@ -1,13 +1,9 @@
 <?php 
-    echo "size is " . sizeof($records->result()) . "<br />";
-    foreach ($records->result() as $row)
+    echo 'total num = '.$total_num.'<br/>';
+    foreach($records as $record)
     {
-        echo "srid:" . $row->srid;
-        echo ", bid: " . $row->bid;
-        echo ", price: " . $row->price;
-        echo ", amount: " . $row->amount;
-        echo ", restAmount: " . $row->restAmount;
-        echo ", stockTime: " . $row->stockTime . "<br />";
+        print_r($record);
+        echo '<br>';
     }
 ?>
 

@@ -13,33 +13,22 @@ class Stock extends CI_Controller
     	$this->load->library('form_validation');
     }
     
-    public function browseBooksStock()
+    public function browseBooksStock($offset=0,$limit=10)
     {
-        $data["records"] = $this->StockModel->browseBooksStock();
+        $data = $this->StockModel->browseBooksStock($limit,$offset);
         $this->load->view('Stock/browseBooksStock', $data);
     }
     
-    public function browseStockRecord()
+    public function browseStockRecord($offset=0,$limit=10)
     {
-        $data["records"] = $this->StockModel->browseStockRecord();
+        $data = $this->StockModel->browseStockRecord($limit,$offset);
         $this->load->view('Stock/browseStockRecord', $data);
     }
     
     public function addStockRecord($bid, $price, $amount, $restAmount, $stockTime)
     {
-        //$this->form_validation->set_rules('bid', 'bid', 'required');
-    	
-    	//if ($this->form_validation->run() === FALSE)
-    	//{
-            //$this->load->library('../controllers/Nav');
-            //$this->load->view("Stock/Add", array());
-    	//}
-    	//else
-    	//{
-            $this->StockModel->addStockRecord($bid, $price, $amount, $restAmount, $stockTime);
-            $data["records"] = $this->StockModel->browseStockRecord();
-            $this->load->view('stock/browseStockRecord', $data);
-    	//}
+        $this->StockModel->addStockRecord($bid, $price, $amount, $restAmount, $stockTime);
+        echo 'OK';
     }    
 }
 

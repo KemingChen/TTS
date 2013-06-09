@@ -9,20 +9,27 @@ class StockModel extends CI_Model
         $this->load->database();
     }
     
-    public function browseBooksStock()
+    public function browseBooksStock($limit,$offset)
     {
-        $this->db->select('name, Sum( restAmount ) As stock');
-        $this->db->from('stockrecord Left Join book On stockrecord.bid = book.bid');
-        $this->db->group_by("stockrecord.bid"); 
-        $data = $this->db->get();
+        $this->db->select('b.bid, name, SUM( restAmount ) AS stock');
+        $this->db->from('book AS b');
+        $this->db->join('stockrecord as s','b.bid=s.bid','left');
+        $this->db->group_by("b.bid");
+        $this->db->limit($limit,$offset); 
+        $data['stocks'] = $this->db->get()->result();
+        $data['total_num'] = $this->db->count_all('book');
         return $data;
     }
     
-    public function browseStockRecord()
+    public function browseStockRecord($limit,$offset)
     {
-        $this->db->select('*');
-        $this->db->from('StockRecord');
-        $data = $this->db->get();
+        $this->db->select('s.*,b.name');
+        $this->db->from('StockRecord as s');
+        $this->db->join('book as b','b.bid=s.bid');
+        $this->db->order_by('stockTime','desc');
+        $this->db->limit($limit,$offset);
+        $data["records"] = $data = $this->db->get()->result();
+        $data['total_num'] = $this->db->count_all('StockRecord');
         return $data;
     }
     
