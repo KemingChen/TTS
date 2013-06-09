@@ -41,6 +41,16 @@ class BookModel extends CI_Model
         $data['total_num_rows'] = $this->db->count_all_results();
         return $data;
     }
+    
+    public function getOnShelfAmount(){
+        $this->db->from('book')->where('onshelf', TRUE);
+        return $this->db->count_all_results();
+    }
+    
+    public function getOffShelfAmount(){
+        $this->db->from('book')->where('onshelf', FALSE);
+        return $this->db->count_all_results();
+    }
         
     public function updateOnShelf($bid,$true_or_false)
     {
