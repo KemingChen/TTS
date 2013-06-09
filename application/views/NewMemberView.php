@@ -1,9 +1,20 @@
 <div class="container-fluid">
 	<div class="row-fluid">
 		<div class="span12">
-			<form>
-            <?php echo validation_errors(); ?>
-            <?php echo form_open_multipart('Account/createAccount') ?>
+            <div>
+            <?php
+                if(isset($error)){
+            ?>
+        		<div class="span12">
+        			<h3>
+                        <?=$error?>
+        			</h3>
+        		</div>
+            <?php
+                }
+            ?>
+            <?php echo validation_errors();?></div>
+            <?php echo form_open_multipart('NewMember') ?>
 				<fieldset>
 					 <legend>加入會員</legend>
                       <label>Email</label>

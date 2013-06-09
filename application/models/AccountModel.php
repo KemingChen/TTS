@@ -32,6 +32,12 @@ class AccountModel extends CI_Model
         return $data;
     }
     
+    public function isExist($email){
+        $query = $this->db->get_where("account", array("email"=>$email));
+        $result = $query->result();
+        return count($result)>0 ? TRUE:FALSE;
+    }
+    
     public function browsePhoneByMid($mid)
     {
         $this->db->select('mid, phoneNumber');
