@@ -5,6 +5,7 @@ class Transaction extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->helper('date');
         $this->load->model("TransactionModel");
     }
     
@@ -106,6 +107,20 @@ class Transaction extends CI_Controller
     public function cancelTheTransaction($oid)
     {
         $this->TransactionModel->cancelTheTransaction($oid);
+        $this->browseTransactionRecords();
+    }
+    
+    public function order($mid)
+    {
+        $datestring = "%Y-%m-%d";
+        $now = now();
+        $now = mdate($datestring, $now);
+        $data = array(
+                        'mid' => $mid,
+                        'orderTime' => $now,
+                        'state' => 'processing'
+        );
+        $this->TransactionModel->order($mid, $data);
         $this->browseTransactionRecords();
     }
 }
