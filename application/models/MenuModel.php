@@ -22,7 +22,7 @@ class MenuModel extends CI_Model
             if($authority=="manager"){
                 array_push($list, array("Url" => "OnShelf", "ID" => "OnShelf", "Tag" => "經理"));
             }else if($authority=="administrator"){
-                array_push($list, array("Url" => "Administrator", "ID" => "Administrator", "Tag" => "管理者"));
+                array_push($list, array("Url" => "AccountManagement", "ID" => "AccountManagement", "Tag" => "管理者"));
             }
         }
         else
@@ -90,11 +90,7 @@ class MenuModel extends CI_Model
     public function getAdministratorList()
     {
         $list = array();
-        $list["Info"] = array("ID" => "Info", "Tag" => "會員資料", "Url" => "ViewMember/Me/Info");
-        $list["Transaction"] = array("ID" => "Transaction", "Tag" => "交易紀錄", "Url" => "ViewMember/Me/Transaction");
-        $list["Concern"] = array("ID" => "Concern", "Tag" => "關注書單", "Url" => "ViewMember/Me/Concern");
-        $list["ShopCar"] = array("ID" => "ShopCar", "Tag" => "購物車", "Url" => "ViewMember/Me/ShopCar");
-        $list["Password"] = array("ID" => "Password", "Tag" => "修改密碼", "Url" => "ViewMember/Me/Password");
+        $list["AccountManagement"] = array("ID" => "AccountManagement", "Tag" => "管理帳號", "Url" => "AccountManagement");
         return $list;
     }
 }
