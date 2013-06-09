@@ -15,6 +15,20 @@ class AnnouncementModel extends CI_Model
         return $query;
     }
     
+    public function getAnnouncementSize(){
+        $query = $this->db->get('advertisement');
+        $list = $query->result();
+        $count = count($list);
+        return $count;
+    }
+    
+    public function getAnnouncementList()
+    {
+        $query = $this->db->get('advertisement');
+        $list = $query->result();
+        return $list;
+    }
+    
     public function createAnnouncement($imgData)
     {
 	   	$data = array(

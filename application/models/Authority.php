@@ -56,6 +56,11 @@ class Authority extends CI_Model
         $address = $this->session->userdata('address');
         return $address;
     }
+    
+    public function getAuthority(){
+        $authority = $this->session->userdata('authority');
+        return $authority;
+    }
 
     public function logout()
     {
