@@ -1,23 +1,34 @@
-<?php
-
+<?
 class Stock extends CI_Controller
 {
     public function __construct()
     {
         parent::__construct();
-        $this->load->model("StockModel");
-        //上傳檔案要用的
-        $this->load->helper(array('form', 'url'));
-        $this->load->library('upload');
-        $this->load->helper('form');
-    	$this->load->library('form_validation');
+        $this->load->model("template");
+        $this->load->model("MenuModel");
+        $this->load->model("AnnouncementModel");
     }
-    
+
+    public function index($page = 1)
+    {
+        $slideBarList = $this->MenuModel->getManagerList();
+
+        $slideBarList["Stock"]['Active'] = "active";
+
+        $content = "StockView";
+        $data['size'] = $this->AnnouncementModel->getAnnouncementSize();
+        $data["list"] = $this->AnnouncementModel->getAnnouncementList();
+        $this->template->loadView("Manager", $slideBarList, $content, $data);
+    }
+
     public function browseBooksStock($offset=0,$limit=10)
     {
+        $data["records"] = $this->StockModel->browseBooksStock();
+        $this->load->view('Stock/browseBooksStock', $data);
         $data = $this->StockModel->browseBooksStock($limit,$offset);
         $this->load->view('Stock/browseBooksStock', $data);
     }
+
     
     public function browseStockRecord($offset=0,$limit=10)
     {
@@ -31,6 +42,5 @@ class Stock extends CI_Controller
         echo 'OK';
     }    
 }
-
 
 ?>
