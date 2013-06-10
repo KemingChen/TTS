@@ -22,7 +22,7 @@ class MenuModel extends CI_Model
             if($authority=="manager"){
                 array_push($list, array("Url" => "OnShelf", "ID" => "OnShelf", "Tag" => "經理"));
             }else if($authority=="administrator"){
-                array_push($list, array("Url" => "AccountManagement", "ID" => "AccountManagement", "Tag" => "管理者"));
+                array_push($list, array("Url" => "AccountManagement", "ID" => "AccountManagement", "Tag" => "系統管理者"));
             }
         }
         else
@@ -77,13 +77,14 @@ class MenuModel extends CI_Model
     public function getManagerList()
     {
         $list = array();
+        $list["TransactionRecords"] = array("ID" => "TransactionRecords", "Tag" => "瀏覽所有訂單", "Url" => "TransactionRecords");
+        $list["TransactionCompleteRecords"] = array("ID" => "TransactionCompleteRecords", "Tag" => "瀏覽交易完成訂單", "Url" => "TransactionCompleteRecords");
+        $list["ViewReport"] = array("ID" => "ViewReport", "Tag" => "觀看報表", "Url" => "ViewReport");
+        $list["OrderManagement"] = array("ID" => "OrderManagement", "Tag" => "管理未完成交易訂單", "Url" => "OrderManagement");
+        $list["AnnouncementManagement"] = array("ID" => "AnnouncementManagement", "Tag" => "管理活動", "Url" => "AnnouncementManagement");
         $list["OnShelf"] = array("ID" => "OnShelf", "Tag" => "上架", "Url" => "OnShelf");
         $list["OffShelf"] = array("ID" => "OffShelf", "Tag" => "下架", "Url" => "OffShelf");
         $list["Stock"] = array("ID" => "Stock", "Tag" => "進貨", "Url" => "Stock");
-        $list["OrderManagement"] = array("ID" => "OrderManagement", "Tag" => "管理訂單", "Url" => "OrderManagement");
-        $list["ViewReport"] = array("ID" => "ViewReport", "Tag" => "觀看報表", "Url" => "ViewReport");
-        $list["TransactionRecords"] = array("ID" => "TransactionRecords", "Tag" => "交易紀錄", "Url" => "TransactionRecords");
-        $list["AnnouncementManagement"] = array("ID" => "AnnouncementManagement", "Tag" => "活動管理", "Url" => "AnnouncementManagement");
         return $list;
     }
 
