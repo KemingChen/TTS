@@ -53,12 +53,12 @@ class ViewMember extends CI_Controller
 
         $page = $this->param === null ? 1 : $this->param;
         $mid = $this->authority->getMemberID();
-        $selectNum = 10;
+        $selectNum = 5;
         $offset = $selectNum * ($page - 1);
 
         $array = $this->ConcernModel->queryConcernBooks($mid, $offset, $selectNum);
         $info["page"] = $page;
-        $info["pages"] = $array["total_NumRows"] / $selectNum;
+        $info["pages"] = ceil($array["total_NumRows"] / $selectNum);
         $info["list"] = $array["books"]->result();
         return $info;
     }

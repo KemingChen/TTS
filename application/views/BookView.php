@@ -16,7 +16,7 @@
         $.ajax({url: "<?=base_url("Concern/Add")?>"+"/"+bid}).
             always(function(data){
                 console.log(data);
-                showReminderMsg("已加入");
+                showReminderMsg("已加入關注列表");
             });
     }
     function addShopCar(obj, bid)
