@@ -1,6 +1,6 @@
 <?php 
-    echo "size is " . sizeof($records->result()) . "<br />";
-    foreach ($records->result() as $row)
+    echo "size is " . sizeof($records) . "<br />";
+    foreach ($records as $row)
     {
         echo "bid:" . $row->bid;
         //echo ", name: " . iconv("UTF-8","big5",$row->name);

@@ -31,6 +31,18 @@
     <link rel="apple-touch-icon-precomposed" href="<?=base_url("assets/ico/apple-touch-icon-57-precomposed.png")?>" />
     <link rel="shortcut icon" href="<?=base_url("assets/ico/favicon.png")?>" />
 
+<script>
+    function searchByBook(){
+        value = encodeURIComponent($("#searchbook").val());
+        document.location.href="http://localhost/TTS/View/SearchByName/" + $("#searchbook").val();
+    }
+    
+    function searchByISBN(){
+        value = encodeURIComponent($("#searchbook").val());
+        document.location.href="http://localhost/TTS/View/SearchByISBN/" + $("#searchbook").val();
+        
+    }
+</script>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -67,8 +79,8 @@
                                 <li class="divider"></li>
                                 <li class="nav-header">搜尋模式</li>
                                 <li class="divider"></li>
-                                <li><a href="#">書名</a></li>
-                                <li><a href="#">ISBN</a></li>
+                                <li><a href="#" onclick="searchByBook()">書名</a></li>
+                                <li><a href="#" onclick="searchByISBN()">ISBN</a></li>
                                 <li class="divider"></li>
                             </ul>
                         </li>

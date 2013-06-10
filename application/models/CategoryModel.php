@@ -8,9 +8,20 @@ class CategoryModel extends CI_Model
         $this->load->database();
     }
     
+    public function getCategoriesByBid($bid){
+        $query = $this->db->get_where('categorycorrespond', array('bid'=>$bid));
+        $result = $query->result();
+        return $result;
+    }
+    
     public function getCategoryArray()
     {
         return $this->db->get('category');
+    }
+    
+    public function getCategorySize($cid){
+        $total_num_rows = $this->db->count_all_results('category');
+        return $total_num_rows;
     }
     
     public function getCategoryName($cid){

@@ -31,6 +31,9 @@
                 echo "</tr><tr>";
             }
         }
+        for(;$counter%5!=0;$counter++){
+            echo "<td></td>";
+        }
         echo "</tr>"
         ?>
 </table>

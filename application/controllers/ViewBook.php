@@ -25,16 +25,19 @@ class ViewBook extends CI_Controller
         $cid = $cid === null ? $data["category"][0]->cid : $cid;
         
         $data["cid"] = $cid;
+        $data["cname"] = '';
         foreach ($data["category"] as $object)
         {
             if($object->cid == $data["cid"]) 
             {
                 $data["cname"] = $object->name;
+                $slideBarList[$cid]['Active'] = "active";
                 break;
             }
         }
+        
         $data['isLogin'] = $this->authority->isLogin();
-        $slideBarList[$cid]['Active'] = "active";
+        
         $this->template->loadView("Category", $slideBarList, $content, $data);
     }
 }
