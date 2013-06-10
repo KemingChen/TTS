@@ -5,13 +5,16 @@
 				<thead>
 					<tr>
 						<th>
-							編號
+							BID
 						</th>
 						<th>
-							圖片
+							ISBN
 						</th>
 						<th>
-							說明
+							書名
+						</th>
+						<th>
+                            功能                        
 						</th>
 					</tr>
 				</thead>
@@ -19,7 +22,7 @@
                 
                 <?php
                     $isSuccess = FALSE;
-                    foreach ($list as $item){
+                    foreach ($list as $book){
                         if($isSuccess){
 					       echo '<tr class="success">';
                         }else{
@@ -28,19 +31,27 @@
                         $isSuccess = ! $isSuccess;
                 ?>
 						<td>
-							<?=$item->adid?>
+							<?=$book->bid?>
 						</td>
 						<td>
-							<img src="data:image/jpeg;base64,<?=base64_encode($item->picture)?>" alt="photo">
+							<?=$book->ISBN?>
 						</td>
 						<td>
-						  <?=$item->description ?>
+                            <?=$book->name ?>
+						</td>
+						<td>
+                            <div class="btn-toolbar">
+                                <div class="btn-group">
+                                    <a href="<?=base_url("OffShelf/off/$book->bid")?>" class="btn btn-danger">Off Shelf</a>
+                                </div>
+                            </div>
 						</td>
                 <?php
                     }
                 ?>
 				</tbody>
 			</table>
+            <?=$pagination?>
 		</div>
 	</div>
 </div>

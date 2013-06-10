@@ -14,8 +14,13 @@ class OnShelf extends CI_Controller
     {
         $this->page($page);
     }
+    
+    public function on($bid){
+        $this->BookModel->updateOnShelf($bid, TRUE);
+        $this->page();
+    }
 
-    public function page($offset)
+    public function page($offset=0)
     {
         $config['base_url'] = base_url('OnShelf/page');
         $config['total_rows'] = $this->BookModel->getOffShelfAmount();

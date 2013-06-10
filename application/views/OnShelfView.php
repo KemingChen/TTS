@@ -13,6 +13,7 @@
 						<th>
 							書名
 						</th>
+                        <th></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -35,6 +36,13 @@
 						</td>
 						<td>
                             <?=$book->name ?>
+						</td>
+						<td>
+                            <div class="btn-toolbar">
+                                <div class="btn-group">
+                                    <a href="<?=base_url("OnShelf/on/$book->bid")?>" class="btn btn-success">On Shelf</a>
+                                </div>
+                            </div>
 						</td>
                 <?php
                     }

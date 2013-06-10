@@ -14,6 +14,11 @@ class OffShelf extends CI_Controller
     {
         $this->page($offset);
     }
+    
+    public function off($bid){
+        $this->BookModel->updateOnShelf($bid, FALSE);
+        $this->page();
+    }
 
     public function page($offset = 0)
     {
@@ -28,7 +33,7 @@ class OffShelf extends CI_Controller
 
         $slideBarList = $this->MenuModel->getManagerList();
         $slideBarList["OffShelf"]['Active'] = "active";
-        $content = "OnShelfView";
+        $content = "OffShelfView";
         $result = $this->BookModel->selectBooks_by_OnShelfAttr(TRUE, $offset, 20);
         $data["list"] = $result["books"];
         $data["pagination"] = $this->pagination->create_links();
