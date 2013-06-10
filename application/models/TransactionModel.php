@@ -8,6 +8,8 @@ class TransactionModel extends CI_Model
         $this->load->helper('url');
         $this->load->database();
         $this->load->model("ShoppingCartModel");
+        $this->load->model("AccountModel");
+        $this->load->model("GmailModel");
     }
     
     public function index(){
@@ -17,10 +19,26 @@ class TransactionModel extends CI_Model
     public function manageOrderState($oid, $state)
     {
         $data = array(
-                                'state' => $state
+                        'state' => $state
         );
         $this->db->where('oid', $oid);
         $this->db->update('orderSummary', $data);
+        if ($state === 'arrived')
+        {
+            $mid = $this->getMidByOid($oid);
+            $this->sendThanksMail($mid, $oid);
+        }
+    }
+    
+    public function getMidByOid($oid)
+    {
+        $this->db->select('mid');
+        $this->db->from('orderSummary');
+        $this->db->where('oid', $oid);
+        $data = $this->db->get();
+        $dataResult = $data->result();
+        $mid = $dataResult[0]->mid;
+        return $mid;
     }
     
     public function getArrivedOrder()
@@ -107,7 +125,7 @@ class TransactionModel extends CI_Model
         return $data;
     }
     
-    public function browseOrderItemsByOid($oid)
+    public function getOrderItemDataByOid($oid)
     {
         $this->db->select('o.quantity, o.soldPrice, b.name');
         $this->db->from('orderitem as o, book as b');
@@ -147,6 +165,7 @@ class TransactionModel extends CI_Model
             $this->db->where('oid', $oid);
             $this->db->update('ordersummary', $totalPriceData);
             $this->ShoppingCartModel->clearShoppingCart($mid);
+            $this->sendInformMail($mid, $oid);
         }
         $this->db->trans_complete();
         
@@ -282,6 +301,38 @@ class TransactionModel extends CI_Model
         $this->db->where('quantity >', 0);
         $data = $this->db->get();
         return $data;
+    }
+
+    public function sendInformMail($mid, $oid)
+    {
+        $recipient = $this->AccountModel->getEmailByMid($mid);
+        $orderItemData = $this->getOrderItemDataByOid($oid);
+        $orderItemString = "";
+        $divider = "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\r\n";
+        foreach ($orderItemData->result() as $row)
+        {
+            $orderItemString = $orderItemString . $divider . "book name: " . $row->name . "\r\n" . "quantity: " . $row->quantity . "\r\n" . "sold price: " . $row->soldPrice . "\r\n"; 
+        }
+        $subject = 'TaipeiTech Store';
+        $name = $this->AccountModel->getNameByMid($mid);
+        $message = 'Hello, ' . $name . "\r\n" . "we have receved your order." . "\r\n\r\n" . "order id: " . $oid . "\r\n" . $orderItemString;
+        $this->GmailModel->sendMail($recipient, $subject, $message);
+    }
+
+    public function sendThanksMail($mid, $oid)
+    {
+        $recipient = $this->AccountModel->getEmailByMid($mid);
+        $orderItemData = $this->getOrderItemDataByOid($oid);
+        $orderItemString = "";
+        $divider = "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\r\n";
+        foreach ($orderItemData->result() as $row)
+        {
+            $orderItemString = $orderItemString . $divider . "book name: " . $row->name . "\r\n" . "quantity: " . $row->quantity . "\r\n" . "sold price: " . $row->soldPrice . "\r\n"; 
+        }
+        $subject = 'TaipeiTech Store';
+        $name = $this->AccountModel->getNameByMid($mid);
+        $message = 'Hello, ' . $name . "\r\n" . "your order has arrived." . "\r\n\r\n" . "order id: " . $oid . "\r\n" . $orderItemString . $divider . "\r\nThanks for your order.";
+        $this->GmailModel->sendMail($recipient, $subject, $message);
     }
 }
 

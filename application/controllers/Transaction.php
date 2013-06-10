@@ -138,7 +138,7 @@ class Transaction extends CI_Controller
     
     public function browseOrderItemsByOid($oid)
     {
-        $data['orderItems'] = $this->TransactionModel->browseOrderItemsByOid($oid);
+        $data['orderItems'] = $this->TransactionModel->getOrderItemDataByOid($oid);
         $data['oid'] = $oid;
         if($data['orderItems']->num_rows() > 0)
         {
@@ -181,7 +181,6 @@ class Transaction extends CI_Controller
             $ShoppingCartData['mid'] = $mid;
             $this->load->view('Transaction/TransactionFail', $ShoppingCartData);
         }
-        
     }
 }
 

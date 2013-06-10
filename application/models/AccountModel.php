@@ -113,6 +113,28 @@ class AccountModel extends CI_Model
         $mid = $result[0]->mid;
         return $mid;
     }
+    
+    public function getEmailByMid($mid)
+    {
+        $this->db->select('email');
+        $this->db->from('account');
+        $this->db->where('mid', $mid);
+        $data = $this->db->get();
+        $result = $data->result();
+        $email = $result[0]->email;
+        return $email;
+    }
+    
+    public function getNameByMid($mid)
+    {
+        $this->db->select('name');
+        $this->db->from('account');
+        $this->db->where('mid', $mid);
+        $data = $this->db->get();
+        $result = $data->result();
+        $name = $result[0]->name;
+        return $name;
+    }
 }
 
 ?>
