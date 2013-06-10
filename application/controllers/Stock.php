@@ -17,7 +17,7 @@ class Stock extends CI_Controller
         $this->page($offset);
     }
     
-    public function page($offset){
+    public function page($offset=0){
         
         $config['base_url'] = base_url('Stock/page');
         $config['total_rows'] = $this->BookModel->getTotalAmount();//$data["count"];
