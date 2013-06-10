@@ -59,6 +59,11 @@ class BookModel extends CI_Model
         return $this->db->count_all_results();
     }
     
+    public function getCategoryAmount($cid){
+        $this->db->from('categorycorrespond')->where('cid', $cid);
+        return $this->db->count_all_results();
+    }
+    
     public function getTotalAmount(){
         $this->db->from('book');
         return $this->db->count_all_results();

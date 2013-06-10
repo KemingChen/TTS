@@ -38,7 +38,7 @@
 </script>
 <ul class="breadcrumb">
     <li>書籍<span class="divider">/</span></li>
-    <li><a href="<?=base_url("View/Category/$cid/$page")?>"><?=$cname?></a><span class="divider">/</span></li>
+    <li><a href="<?=base_url("View/Category/$cid/$offset")?>"><?=$cname?></a><span class="divider">/</span></li>
     <li><?=$book->name?></li>
 </ul>
 <div class="row-fluid">

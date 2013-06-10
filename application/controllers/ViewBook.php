@@ -11,7 +11,7 @@ class ViewBook extends CI_Controller
         $this->load->model("authority");
     }
 
-    public function book($bid=1, $cid=null, $page=1)
+    public function book($bid=1, $cid=null, $offset=0)
     {
         $slideBarList = $this->MenuModel->getCategoryList();
         $content = "BookView";
@@ -21,7 +21,7 @@ class ViewBook extends CI_Controller
         $data['writer'] = $array["writer"];
         $data['translator'] = $array["translator"];
         $data["category"] = $array['category'];
-        $data["page"] = $page;
+        $data["offset"] = $offset;
         $cid = $cid === null ? $data["category"][0]->cid : $cid;
         
         $data["cid"] = $cid;
