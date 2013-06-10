@@ -16,7 +16,7 @@ class Transaction extends CI_Controller
     public function manageOrderState($oid, $state)
     {
         $this->TransactionModel->manageOrderState($oid, $state);
-        $this->browseTransactionRecords();
+        $this->browseManageOrder();
     }
     
     public function browseManageOrder()
@@ -153,7 +153,7 @@ class Transaction extends CI_Controller
     public function cancelTheTransaction($oid)
     {
         $this->TransactionModel->cancelTheTransaction($oid);
-        $this->browseTransactionRecords();
+        $this->browseManageOrder();
     }
     
     public function order($mid)
@@ -171,7 +171,7 @@ class Transaction extends CI_Controller
                             'state' => 'processing'
             );
             $this->TransactionModel->order($mid, $data);
-            $this->browseTransactionRecords();
+            $this->browseTransactionRecordsByMid($mid);
         }
         else
         {
