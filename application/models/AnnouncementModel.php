@@ -16,14 +16,25 @@ class AnnouncementModel extends CI_Model
     }
     
     public function getAnnouncementSize(){
-        $query = $this->db->get('advertisement');
-        $list = $query->result();
-        $count = count($list);
-        return $count;
+        $table_row_count = $this->db->count_all('advertisement');
+        return $table_row_count;
+//        $query = $this->db->get('advertisement');
+//        $list = $query->result();
+//        $count = count($list);
+//        return $count;
+        
     }
     
     public function getAnnouncementList()
     {
+        $query = $this->db->get('advertisement');
+        $list = $query->result();
+        return $list;
+    }
+    
+    public function getAnnouncementListLimit($offset, $limit)
+    {
+        $this->db->limit($limit, $offset);
         $query = $this->db->get('advertisement');
         $list = $query->result();
         return $list;
