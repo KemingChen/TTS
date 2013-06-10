@@ -10,7 +10,7 @@ class OnShelf extends CI_Controller
         $this->load->model("BookModel");
     }
 
-    public function index($page = 1)
+    public function index($page = 0)
     {
         $this->page($page);
     }
@@ -34,7 +34,7 @@ class OnShelf extends CI_Controller
         $slideBarList = $this->MenuModel->getManagerList();
         $slideBarList["OnShelf"]['Active'] = "active";
         $content = "OnShelfView";
-        $result = $this->BookModel->selectBooks_by_OnShelfAttr(FALSE, $offset, 20);
+        $result = $this->BookModel->selectBooks_by_OnShelfAttr(0, $offset, 20);
         $data["list"] = $result["books"];
         $data["pagination"] = $this->pagination->create_links();
         $this->template->loadView("Manager", $slideBarList, $content, $data);

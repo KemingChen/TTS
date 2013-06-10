@@ -9,7 +9,7 @@ class OrderManagement extends CI_Controller
         $this->load->model("AnnouncementModel");
     }
 
-    public function index($page = 1)
+    public function index($offset = 0)
     {
         $slideBarList = $this->MenuModel->getManagerList();
 
