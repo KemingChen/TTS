@@ -9,12 +9,13 @@ class CustomSearchModel extends CI_Model
         $this->load->database();
     }
     
-    public function searchByAuthor($authorName)
+    public function searchByAuthor($authorName, $offset=0, $limit=3)
     {
         $this->db->select('B.bid, B.name, A.name as author, B.cover, p.name as publisher, B.publishedDate, B.price, B.ISBN, B.onShelf');
         $this->db->from('BOOK AS B, AUTHOR AS A, WRITERCORRESPOND AS W, publisher as p');
         $this->db->like('A.name', "$authorName");
         $this->db->where("W.aid = A.aid AND B.bid = W.bid AND B.pid = P.pid");
+        $this->db->limit($limit, $offset);
         
         $data = $this->db->get();
         return $data;
