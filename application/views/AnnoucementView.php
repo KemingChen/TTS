@@ -21,9 +21,9 @@
                     {
                         $active = $count == 0 ? "active" : "";
                     ?>
-                        <div class="item <?=$active?>" style="height: 500px;background-color: black;" align="center">
+                        <div class="item <?=$active?>" style="height: 500px;background-color: #DDDDDD;" align="center">
                             <img style="height: 100%;" src="data:image/jpeg;base64,<?=base64_encode($item->picture)?>" alt="" />
-        					<div class="carousel-caption" style="background-color: gray;">
+        					<div class="carousel-caption">
                                 <h4><?=$item->description ?></h4>
                             </div>
                         </div>
