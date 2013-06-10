@@ -19,6 +19,32 @@ class Transaction extends CI_Controller
         $this->browseTransactionRecords();
     }
     
+    public function browseManageOrder()
+    {
+        $data['transaction'] = $this->TransactionModel->BrowseManageOrder();
+        if($data['transaction']->num_rows() > 0)
+        {
+            $this->load->view('Transaction/BrowseManageOrder', $data);
+        }
+        else
+        {
+            show_error("no data");
+        }
+    }
+    
+    public function browseArrivedOrder()
+    {
+        $data['transaction'] = $this->TransactionModel->getArrivedOrder();
+        if($data['transaction']->num_rows() > 0)
+        {
+            $this->load->view('Transaction/BrowseTransactionRecords', $data);
+        }
+        else
+        {
+            show_error("no data");
+        }
+    }
+    
     public function browseTransactionRecords()
     {
         $data['transaction'] = $this->TransactionModel->browseTransactionRecords();
@@ -132,16 +158,30 @@ class Transaction extends CI_Controller
     
     public function order($mid)
     {
-        $datestring = "%Y-%m-%d";
-        $now = now();
-        $now = mdate($datestring, $now);
-        $data = array(
-                        'mid' => $mid,
-                        'orderTime' => $now,
-                        'state' => 'processing'
-        );
-        $this->TransactionModel->order($mid, $data);
-        $this->browseTransactionRecords();
+        $stockEnough = false;
+        $stockEnough = $this->TransactionModel->IsAllStockEnough($mid);
+        if($stockEnough)
+        {
+            $datestring = "%Y-%m-%d";
+            $now = now();
+            $now = mdate($datestring, $now);
+            $data = array(
+                            'mid' => $mid,
+                            'orderTime' => $now,
+                            'state' => 'processing'
+            );
+            $this->TransactionModel->order($mid, $data);
+            $this->browseTransactionRecords();
+        }
+        else
+        {
+            $this->TransactionModel->resetShoppingCartQuantityFromTransactionErrorByMid($mid);
+            $ShoppingCartData['restQuantity'] = $this->TransactionModel->getRestQuantityShoppingCartData($mid);
+            $this->ShoppingCartModel->clearShoppingCart($mid);
+            $ShoppingCartData['mid'] = $mid;
+            $this->load->view('Transaction/TransactionFail', $ShoppingCartData);
+        }
+        
     }
 }
 

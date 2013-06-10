@@ -22,6 +22,24 @@ class TransactionModel extends CI_Model
         $this->db->where('oid', $oid);
         $this->db->update('orderSummary', $data);
     }
+    
+    public function getArrivedOrder()
+    {
+        $this->db->select('*');
+        $this->db->from('orderSummary');
+        $this->db->where("state = 'arrived'");
+        $data = $this->db->get();
+        return $data;
+    }
+    
+    public function BrowseManageOrder()
+    {
+        $this->db->select('*');
+        $this->db->from('orderSummary');
+        $this->db->where("state = 'processing' OR state = 'shipping'");
+        $data = $this->db->get();
+        return $data;
+    }
 
     public function browseTransactionRecords()
     {
@@ -197,6 +215,73 @@ class TransactionModel extends CI_Model
             $cost = 0;
         }
         return $cost;
+    }
+    
+    public function getStockByBid($bid)
+    {
+        $this->db->select('bid, SUM(restAmount) as totalQuantity');
+        $this->db->from('stockrecord');
+        $this->db->where('bid', $bid);
+        $this->db->group_by('bid');
+        $data = $this->db->get();
+        $dataResult = $data->result();
+        $stockQuantity = $dataResult[0]->totalQuantity;
+        return $stockQuantity;
+    }
+    
+    public function isStockEnough($bid, $quantity)
+    {
+        if($this->getStockByBid($bid) >= $quantity)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    public function IsAllStockEnough($mid)
+    {
+        $stockEnough = true;
+        $shoppingCartData = $this->getShoppingCartDataByMid($mid);
+        foreach($shoppingCartData->result() as $row)
+        {
+            $stockEnough = $stockEnough & $this->isStockEnough($row->bid, $row->quantity);
+            if(!$this->isStockEnough($row->bid, $row->quantity))
+            {
+                $this->ShoppingCartModel->modifyShoppingCart($mid, $row->bid, 0);
+            }
+        }
+        return $stockEnough;
+    }
+    
+    public function resetShoppingCartQuantityFromTransactionErrorByMid($mid)
+    {
+        $shoppingCartData = $this->getShoppingCartDataByMid($mid);
+        foreach($shoppingCartData->result() as $row)
+        {
+            if($row->quantity > 0)
+            {
+                $this->ShoppingCartModel->modifyShoppingCart($mid, $row->bid, 0);
+            }
+            else
+            {
+                $restQuantity = $this->getStockByBid($row->bid);
+                $this->ShoppingCartModel->modifyShoppingCart($mid, $row->bid, $restQuantity);
+            }
+        }
+    }
+    
+    public function getRestQuantityShoppingCartData($mid)
+    {
+        $this->db->select('cart.quantity, b.name');
+        $this->db->from('shoppingcartcorrespond as cart, book as b');
+        $this->db->where('mid', $mid);
+        $this->db->where("cart.bid = b.bid");
+        $this->db->where('quantity >', 0);
+        $data = $this->db->get();
+        return $data;
     }
 }
 
