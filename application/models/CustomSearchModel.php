@@ -75,8 +75,16 @@ class CustomSearchModel extends CI_Model
         $this->db->select('B.bid, B.name, a.name as author, B.cover, p.name as publisher, B.publishedDate, B.price, B.ISBN, B.onShelf');
         $this->db->from('BOOK AS B, author as a, WRITERCORRESPOND AS W, publisher as p');
         $this->db->where("B.publishedDate = '$publishedDate' AND W.aid = A.aid AND B.bid = W.bid AND B.pid = P.pid");
-        $data = $this->db->get();
+        $data = $this->db->get()->result();
         return $data;
+    }
+
+    public function getSearchPublishedDateSize($publishedDate)
+    {
+        $this->db->select('B.bid, B.name, a.name as author, B.cover, p.name as publisher, B.publishedDate, B.price, B.ISBN, B.onShelf');
+        $this->db->from('BOOK AS B, author as a, WRITERCORRESPOND AS W, publisher as p');
+        $this->db->where("B.publishedDate = '$publishedDate' AND W.aid = A.aid AND B.bid = W.bid AND B.pid = P.pid");
+        return $this->db->count_all_results();
     }
 
     public function searchByCategory($category, $offset=0, $limit=99999)

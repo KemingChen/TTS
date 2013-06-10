@@ -51,6 +51,12 @@
         value = encodeURIComponent($("#searchbook").val());
         document.location.href="http://localhost/TTS/View/SearchByBooksellers/" + $("#searchbook").val();
     }
+    
+    function searchByPublishDate(){
+        value = encodeURIComponent($("#searchbook").val());
+        document.location.href="http://localhost/TTS/View/SearchByPublishDate/" + $("#searchbook").val();
+    }
+    
 </script>
 </head>
 <body>
@@ -92,6 +98,7 @@
                                 <li><a href="#" onclick="searchByISBN()">ISBN</a></li>
                                 <li><a href="#" onclick="searchByAuthor()">作者</a></li>
                                 <li><a href="#" onclick="searchByBooksellers()">出版社</a></li>
+                                <li><a href="#" onclick="searchByPublishDate()">出版日期</a></li>
                                 <li class="divider"></li>
                             </ul>
                         </li>
