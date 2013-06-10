@@ -79,7 +79,7 @@ class View extends CI_Controller
     
     public function SearchByISBN($ISBN, $offset=0)
     {
-        $name = urldecode($ISBN);
+        $ISBN = urldecode($ISBN);
         $config['base_url'] = base_url("View/SearchByName/$ISBN");
         $config['uri_segment'] = 4;
         $config['total_rows'] = $this->CustomSearchModel->getSearchByISBNSize($ISBN, $offset, 20);
@@ -101,17 +101,55 @@ class View extends CI_Controller
         $this->template->loadView("Category", $slideBarList, $content, $data);
     }
 
-    public function SearchByAuthor($author)
+    public function SearchByAuthor($author, $offset=0)
     {
+        $author = urldecode($author);
+        $config['base_url'] = base_url("View/SearchByAuthor/$author");
+        $config['uri_segment'] = 4;
+        $config['total_rows'] = $this->CustomSearchModel->getSearchByAuthorSize($author, $offset, 20);
+        $config['per_page'] = 20;
+        $config['num_links'] = 5;
+        $config['full_tag_open'] = '<div class="pagination pagination-centered"><ul>';
+        $config['full_tag_close'] = '</ul></div>';
+        $this->pagination->initialize($config);
 
+
+        $slideBarList = $this->MenuModel->getCategoryList();
+        $content = "CategoryView";
+        $data["category"] = "以\" $author \"搜尋...";
+        $data["list"] = $this->CustomSearchModel->searchByAuthor($author, $offset, 20);
+        $data["pagination"] = $this->pagination->create_links();
+        $data['limit'] = 20;
+        $data['offset'] = $offset;
+        $data['cid'] = null;
+        $this->template->loadView("Category", $slideBarList, $content, $data);
     }
 
-    public function SearchByBookSellers($bookSellers)
+    public function SearchByBooksellers($booksellers, $offset=0)
     {
+        $booksellers = urldecode($booksellers);
+        $config['base_url'] = base_url("View/SearchByBooksellers/$booksellers");
+        $config['uri_segment'] = 4;
+        $config['total_rows'] = $this->CustomSearchModel->getSearchByBooksellersSize($booksellers, $offset, 20);
+        $config['per_page'] = 20;
+        $config['num_links'] = 5;
+        $config['full_tag_open'] = '<div class="pagination pagination-centered"><ul>';
+        $config['full_tag_close'] = '</ul></div>';
+        $this->pagination->initialize($config);
 
+
+        $slideBarList = $this->MenuModel->getCategoryList();
+        $content = "CategoryView";
+        $data["category"] = "以\" $booksellers \"搜尋...";
+        $data["list"] = $this->CustomSearchModel->searchByBooksellers($booksellers, $offset, 20);
+        $data["pagination"] = $this->pagination->create_links();
+        $data['limit'] = 20;
+        $data['offset'] = $offset;
+        $data['cid'] = null;
+        $this->template->loadView("Category", $slideBarList, $content, $data);
     }
 
-    public function SearchByPublishDate($publishDate)
+    public function SearchByPublishDate($publishDate, $offset=0)
     {
 
     }

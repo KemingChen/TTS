@@ -40,7 +40,16 @@
     function searchByISBN(){
         value = encodeURIComponent($("#searchbook").val());
         document.location.href="http://localhost/TTS/View/SearchByISBN/" + $("#searchbook").val();
-        
+    }
+    
+    function searchByAuthor(){
+        value = encodeURIComponent($("#searchbook").val());
+        document.location.href="http://localhost/TTS/View/SearchByAuthor/" + $("#searchbook").val();
+    }
+    
+    function searchByBooksellers(){
+        value = encodeURIComponent($("#searchbook").val());
+        document.location.href="http://localhost/TTS/View/SearchByBooksellers/" + $("#searchbook").val();
     }
 </script>
 </head>
@@ -81,6 +90,8 @@
                                 <li class="divider"></li>
                                 <li><a href="#" onclick="searchByBook()">書名</a></li>
                                 <li><a href="#" onclick="searchByISBN()">ISBN</a></li>
+                                <li><a href="#" onclick="searchByAuthor()">作者</a></li>
+                                <li><a href="#" onclick="searchByBooksellers()">出版社</a></li>
                                 <li class="divider"></li>
                             </ul>
                         </li>
