@@ -7,6 +7,7 @@ class Template extends CI_Model
         parent::__construct();
         $this->load->helper('url');
         $this->load->model("authority");
+        $this->load->model("MenuModel");
         //$this->load->model("TransactionModel");
         //$this->load->library("session");
     }
