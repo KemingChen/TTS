@@ -46,7 +46,11 @@ class RebateModel extends CI_Model
             'threshold' => $threshold,
             'price' => $price
     	);
-	    $this->db->insert('rebateevent', $rebateData);
+        if($threshold > $price)
+        {
+            $this->db->insert('rebateevent', $rebateData);
+        }
+	    
         //return $this->db->insert_id();
     }
     
