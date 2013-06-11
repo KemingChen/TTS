@@ -84,11 +84,8 @@ class Account extends CI_Controller
     
     public function modifyAuthority($mid, $authority)
     {
-        $data = array(
-                        'authority' => $authority
-                     );
-        $this->AccountModel->modifyAuthority($mid, $data);
-        $this->browseAccountList();
+        $this->AccountModel->modifyAuthority($mid, $authority);
+        //$this->browseAccountList();
     }
     
     public function freeze($mid)

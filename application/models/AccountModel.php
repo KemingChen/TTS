@@ -22,6 +22,20 @@ class AccountModel extends CI_Model
         $data = $this->db->get();
         return $data;
     }
+    
+    public function getAccountAmountByEmail($email){
+        $this->db->from("account");
+        $this->db->like("email", $email);
+        return $this->db->count_all_results();
+    }
+    
+    public function getAccountListByEmail($email="", $limit=20, $offset=0){
+        $this->db->from("account");
+        $this->db->like("email", $email);
+        $this->db->limit($limit, $offset);
+        $list = $this->db->get()->result();
+        return $list;
+    }
 
     public function browseAccountListByLimit($start, $length)
     {
@@ -77,12 +91,18 @@ class AccountModel extends CI_Model
 	    $this->db->insert('cellphonenumbercorrespond', $phoneData);
     }
     
-    public function modifyAuthority($mid, $data)
+//    public function modifyAuthority($mid, $data)
+//    {
+//        $this->db->where('mid', $mid);
+//        $this->db->update('account', $data);
+//    }
+
+    public function modifyAuthority($mid, $authority)
     {
         $this->db->where('mid', $mid);
-        $this->db->update('account', $data);
+        $this->db->update('account', array("authority" => $authority));
     }
-
+    
     public function freeze($mid)
     {
         $this->db->where('mid', $mid);
