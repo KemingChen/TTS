@@ -22,15 +22,16 @@
 						<th>ISBN</th>
 						<th>書名</th>
 						<th>數量</th>
-						<th>金額</th>
-						<th></th>
+						<th>定價</th>
+                        <th>打折</th>
+						<th>售價</th>
 					</tr>
 				</thead>
 				<tbody>
                     <?php
                     $isInfo = FALSE;
                     
-                    foreach($list as $book)
+                    foreach($cart as $book)
                     {
                         if($isInfo){
                             echo '<tr class="info"><td>';
@@ -41,44 +42,27 @@
                         }
                         $isInfo = ! $isInfo;
                         echo $book->ISBN;							
-    					echo "</td><td style='width: 50%;'>";
-                        echo '<a href="' . base_url() . 'ViewBook/book/' . $book->bid . '">' . $book->Name . "</a>";
+    					echo "</td><td style='width: 30%;'>";
+                        echo '<a href="' . base_url() . 'ViewBook/book/' . $book->bid . '">' . $book->name . "</a>";
     					echo "</td><td>";
-                        echo $book->Quantity; 
+                        echo $book->quantity; 
     					echo "</td><td>";
-                        echo $book->Price;
+                        echo $book->price;
+                        echo "</td><td>";
+                        echo $book->discountName;
+                        echo "</td><td>";
+                        echo $book->soldPrice;
                         echo "</td><td>";
                         echo '<button type="button" class="btn btn-mini btn-danger" onclick="removeShoppingCart(this, '.$book->bid.')">取消訂購</button>';
                         echo "</td></tr>";
                     }
+                    echo '打折小計-> '.$after_discount_total_price;
+                    echo '<br/>    '.$rebateName;
+                    echo ' 再折-> '.$rebatePrice;
+                    echo '<br/>總計'.$totalPrice;
                     ?>
 				</tbody>
 			</table>
-			<div class="pagination pagination-centered">
-				<ul>
-					<li>
-						<a href="#">Prev</a>
-					</li>
-					<li>
-						<a href="#">1</a>
-					</li>
-					<li>
-						<a href="#">2</a>
-					</li>
-					<li>
-						<a href="#">3</a>
-					</li>
-					<li>
-						<a href="#">4</a>
-					</li>
-					<li>
-						<a href="#">5</a>
-					</li>
-					<li>
-						<a href="#">Next</a>
-					</li>
-				</ul>
-			</div>
 		</div>
 	</div>
 </div>

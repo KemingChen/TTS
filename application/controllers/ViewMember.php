@@ -66,10 +66,9 @@ class ViewMember extends CI_Controller
     private function doShopCar(&$content)
     {
         $content = "ShopCarView";
+        
         $mid = $this->authority->getMemberID();
-
-        $data = $this->ShoppingCartModel->getWholeShoppingCart($mid, 10, 0);
-        $info["list"] = $data['cart']->result();
+        $info = $data = $this->ShoppingCartModel->getWholeShoppingCart($mid);    
         return $info;
     }
 

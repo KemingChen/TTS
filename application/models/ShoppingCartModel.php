@@ -66,21 +66,44 @@ class ShoppingCartModel extends CI_Model
         
     }
     
-    public function getWholeShoppingCart($mid, $limit=10, $offset=0)
+    public function getWholeShoppingCart($mid)
     {
-        $selectSQL = 'bid,quantity, b.name, ISBN, d.name AS discountName, percentOff, price, price * ( 100 - IFNULL( percentOff, 0 ) ) /100 AS soldPrice';
-        $this->db->select($selectSQL,false);
-        $this->db->from('shoppingcartcorrespond as sc NATURAL JOIN book AS b NATURAL JOIN categorycorrespond AS c');
-        $this->db->join('discountevent AS d', 'd.cid = c.cid','left');
-        $this->db->where("sc.mid = $mid AND b.bid = sc.bid");
-        $this->db->where('NOW( ) BETWEEN d.startTime AND d.endTime');
-        $this->db->limit($limit, $offset);
-        $data["cart"] = $this->db->get();
-        
+        $sql = 
+            'SELECT b.bid, b.name,ISBN,price,quantity,t.name AS discountName, 
+            price * IFNULL( discount_rate, 1 ) AS soldPrice
+            FROM  `book` AS b
+            RIGHT JOIN (
+            
+            SELECT sc.bid, quantity, d.name, discount_rate
+            FROM  `shoppingcartcorrespond` AS sc
+            NATURAL JOIN  `categorycorrespond` AS c
+            LEFT JOIN  `discountevent` AS d ON  `d`.`cid` =  `c`.`cid` 
+            AND NOW( ) 
+            BETWEEN d.startTime
+            AND d.endTime
+            WHERE mid = '.$mid.'
+            ORDER BY discount_rate
+            ) AS t ON b.bid = t.bid
+            GROUP BY b.bid';
+
+        $data["cart"] = $this->db->query($sql)->result();
+        //echo $this->db->last_query();
         $this->db->select('')->from('shoppingcartcorrespond')->where('mid',$mid);
         $data["total_NumRows"] = $this->db->get()->num_rows();
-        $data["num_rows"] = $data["cart"]->num_rows();
+        $data["after_discount_total_price"] = 0;
+        foreach($data["cart"] as $item)
+        {
+            $data["after_discount_total_price"] += $item->quantity * $item->soldPrice;
+        }
         
+        $this->db->select('name,threshold,price')->from('rebateevent');
+        $this->db->where('Now() between startTime and endTime');
+        $this->db->where($data["after_discount_total_price"].' >= threshold','',false);
+        $this->db->order_by('(price/threshold)','desc');
+        $rebate = $this->db->get()->row(0);
+        $data["rebateName"] = $rebate->name; 
+        $data["rebatePrice"] = floor($data["after_discount_total_price"]/$rebate->threshold)*$rebate->price;
+        $data["totalPrice"] = $data["after_discount_total_price"] - $data["rebatePrice"];
         return $data;
     }
     
