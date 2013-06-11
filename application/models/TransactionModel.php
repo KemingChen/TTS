@@ -159,7 +159,6 @@ class TransactionModel extends CI_Model
             $this->db->insert('orderSummary', $data);
             $oid = $this->db->insert_id();
             $this->setOrderItemByOidAndCartData($oid, $shoppingCartData);
-            // insert discount correspond
             $totalPrice = $this->getTotalPriceByOid($oid);
             $totalPriceData = array(
                                         'totalPrice' => $totalPrice
@@ -175,10 +174,27 @@ class TransactionModel extends CI_Model
         
     }
     
+    public function getOrderTimeByOid($oid)
+    {
+        $this->db->select('orderTime');
+        $this->db->from('ordersummary');
+        $this->db->where('oid', $oid);
+        $dataResult = $this->db->get()->result();
+        $orderTime = $dataResult[0]->orderTime;
+        return $orderTime;
+    }
+    
     public function setOrderItemByOidAndCartData($oid, $shoppingCartData)
     {
         foreach($shoppingCartData->result() as $cartRow)
         {
+            // insert discount correspond
+            $orderTime = $this->getOrderTimeByOid($oid);
+            $discountEvent = $this->getBestDiscountByBid($cartRow->bid, $orderTime);
+            if ($discountEvent != null)
+            {
+                $this->addDiscountCorrespondByOidAndBid($oid, $cartRow->bid, $discountEvent->deid);
+            }
             $cartQuantity = $cartRow->quantity;
             $stockData = $this->getStockDataByBid($cartRow->bid);
             while ($cartQuantity > 0)
@@ -242,10 +258,11 @@ class TransactionModel extends CI_Model
     
     public function addOrderItemByOidAndBid($oid, $bid, $quantity, $cost)
     {
+        $time = $this->getOrderTimeByOid($oid);
         $orderItemData = array(
                         'oid' => $oid,
                         'bid' => $bid,
-                        'soldPrice' => $this->getSoldPriceByBid($bid),
+                        'soldPrice' => $this->getSoldPriceByBidAndTime($bid, $time),
                         'quantity' => $quantity,
                         'cost' => $cost
         );
@@ -299,36 +316,55 @@ class TransactionModel extends CI_Model
         return $data;
     }
     
-    public function getSoldPriceByBid($bid)
+    public function getSoldPriceByBidAndTime($bid, $time)
     {
-        // 判斷售價 當時的訂價 * discount
         $this->db->select('price');
         $this->db->from('book');
         $this->db->where('bid', $bid);
-        $data = $this->db->get();
-        $dataResult = $data->result();
-        $soldPrice = $dataResult[0]->price;                
+        $dataResult = $this->db->get()->result();
+        $soldPrice = $dataResult[0]->price;
+        $discountEvent = $this->getBestDiscountByBid($bid, $time);
+        $discountRate = 1; 
+        if ($discountEvent != null)
+        {
+            $discountRate = $discountEvent->discount_rate;
+        }
+        $soldPrice = $soldPrice * $discountRate;   
         return $soldPrice;
     }
     
-    //public function getCostByBid($bid)
-//    {
-//        $this->db->select('*');
-//        $this->db->from('stockrecord');
-//        $this->db->where('bid', $bid);
-//        $data = $this->db->get();
-//        if ($data->num_rows() > 0)
-//        {
-//            $dataResult = $data->result();
-//            $cost = $dataResult[0]->price;
-//            // 判斷cost
-//        }
-//        else
-//        {
-//            $cost = 0;
-//        }
-//        return $cost;
-//    }
+    public function getBestDiscountByBid($bid, $time)
+    {
+        $this->db->select('de.deid, de.name, de.discount_rate'); //
+        $this->db->from('categorycorrespond as cc, discountevent as de'); // 
+        $this->db->where("cc.cid = de.cid AND cc.bid = $bid");
+        $this->db->where("de.startTime <=", $time);
+        $this->db->where("de.endTime >=", $time);
+        $list = $this->db->get()->result();
+        $count = count($list);
+        $discountEvent = null;
+        if($count>0){
+            for($minDiscountIndex= 0, $i=0; $i<$count;$i++){
+                if($list[$i]->discount_rate < $list[$minDiscountIndex]->discount_rate){
+                    $minDiscountIndex = $i;
+                }              
+            }
+            $deid = $list[$minDiscountIndex]->deid;
+            $discount = $list[$minDiscountIndex]->discount_rate;
+            $discountEvent = $list[$minDiscountIndex];
+        }
+        return $discountEvent;
+    }
+    
+    public function addDiscountCorrespondByOidAndBid($oid, $bid, $deid)
+    {
+        $data = array(
+                    'oid' => $oid,
+                    'bid' => $bid,
+                    'deid' => $deid
+        );
+        $this->db->insert('discountcorrespond', $data);
+    }
     
     public function getStockByBid($bid)
     {

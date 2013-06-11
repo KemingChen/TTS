@@ -182,10 +182,10 @@ class Transaction extends CI_Controller
             $this->ShoppingCartModel->clearShoppingCart($mid);
             $ShoppingCartData['mid'] = $mid;
             $this->load->view('Transaction/TransactionFail', $ShoppingCartData);
-        }
-        foreach($originalShoppingCartData->result() as $row)
-        {
-            $this->ShoppingCartModel->addShoppingCart($mid, $row->bid, $row->quantity);
+            foreach($originalShoppingCartData->result() as $row)
+            {
+                $this->ShoppingCartModel->addShoppingCart($mid, $row->bid, $row->quantity);
+            }
         }
     }
 }
