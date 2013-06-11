@@ -7,6 +7,7 @@ class Transaction extends CI_Controller
         parent::__construct();
         $this->load->helper('date');
         $this->load->model("TransactionModel");
+        $this->load->model("ShoppingCartModel");
     }
     
     public function index(){
@@ -158,6 +159,7 @@ class Transaction extends CI_Controller
     
     public function order($mid)
     {
+        $originalShoppingCartData = $this->TransactionModel->getShoppingCartDataByMid($mid);
         $stockEnough = false;
         $stockEnough = $this->TransactionModel->IsAllStockEnough($mid);
         if($stockEnough)
@@ -180,6 +182,10 @@ class Transaction extends CI_Controller
             $this->ShoppingCartModel->clearShoppingCart($mid);
             $ShoppingCartData['mid'] = $mid;
             $this->load->view('Transaction/TransactionFail', $ShoppingCartData);
+        }
+        foreach($originalShoppingCartData->result() as $row)
+        {
+            $this->ShoppingCartModel->addShoppingCart($mid, $row->bid, $row->quantity);
         }
     }
 }
