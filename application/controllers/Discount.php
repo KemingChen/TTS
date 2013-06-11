@@ -37,14 +37,14 @@ class Discount extends CI_Controller
     {
         $name = urldecode($name);
         $this->DiscountModel->insertDiscount($cid, $name, $startTime, $endTime, $percentOff);
-        $data["discount"] = $this->DiscountModel->browse();
+        $data["discount"] = $this->DiscountModel->browse(0, 9999);
         $this->load->view('Discount/browse', $data);
     }
     
     public function updateDiscount($deid, $startTime, $endTime)
     {
         $this->DiscountModel->updateDiscount($deid, $startTime, $endTime);
-        $data["discount"] = $this->DiscountModel->browse();
+        $data["discount"] = $this->DiscountModel->browse(0, 9999);
         $this->load->view('Discount/browse', $data);
     }
 }
