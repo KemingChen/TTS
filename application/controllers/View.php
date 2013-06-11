@@ -26,16 +26,7 @@ class View extends CI_Controller
         $config['base_url'] = base_url("View/Category/$categoryID");
         $config['uri_segment'] = 4;
         $config['total_rows'] = $this->BookModel->getCategoryAmount($categoryID);
-        $config['per_page'] = 20;
-        $config['num_links'] = 5;
-        $config['num_tag_open'] = $config['prev_tag_open'] = $config['next_tag_open'] =
-            '<li>';
-        $config['num_tag_close'] = $config['prev_tag_close'] = $config['next_tag_close'] =
-            '</li>';
-        $config['cur_tag_open'] = "<li = class='active'><a href='#'>";
-        $config['cur_tag_close'] = "</a>";
-        $config['full_tag_open'] = '<div class="pagination pagination-centered"><ul>';
-        $config['full_tag_close'] = '</ul></div>';
+        $this->initPaginationConfig($config);
         $this->pagination->initialize($config);
 
 
@@ -66,16 +57,7 @@ class View extends CI_Controller
         $config['base_url'] = base_url("View/SearchByName/$name");
         $config['uri_segment'] = 4;
         $config['total_rows'] = $this->CustomSearchModel->getSearchByNameSize($name);
-        $config['per_page'] = 20;
-        $config['num_links'] = 5;
-        $config['num_tag_open'] = $config['prev_tag_open'] = $config['next_tag_open'] =
-            '<li>';
-        $config['num_tag_close'] = $config['prev_tag_close'] = $config['next_tag_close'] =
-            '</li>';
-        $config['cur_tag_open'] = "<li = class='active'><a href='#'>";
-        $config['cur_tag_close'] = "</a>";
-        $config['full_tag_open'] = '<div class="pagination pagination-centered"><ul>';
-        $config['full_tag_close'] = '</ul></div>';
+        $this->initPaginationConfig($config);
         $this->pagination->initialize($config);
 
 
@@ -97,16 +79,7 @@ class View extends CI_Controller
         $config['uri_segment'] = 4;
         $config['total_rows'] = $this->CustomSearchModel->getSearchByISBNSize($ISBN, $offset,
             20);
-        $config['per_page'] = 20;
-        $config['num_links'] = 5;
-        $config['num_tag_open'] = $config['prev_tag_open'] = $config['next_tag_open'] =
-            '<li>';
-        $config['num_tag_close'] = $config['prev_tag_close'] = $config['next_tag_close'] =
-            '</li>';
-        $config['cur_tag_open'] = "<li = class='active'><a href='#'>";
-        $config['cur_tag_close'] = "</a>";
-        $config['full_tag_open'] = '<div class="pagination pagination-centered"><ul>';
-        $config['full_tag_close'] = '</ul></div>';
+        $this->initPaginationConfig($config);
         $this->pagination->initialize($config);
 
 
@@ -128,16 +101,7 @@ class View extends CI_Controller
         $config['uri_segment'] = 4;
         $config['total_rows'] = $this->CustomSearchModel->getSearchByAuthorSize($author,
             $offset, 20);
-        $config['per_page'] = 20;
-        $config['num_links'] = 5;
-        $config['num_tag_open'] = $config['prev_tag_open'] = $config['next_tag_open'] =
-            '<li>';
-        $config['num_tag_close'] = $config['prev_tag_close'] = $config['next_tag_close'] =
-            '</li>';
-        $config['cur_tag_open'] = "<li = class='active'><a href='#'>";
-        $config['cur_tag_close'] = "</a>";
-        $config['full_tag_open'] = '<div class="pagination pagination-centered"><ul>';
-        $config['full_tag_close'] = '</ul></div>';
+        $this->initPaginationConfig($config);
         $this->pagination->initialize($config);
 
 
@@ -159,16 +123,7 @@ class View extends CI_Controller
         $config['uri_segment'] = 4;
         $config['total_rows'] = $this->CustomSearchModel->getSearchByBooksellersSize($booksellers,
             $offset, 20);
-        $config['per_page'] = 20;
-        $config['num_links'] = 5;
-        $config['num_tag_open'] = $config['prev_tag_open'] = $config['next_tag_open'] =
-            '<li>';
-        $config['num_tag_close'] = $config['prev_tag_close'] = $config['next_tag_close'] =
-            '</li>';
-        $config['cur_tag_open'] = "<li = class='active'><a href='#'>";
-        $config['cur_tag_close'] = "</a>";
-        $config['full_tag_open'] = '<div class="pagination pagination-centered"><ul>';
-        $config['full_tag_close'] = '</ul></div>';
+        $this->initPaginationConfig($config);
         $this->pagination->initialize($config);
 
 
@@ -191,16 +146,7 @@ class View extends CI_Controller
         $config['uri_segment'] = 4;
         $config['total_rows'] = $this->CustomSearchModel->getSearchPublishedDateSize($publishDate,
             $offset, 20);
-        $config['per_page'] = 20;
-        $config['num_links'] = 5;
-        $config['num_tag_open'] = $config['prev_tag_open'] = $config['next_tag_open'] =
-            '<li>';
-        $config['num_tag_close'] = $config['prev_tag_close'] = $config['next_tag_close'] =
-            '</li>';
-        $config['cur_tag_open'] = "<li = class='active'><a href='#'>";
-        $config['cur_tag_close'] = "</a>";
-        $config['full_tag_open'] = '<div class="pagination pagination-centered"><ul>';
-        $config['full_tag_close'] = '</ul></div>';
+        $this->initPaginationConfig($config);
         $this->pagination->initialize($config);
 
 
@@ -214,6 +160,20 @@ class View extends CI_Controller
         $data['offset'] = $offset;
         $data['cid'] = null;
         $this->template->loadView("Category", $slideBarList, $content, $data);
+    }
+
+    private function initPaginationConfig(&$config)
+    {
+        $config['per_page'] = 20;
+        $config['num_links'] = 5;
+        $config['num_tag_open'] = $config['prev_tag_open'] = $config['next_tag_open'] =
+            $config['first_tag_open'] = $config['last_tag_open'] = '<li>';
+        $config['num_tag_close'] = $config['prev_tag_close'] = $config['next_tag_close'] =
+            $config['first_tag_close'] = $config['last_tag_close'] = '</li>';
+        $config['cur_tag_open'] = "<li = class='active'><a href='#'>";
+        $config['cur_tag_close'] = "</a>";
+        $config['full_tag_open'] = '<div class="pagination pagination-centered"><ul>';
+        $config['full_tag_close'] = '</ul></div>';
     }
 }
 
