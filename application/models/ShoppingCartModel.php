@@ -66,16 +66,21 @@ class ShoppingCartModel extends CI_Model
         
     }
     
-    public function getWholeShoppingCart($mid, $limit=3, $offset=0)
+    public function getWholeShoppingCart($mid, $limit=10, $offset=0)
     {
-        $this->db->select('sc.mid, sc.quantity as Quantity, sc.bid, b.name as Name, b.isbn as ISBN, b.price as Price');
-        $this->db->from('shoppingcartcorrespond as sc, book as b');
+        $selectSQL = 'bid,quantity, b.name, ISBN, d.name AS discountName, percentOff, price, price * ( 100 - IFNULL( percentOff, 0 ) ) /100 AS soldPrice';
+        $this->db->select($selectSQL,false);
+        $this->db->from('shoppingcartcorrespond as sc NATURAL JOIN book AS b NATURAL JOIN categorycorrespond AS c');
+        $this->db->join('discountevent AS d', 'd.cid = c.cid','left');
         $this->db->where("sc.mid = $mid AND b.bid = sc.bid");
+        $this->db->where('NOW( ) BETWEEN d.startTime AND d.endTime');
         $this->db->limit($limit, $offset);
         $data["cart"] = $this->db->get();
+        
         $this->db->select('')->from('shoppingcartcorrespond')->where('mid',$mid);
         $data["total_NumRows"] = $this->db->get()->num_rows();
         $data["num_rows"] = $data["cart"]->num_rows();
+        
         return $data;
     }
     
