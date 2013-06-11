@@ -9,6 +9,13 @@ class PublisherModel extends CI_Model
         $this->load->database();
     }
     
+    public function getAllPublishers(){
+        $this->db->select("pid, name");
+        $this->db->from("publisher");
+        $list = $this->db->get()->result();
+        return $list;
+    }
+    
     public function ListPublishers($offset,$num)
     {
         $sql = 'SELECT * FROM publisher LIMIT '.$offset.' ,'.$num;

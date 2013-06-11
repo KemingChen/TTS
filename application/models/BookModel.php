@@ -108,6 +108,23 @@ class BookModel extends CI_Model
         return $this->db->insert_id();
     }
     
+   
+    public function createBook($name, $ISBN, $cover, $pid, $publishedDate, $price, $description)
+    {
+	   	$bookData = array(
+            'name' => $name,
+            'isbn' => $ISBN,
+            'cover' => $cover,
+            'pid' => $pid,
+            'publishedDate' => $publishedDate,
+            'price' => $price,
+    		'description' => $description,
+            'onshelf' => 0
+    	);
+	    $this->db->insert('book', $bookData);
+        return $this->db->insert_id();
+    }
+    
     public function editBookInformation($bid,$cover)
     {
         $data = array(

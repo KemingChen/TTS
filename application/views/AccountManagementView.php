@@ -73,7 +73,7 @@ function setAccountAuthority(mid, authority){
                             <?php
                             if($account->authority=="administrator"){
                             ?>
-                                <select onchange="setAccountAuthority(<?=$account->mid?>,this.options[this.selectedIndex].value)">
+                                <select onchange="setAccountAuthority(<?=$account->mid?>,this.options[this.selectedIndex].value)" class="selectpicker">
                                     <option value="customer" onclick="setAccountAuthority()">Customer</option>
                                     <option value="manager">Manager</option>
                                     <option value="administrator" selected="true">Administrator</option>
@@ -81,7 +81,7 @@ function setAccountAuthority(mid, authority){
                             <?php
                             }else if($account->authority=="manager"){
                             ?>
-                                <select onchange="setAccountAuthority(<?=$account->mid?>,this.options[this.selectedIndex].value)">
+                                <select onchange="setAccountAuthority(<?=$account->mid?>,this.options[this.selectedIndex].value)" class="selectpicker">
                                     <option value="customer">Customer</option>
                                     <option value="manager" selected="true">Manager</option>
                                     <option value="administrator">Administrator</option>
@@ -89,7 +89,7 @@ function setAccountAuthority(mid, authority){
                             <?php
                             }else{
                             ?>
-                                <select onchange="setAccountAuthority(<?=$account->mid?>,this.options[this.selectedIndex].value)">
+                                <select onchange="setAccountAuthority(<?=$account->mid?>,this.options[this.selectedIndex].value)" class="selectpicker">
                                     <option value="customer" selected="true">Customer</option>
                                     <option value="manager">Manager</option>
                                     <option value="administrator">Administrator</option>

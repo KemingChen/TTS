@@ -19,6 +19,11 @@ class CategoryModel extends CI_Model
         return $this->db->get('category');
     }
     
+    public function getCategoryList()
+    {
+        return $this->db->get('category')->result();
+    }
+    
     public function getCategorySize($cid){
         $total_num_rows = $this->db->count_all_results('category');
         return $total_num_rows;

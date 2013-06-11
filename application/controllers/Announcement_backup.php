@@ -37,13 +37,13 @@ class Announcement_backup extends CI_Controller
             //$this->template->view("", "", "Announcement/create", "");
         } else {
             //先檢查upload的限制  如果通過再上傳
-            if (!$this->upload->do_upload('picture')) {
-                show_error($this->upload->display_errors());
-            } else {
+            if ($this->upload->do_upload('picture')) {
                 $data = array('upload_data' => $this->upload->data());
                 $file_data = file_get_contents($data['upload_data']['full_path']);
                 $this->AnnouncementModel->createAnnouncement($file_data);
                 $this->browse();
+            } else {
+                show_error($this->upload->display_errors());
             }
         }
     }

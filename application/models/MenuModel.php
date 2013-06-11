@@ -20,7 +20,7 @@ class MenuModel extends CI_Model
             array_push($list, array("Url" => "ViewMember", "ID" => "Member", "Tag" => "會員專區"));
             $authority = $this->authority->getAuthority();
             if($authority=="manager"){
-                array_push($list, array("Url" => "OnShelf", "ID" => "OnShelf", "Tag" => "經理"));
+                array_push($list, array("Url" => "OnShelf", "ID" => "Manager", "Tag" => "經理"));
             }else if($authority=="administrator"){
                 array_push($list, array("Url" => "AccountManagement", "ID" => "AccountManagement", "Tag" => "系統管理者"));
             }
@@ -84,6 +84,7 @@ class MenuModel extends CI_Model
         $list["AnnouncementManagement"] = array("ID" => "AnnouncementManagement", "Tag" => "管理活動", "Url" => "AnnouncementManagement");
         $list["OnShelf"] = array("ID" => "OnShelf", "Tag" => "上架", "Url" => "OnShelf");
         $list["OffShelf"] = array("ID" => "OffShelf", "Tag" => "下架", "Url" => "OffShelf");
+        $list["AddBook"] = array("ID" => "AddBook", "Tag" => "新增書籍", "Url" => "AddBook");
         $list["Stock"] = array("ID" => "Stock", "Tag" => "進貨", "Url" => "Stock");
         return $list;
     }
