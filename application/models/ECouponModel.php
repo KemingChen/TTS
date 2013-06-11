@@ -1,6 +1,6 @@
 <?php
 
-class DiscountModel extends CI_Model
+class ECouponModel extends CI_Model
 {
     //parent::__construct();
     public function __construct()
@@ -13,7 +13,7 @@ class DiscountModel extends CI_Model
     {
         //$this->db->select('deid, cid, name, startTime, endTime, percentOff');
         $this->db->select('');
-        $this->db->from('discountevent');
+        $this->db->from('ecoupon');
         $data = $this->db->get();
         return $data;
     }
@@ -22,42 +22,41 @@ class DiscountModel extends CI_Model
     {
         //$this->db->select('deid, cid, name, startTime, endTime, percentOff');
         $this->db->select('');
-        $this->db->from('discountevent');
+        $this->db->from('ecoupon');
         $this->db->limit($limit, $offset);
         $data = $this->db->get();
         return $data;
     }
     
-    public function browseOne($deid)
+    public function browseOne($ecid)
     {
         $this->db->select('');
-        $this->db->from('discountevent');
-        $this->db->where('deid', $deid);
+        $this->db->from('ecoupon');
+        $this->db->where('ecid', $ecid);
         $data = $this->db->get();
         return $data;
     }
     
-    public function insertDiscount($cid, $name, $startTime, $endTime, $discount_rate)
+    public function insertECoupon($couponCode, $startTime, $endTime, $price)
     {
-        $discountData = array(
-            'cid' => $cid,
-            'name' => $name,
+        $ecouponData = array(
+            'couponCode' => $couponCode,
             'startTime' => $startTime,
             'endTime' => $endTime,
-            'discount_rate' => $discount_rate
+            'price' => $price
     	);
-	    $this->db->insert('discountevent', $discountData);
+	    $this->db->insert('ecoupon', $ecouponData);
         //return $this->db->insert_id();
     }
     
-    public function updateDiscount($deid, $startTime, $endTime)
+    public function updateECoupon($ecid, $startTime, $endTime)
     {
         $data = array(
             'startTime' => $startTime,
             'endTime' => $endTime
         );
-        $this->db->where('deid', $deid);
-        $this->db->update('discountevent', $data);
+        $this->db->where('ecid', $ecid);
+        $this->db->update('ecoupon', $data);
     }
 }
 ?>

@@ -33,10 +33,10 @@ class Discount extends CI_Controller
         $this->load->view("Discount/browse", $data);
     }
     
-    public function insertDiscount($cid, $name, $startTime, $endTime, $percentOff)
+    public function insertDiscount($cid, $name, $startTime, $endTime, $discount_rate)
     {
         $name = urldecode($name);
-        $this->DiscountModel->insertDiscount($cid, $name, $startTime, $endTime, $percentOff);
+        $this->DiscountModel->insertDiscount($cid, $name, $startTime, $endTime, $discount_rate);
         $data["discount"] = $this->DiscountModel->browse(0, 9999);
         $this->load->view('Discount/browse', $data);
     }
