@@ -32,29 +32,8 @@
     <link rel="shortcut icon" href="<?=base_url("assets/ico/favicon.png")?>" />
 
 <script>
-    function searchByBook(){
-        value = encodeURIComponent($("#searchbook").val());
-        document.location.href="http://localhost/TTS/View/SearchByName/" + $("#searchbook").val();
-    }
-    
-    function searchByISBN(){
-        value = encodeURIComponent($("#searchbook").val());
-        document.location.href="http://localhost/TTS/View/SearchByISBN/" + $("#searchbook").val();
-    }
-    
-    function searchByAuthor(){
-        value = encodeURIComponent($("#searchbook").val());
-        document.location.href="http://localhost/TTS/View/SearchByAuthor/" + $("#searchbook").val();
-    }
-    
-    function searchByBooksellers(){
-        value = encodeURIComponent($("#searchbook").val());
-        document.location.href="http://localhost/TTS/View/SearchByBooksellers/" + $("#searchbook").val();
-    }
-    
-    function searchByPublishDate(){
-        value = encodeURIComponent($("#searchbook").val());
-        document.location.href="http://localhost/TTS/View/SearchByPublishDate/" + $("#searchbook").val();
+    function searchByBook(mode){
+        document.location.href="<?=base_url()?>View/SearchBy" + mode + "/" + $("#searchbook").val();
     }
     
 </script>
@@ -94,11 +73,11 @@
                                 <li class="divider"></li>
                                 <li class="nav-header">搜尋模式</li>
                                 <li class="divider"></li>
-                                <li><a href="#" onclick="searchByBook()">書名</a></li>
-                                <li><a href="#" onclick="searchByISBN()">ISBN</a></li>
-                                <li><a href="#" onclick="searchByAuthor()">作者</a></li>
-                                <li><a href="#" onclick="searchByBooksellers()">出版社</a></li>
-                                <li><a href="#" onclick="searchByPublishDate()">出版日期</a></li>
+                                <li><a href="#" onclick="searchByBook('Name')">書名</a></li>
+                                <li><a href="#" onclick="searchByBook('ISBN')">ISBN</a></li>
+                                <li><a href="#" onclick="searchByBook('Author')">作者</a></li>
+                                <li><a href="#" onclick="searchByBook('Booksellers')">出版社</a></li>
+                                <li><a href="#" onclick="searchByBook('PublishDate')">出版日期</a></li>
                                 <li class="divider"></li>
                             </ul>
                         </li>
