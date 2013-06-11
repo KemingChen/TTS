@@ -18,7 +18,7 @@ if (isset($error)) {
 				<fieldset>
 					 <legend>加入會員</legend>
                       <label>Email</label>
-                      <input type="email" name="email"/>
+                      <input type="text" name="email"/>
                       <label>密碼</label>
                       <input type="password" name="password" size="20"/>
                       <label>權限</label>
