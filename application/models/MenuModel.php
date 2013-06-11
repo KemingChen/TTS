@@ -92,6 +92,7 @@ class MenuModel extends CI_Model
     {
         $list = array();
         $list["AccountManagement"] = array("ID" => "AccountManagement", "Tag" => "管理帳號", "Url" => "AccountManagement");
+        $list["NewMemberAdmin"] = array("ID" => "NewMemberAdmin", "Tag" => "新增會員", "Url" => "NewMemberAdmin");
         return $list;
     }
 }

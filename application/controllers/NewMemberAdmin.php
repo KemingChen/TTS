@@ -1,5 +1,5 @@
 <?
-class NewMember extends CI_Controller
+class NewMemberAdmin extends CI_Controller
 {
     public function __construct()
     {
@@ -9,35 +9,33 @@ class NewMember extends CI_Controller
         $this->load->model("AccountModel");
         $this->load->library('form_validation');
         $this->load->model("BrowseModel");
-        $this->load->model('AnnouncementModel');
+        $this->load->model("AnnouncementModel");
     }
 
     public function index()
     {
-        $slideBarList = $this->MenuModel->getNonMemberList();
-        $slideBarList["NewMember"]['Active'] = "active";
+        $slideBarList = $this->MenuModel->getAdministratorList();
+        $slideBarList["NewMemberAdmin"]['Active'] = "active";
 
 
         $this->form_validation->set_rules('email', 'email', 'required');
         $this->form_validation->set_rules('password', 'password', 'required');
+        $this->form_validation->set_rules('authority', 'authority', 'required');
         $this->form_validation->set_rules('name', 'name', 'required');
         $this->form_validation->set_rules('phoneNumber', 'phoneNumber', 'required');
-        echo $this->input->post('freeze');
         if ($this->form_validation->run() === false) {
-            $content = "NewMemberView";
-            $this->template->loadView("NewMember", $slideBarList, $content, array());
+            $content = "NewMemberAdminView";
+            $this->template->loadView("AccountManagement", $slideBarList, $content, array());
         } else {
             $email = $this->input->post('email');
             if ($this->AccountModel->isExist($email)) {
-                $content = "NewMemberView";
-                $this->template->loadView("NewMember", $slideBarList, $content, array("error" =>
+                $content = "NewMemberAdminView";
+                $this->template->loadView("AccountManagement", $slideBarList, "NewMemberAdminView", array("error" =>
                     "帳號已重複"));
             } else {
                 $this->AccountModel->createAccount();
-                $email = $this->input->post("email");
-                $password = $this->input->post("password");
-                $this->authority->login($email, $password);
-                $this->loadView();
+                $this->template->loadView("AccountManagement", $slideBarList, "NewMemberAdminView", array("error" =>
+                    "帳號已建立"));
             }
         }
     }
