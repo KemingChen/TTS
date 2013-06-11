@@ -53,7 +53,7 @@ class View extends CI_Controller
         $this->template->loadView("Category", $slideBarList, $content, $data);
     }
 
-    public function SearchByName($name, $offset=0)
+    public function SearchByName($name="NoInput", $offset=0)
     {
         $name = urldecode($name);
         $config['base_url'] = base_url("View/SearchByName/$name");
@@ -77,7 +77,7 @@ class View extends CI_Controller
         $this->template->loadView("Category", $slideBarList, $content, $data);
     }
     
-    public function SearchByISBN($ISBN, $offset=0)
+    public function SearchByISBN($ISBN="NoInput", $offset=0)
     {
         $ISBN = urldecode($ISBN);
         $config['base_url'] = base_url("View/SearchByName/$ISBN");
@@ -101,7 +101,7 @@ class View extends CI_Controller
         $this->template->loadView("Category", $slideBarList, $content, $data);
     }
 
-    public function SearchByAuthor($author, $offset=0)
+    public function SearchByAuthor($author="NoInput", $offset=0)
     {
         $author = urldecode($author);
         $config['base_url'] = base_url("View/SearchByAuthor/$author");
@@ -125,7 +125,7 @@ class View extends CI_Controller
         $this->template->loadView("Category", $slideBarList, $content, $data);
     }
 
-    public function SearchByBooksellers($booksellers, $offset=0)
+    public function SearchByBooksellers($booksellers="NoInput", $offset=0)
     {
         $booksellers = urldecode($booksellers);
         $config['base_url'] = base_url("View/SearchByBooksellers/$booksellers");
@@ -149,7 +149,7 @@ class View extends CI_Controller
         $this->template->loadView("Category", $slideBarList, $content, $data);
     }
 
-    public function SearchByPublishDate($publishDate, $offset=0)
+    public function SearchByPublishDate($publishDate="NoInput", $offset=0)
     {
         $publishDate = urldecode($publishDate);
         $config['base_url'] = base_url("View/SearchByPublishDate/$publishDate");
