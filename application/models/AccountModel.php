@@ -52,13 +52,21 @@ class AccountModel extends CI_Model
         $accountData = array(
             'email' => $this->input->post('email'),
             'password' => $this->input->post('password'),
-            'authority' => $this->input->post('authority'),
             'zipCode' => $this->input->post('zipCode'),
             'birthday' => $this->input->post('birthday'),
             'address' => $this->input->post('address'),
-            'available' => $this->input->post('available'),
             'name' => $this->input->post('name')
     	);
+        if($this->input->post('authority')){
+            $accountData['authority'] = $this->input->post('authority');   
+        }else{
+            $accountData['authority'] = "custom";
+        }
+        if($this->input->post('available')){
+            $accountData['available'] = $this->input->post('available'); 
+        }else{
+            $accountData['available'] = 1;//null;//'1';
+        }
         $this->db->insert('account', $accountData);
         $email = $accountData['email'];
         $mid = $this->getMidByEmail($email);

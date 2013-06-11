@@ -67,7 +67,7 @@ class MenuModel extends CI_Model
     {
         $list = array();
         $list["Info"] = array("ID" => "Info", "Tag" => "會員資料", "Url" => "ViewMember/Me/Info");
-        $list["Transaction"] = array("ID" => "Transaction", "Tag" => "交易紀錄", "Url" => "ViewMember/Me/Transaction");
+        $list["Transaction"] = array("ID" => "Transaction", "Tag" => "瀏覽購買清單", "Url" => "ViewMember/Me/Transaction");
         $list["Concern"] = array("ID" => "Concern", "Tag" => "關注書單", "Url" => "ViewMember/Me/Concern");
         $list["ShopCar"] = array("ID" => "ShopCar", "Tag" => "購物車", "Url" => "ViewMember/Me/ShopCar");
         $list["Password"] = array("ID" => "Password", "Tag" => "修改密碼", "Url" => "ViewMember/Me/Password");
