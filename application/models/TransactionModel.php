@@ -183,26 +183,19 @@ class TransactionModel extends CI_Model
             $stockData = $this->getStockDataByBid($cartRow->bid);
             while ($cartQuantity > 0)
             {
-                echo "$cartQuantity" . "\r\n";
-                echo "numofstock: " . "$stockData->num_rows()" . "\r\n";
                 foreach($stockData->result() as $stockRow)
                 {
-                    echo "srid: " . "$stockRow->srid" . "\r\n";
                     $stockRestAmount = $stockRow->restAmount;
                     if($stockRestAmount >= $cartQuantity)
                     {
-                        echo '$stockRestAmount >= $cartQuantity' . "\r\n";
                         $this->modifyStockRestAmountBySrid($stockRow->srid, $stockRestAmount - $cartQuantity);
                         $orderItemCostQuantity = $this->getOrderItemQuantityByCost($oid, $cartRow->bid, $stockRow->price);
                         if($orderItemCostQuantity > 0)
                         {
-                            echo '$orderItemCostQuantity > 0' . "\r\n";
                             $this->modifyOrderItemQuantityByOidAndBidAndCost($oid, $cartRow->bid, $cartQuantity + $orderItemCostQuantity, $stockRow->price);
                         }
                         else
                         {
-                            echo '$orderItemCostQuantity <= 0' . "\r\n";
-                            echo '$stockRow->price' . "$stockRow->price" . "\r\n";
                             $this->addOrderItemByOidAndBid($oid, $cartRow->bid, $cartQuantity, $stockRow->price);
                         }
                         $cartQuantity = 0;
@@ -210,18 +203,15 @@ class TransactionModel extends CI_Model
                     }
                     else
                     {
-                        echo '$stockRestAmount < $cartQuantity' . "\r\n";
                         $cartQuantity = $cartQuantity - $stockRestAmount;
                         $this->modifyStockRestAmountBySrid($stockRow->srid, 0);
                         $orderItemCostQuantity = $this->getOrderItemQuantityByCost($oid, $cartRow->bid, $stockRow->price);
                         if($orderItemCostQuantity > 0)
                         {
-                            echo '$orderItemCostQuantity > 0' . "\r\n";
                             $this->modifyOrderItemQuantityByOidAndBidAndCost($oid, $cartRow->bid, $stockRow->restAmount + $orderItemCostQuantity, $stockRow->price);
                         }
                         else
                         {
-                            echo '$orderItemCostQuantity <= 0' . "\r\n";
                             $this->addOrderItemByOidAndBid($oid, $cartRow->bid, $stockRow->restAmount, $stockRow->price);
                         }
                     }
@@ -321,24 +311,24 @@ class TransactionModel extends CI_Model
         return $soldPrice;
     }
     
-    public function getCostByBid($bid)
-    {
-        $this->db->select('*');
-        $this->db->from('stockrecord');
-        $this->db->where('bid', $bid);
-        $data = $this->db->get();
-        if ($data->num_rows() > 0)
-        {
-            $dataResult = $data->result();
-            $cost = $dataResult[0]->price;
-            // §PÂ_cost
-        }
-        else
-        {
-            $cost = 0;
-        }
-        return $cost;
-    }
+    //public function getCostByBid($bid)
+//    {
+//        $this->db->select('*');
+//        $this->db->from('stockrecord');
+//        $this->db->where('bid', $bid);
+//        $data = $this->db->get();
+//        if ($data->num_rows() > 0)
+//        {
+//            $dataResult = $data->result();
+//            $cost = $dataResult[0]->price;
+//            // §PÂ_cost
+//        }
+//        else
+//        {
+//            $cost = 0;
+//        }
+//        return $cost;
+//    }
     
     public function getStockByBid($bid)
     {
