@@ -68,6 +68,20 @@ class BookModel extends CI_Model
         $this->db->from('book');
         return $this->db->count_all_results();
     }
+    
+    public function getAmountByBookName($name){
+        $this->db->from('book');
+        $this->db->like("name", $name);
+        return $this->db->count_all_results();
+    }
+    
+    public function getBookListByBookName($name, $limit, $offset){
+        $this->db->select("");
+        $this->db->from('book');
+        $this->db->like("name", $name);
+        $this->db->limit($limit, $offset);
+        return $this->db->get()->result();
+    }
         
     public function updateOnShelf($bid,$true_or_false)
     {
