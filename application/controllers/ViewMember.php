@@ -10,7 +10,7 @@ class ViewMember extends CI_Controller
         $this->load->model("MenuModel");
         $this->load->model("ShoppingCartModel");
         $this->load->model("MemberModel");
-        $this->load->helper(array('form', 'url'));
+        $this->load->helper(array('form', 'url', "date"));
         $this->load->library('form_validation');
         $this->load->model("TransactionModel");
     }
@@ -109,7 +109,6 @@ class ViewMember extends CI_Controller
         $stockEnough = false;
         $stockEnough = $this->TransactionModel->IsAllStockEnough($mid);
         if ($stockEnough) {
-            echo "success buy";
             $datestring = "%Y-%m-%d";
             $now = now();
             $now = mdate($datestring, $now);
