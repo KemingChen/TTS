@@ -562,36 +562,36 @@ class TransactionModel extends CI_Model
         foreach ($orderItemData->result() as $row)
         {
             $sumOfSubTotal = $sumOfSubTotal + $row->quantity * $row->soldPrice;
-            // §PÂ_¬O§_¨Ï¥Î¹Ldiscount event
+            // åˆ¤æ–·æ˜¯å¦ä½¿ç”¨édiscount event
             $discountEvent = $this->getDiscountEventFromDiscountCorrespondByOidAndBid($oid, $row->bid);
             $discountEventString = "";
             if($discountEvent != null)
             {
                 $discount = $discountEvent->discount_rate * 10;
-                $discountEventString = "\r\n[§é¦©¬¡°Ê][$discountEvent->name][$discount" . "§é]";
+                $discountEventString = "\r\n[æŠ˜æ‰£æ´»å‹•][$discountEvent->name][$discount" . "æŠ˜]";
             }
-            $orderItemString = $orderItemString . $divider . "®Ñ¦W: " . $row->name . $discountEventString . "\r\n°â»ù: " . $row->soldPrice . "   " . "ÁÊ¶R¼Æ¶q: " . $row->quantity . "   " . "¤p­p: " . $row->soldPrice * $row->quantity . "\r\n";
+            $orderItemString = $orderItemString . $divider . "æ›¸å: " . $row->name . $discountEventString . "\r\nå”®åƒ¹: " . $row->soldPrice . "   " . "è³¼è²·æ•¸é‡: " . $row->quantity . "   " . "å°è¨ˆ: " . $row->soldPrice * $row->quantity . "\r\n";
         }
-        $sumOfSubTotal = "¤p­pÁ`©M¡G " . $sumOfSubTotal;
-        // §PÂ_¬O§_¨Ï¥Î¹Lrebate event
+        $sumOfSubTotal = "å°è¨ˆç¸½å’Œï¼š " . $sumOfSubTotal;
+        // åˆ¤æ–·æ˜¯å¦ä½¿ç”¨érebate event
         $rebateEvent = $this->getRebateEventFromRebateCorrespondByOid($oid);
         $rebateEventString = "";
         if($rebateEvent != null)
         {
-            $rebateEventString = "\r\n[§é»ù¬¡°Ê][$rebateEvent->name][´î»ù$rebateEvent->price" . "¤¸]";
+            $rebateEventString = "\r\n[æŠ˜åƒ¹æ´»å‹•][$rebateEvent->name][æ¸›åƒ¹$rebateEvent->price" . "å…ƒ]";
         }
-        // §PÂ_¬O§_¨Ï¥Î¹Lecoupon
+        // åˆ¤æ–·æ˜¯å¦ä½¿ç”¨éecoupon
         $ecouponPrice = $this->getEcouponPriceFromEcouponCorrespondByOid($oid);
         $ecouponString = "";
         if($ecouponPrice > 0)
         {
-            $ecouponString = "\r\n[»Å¸I¨é][´î»ù$ecouponPrice" . "¤¸]";
+            $ecouponString = "\r\n[é…·ç¢°åˆ¸][æ¸›åƒ¹$ecouponPrice" . "å…ƒ]";
         }
         $totalPrice = $this->getOrderSummaryPriceByOid($oid);
-        $totalString = "\r\nÁ`­p¡G $totalPrice ¤¸";
+        $totalString = "\r\nç¸½è¨ˆï¼š $totalPrice å…ƒ";
         $subject = 'TaipeiTech Store';
         $name = $this->AccountModel->getNameByMid($mid);
-        $message = "¿Ë·Rªº$name" . "±z¦n,"  . "\r\n" . "±zªº­q³æ¤w¦¬¨ì, ¥¿¦b³B²z¤¤" . "\r\n\r\n" . "­q³æ½s¸¹: " . $oid . "\r\n" . $orderItemString . $sumOfSubTotal . $rebateEventString . $ecouponString . $totalString;
+        $message = "è¦ªæ„›çš„$name" . "æ‚¨å¥½,"  . "\r\n" . "æ‚¨çš„è¨‚å–®å·²æ”¶åˆ°, æ­£åœ¨è™•ç†ä¸­" . "\r\n\r\n" . "è¨‚å–®ç·¨è™Ÿ: " . $oid . "\r\n" . $orderItemString . $sumOfSubTotal . $rebateEventString . $ecouponString . $totalString;
         $this->GmailModel->sendMail($recipient, $subject, $message);
     }
 
@@ -605,36 +605,36 @@ class TransactionModel extends CI_Model
         foreach ($orderItemData->result() as $row)
         {
             $sumOfSubTotal = $sumOfSubTotal + $row->quantity * $row->soldPrice;
-            // §PÂ_¬O§_¨Ï¥Î¹Ldiscount event
+            // åˆ¤æ–·æ˜¯å¦ä½¿ç”¨édiscount event
             $discountEvent = $this->getDiscountEventFromDiscountCorrespondByOidAndBid($oid, $row->bid);
             $discountEventString = "";
             if($discountEvent != null)
             {
                 $discount = $discountEvent->discount_rate * 10;
-                $discountEventString = "\r\n[§é¦©¬¡°Ê][$discountEvent->name][$discount" . "§é]";
+                $discountEventString = "\r\n[æŠ˜æ‰£æ´»å‹•][$discountEvent->name][$discount" . "æŠ˜]";
             }
-            $orderItemString = $orderItemString . $divider . "®Ñ¦W: " . $row->name . "\r\n" . "°â»ù: " . $row->soldPrice . "\r\n" . "ÁÊ¶R¼Æ¶q: " . $row->quantity . "\r\n"; 
+            $orderItemString = $orderItemString . $divider . "æ›¸å: " . $row->name . "\r\n" . "å”®åƒ¹: " . $row->soldPrice . "\r\n" . "è³¼è²·æ•¸é‡: " . $row->quantity . "\r\n"; 
         }
-        $sumOfSubTotal = "¤p­pÁ`©M¡G " . $sumOfSubTotal;
-        // §PÂ_¬O§_¨Ï¥Î¹Lrebate event
+        $sumOfSubTotal = "å°è¨ˆç¸½å’Œï¼š " . $sumOfSubTotal;
+        // åˆ¤æ–·æ˜¯å¦ä½¿ç”¨érebate event
         $rebateEvent = $this->getRebateEventFromRebateCorrespondByOid($oid);
         $rebateEventString = "";
         if($rebateEvent != null)
         {
-            $rebateEventString = "\r\n[§é»ù¬¡°Ê][$rebateEvent->name][´î»ù$rebateEvent->price" . "¤¸]";
+            $rebateEventString = "\r\n[æŠ˜åƒ¹æ´»å‹•][$rebateEvent->name][æ¸›åƒ¹$rebateEvent->price" . "å…ƒ]";
         }
-        // §PÂ_¬O§_¨Ï¥Î¹Lecoupon
+        // åˆ¤æ–·æ˜¯å¦ä½¿ç”¨éecoupon
         $ecouponPrice = $this->getEcouponPriceFromEcouponCorrespondByOid($oid);
         $ecouponString = "";
         if($ecouponPrice > 0)
         {
-            $ecouponString = "\r\n[»Å¸I¨é][´î»ù$ecouponPrice" . "¤¸]";
+            $ecouponString = "\r\n[é…·ç¢°åˆ¸][æ¸›åƒ¹$ecouponPrice" . "å…ƒ]";
         }
         $totalPrice = $this->getOrderSummaryPriceByOid($oid);
-        $totalString = "\r\nÁ`­p¡G $totalPrice ¤¸";
+        $totalString = "\r\nç¸½è¨ˆï¼š $totalPrice å…ƒ";
         $subject = 'TaipeiTech Store';
         $name = $this->AccountModel->getNameByMid($mid);
-        $message = "¿Ë·Rªº$name" . "±z¦n," . "\r\n" . "±zªº­q³æ¤w°e¹F" . "\r\n\r\n" . "­q³æ½s¸¹: " . $oid . "\r\n" . $orderItemString . $sumOfSubTotal . $rebateEventString . $ecouponString . $totalString . "\r\n" . $divider . "\r\nÁÂÁÂ±zªº­qÁÊ.";
+        $message = "è¦ªæ„›çš„$name" . "æ‚¨å¥½," . "\r\n" . "æ‚¨çš„è¨‚å–®å·²é€é”" . "\r\n\r\n" . "è¨‚å–®ç·¨è™Ÿ: " . $oid . "\r\n" . $orderItemString . $sumOfSubTotal . $rebateEventString . $ecouponString . $totalString . "\r\n" . $divider . "\r\nè¬è¬æ‚¨çš„è¨‚è³¼.";
         $this->GmailModel->sendMail($recipient, $subject, $message);
     }
 
