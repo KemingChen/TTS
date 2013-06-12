@@ -105,13 +105,24 @@
                 <td>定價</td>
                 <td><i class="icon-chevron-right"></i> <?=$book->price?></td>
             </tr>
+            <tr>
+            <?php
+            if(sizeof($discounts)>0){
+                echo '<td>優惠</td><td><i class="icon-chevron-right"></i>';
+                foreach($discounts as $discount)
+                {
+                    echo '<div class="label label-info">'.$discount->name.'</div>';
+                }
+                echo '</td>';
+            }?>
+            </tr>
         </table>
         <?php
         if($isLogin){
         ?>
         <div>
             <label>購買數量:</label>
-            <input id="quantity" type="number" value="1" style="width: 80px;"/>
+            <input id="quantity" type="number" min="1" value="1" style="width: 80px;" />
         </div>
         <div class="btn-group">
             <button class="btn btn-middle btn-danger" onclick="addShopCar(this, <?=$book->bid?>)">加入購物車</button>

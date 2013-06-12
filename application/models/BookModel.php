@@ -32,11 +32,12 @@ class BookModel extends CI_Model
         $categorySQL = 'SELECT cid,name FROM `categorycorrespond` natural join category where bid = '.$bid;
         $writerSQL = 'SELECT aid,name FROM writercorrespond NATURAL JOIN author WHERE bid ='.$bid;
         $translatorSQL = 'SELECT aid,name FROM  translatecorrespond NATURAL JOIN author WHERE bid ='.$bid;
-        
+        $discountSQL = 'SELECT d.name FROM  `book` NATURAL JOIN categorycorrespond AS c JOIN discountevent AS d ON c.cid = d.cid WHERE bid ='.$bid;
         $data['book'] = $this->db->query($sql)->row(0);
         $data['category'] = $this->db->query($categorySQL)->result();
         $data['writer'] = $this->db->query($writerSQL)->result();
         $data['translator'] = $this->db->query($translatorSQL)->result();
+        $data['discounts'] = $this->db->query($discountSQL)->result();
         return $data;
     }
     

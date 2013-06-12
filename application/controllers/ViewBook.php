@@ -31,7 +31,6 @@ class ViewBook extends CI_Controller
                 break;
             }
         }
-        
         $data['isLogin'] = $this->authority->isLogin();
         
         $this->template->loadView("Category", $slideBarList, $content, $data);
