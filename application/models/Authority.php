@@ -17,7 +17,6 @@ class Authority extends CI_Model
         {
             $this->encode($userData[0]);
             $this->session->set_userdata($userData[0]);
-            print_r($userData[0]);
             return true;
         }
         return false;
@@ -41,8 +40,6 @@ class Authority extends CI_Model
 
     public function getName()
     {
-        $name = urldecode($this->session->userdata('name'));
-        return $name;
         return $this->decode('name');
     }
 

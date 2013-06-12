@@ -110,8 +110,8 @@
         if($isLogin){
         ?>
         <div>
-            <label>數量:</label>
-            <input id="quantity" type="number" value="1"/>
+            <label>購買數量:</label>
+            <input id="quantity" type="number" value="1" style="width: 80px;"/>
         </div>
         <div class="btn-group">
             <button class="btn btn-middle btn-danger" onclick="addShopCar(this, <?=$book->bid?>)">加入購物車</button>
