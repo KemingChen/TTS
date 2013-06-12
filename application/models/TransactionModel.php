@@ -150,7 +150,7 @@ class TransactionModel extends CI_Model
         $this->db->delete('orderItem');
     }
     
-    public function order($mid, $data, $couponCode="")
+    public function order($mid, $data, $couponCode)
     {
         $this->db->trans_start();
         $shoppingCartData = $this->getShoppingCartDataByMid($mid);
@@ -162,7 +162,7 @@ class TransactionModel extends CI_Model
             $totalPrice = $this->getTotalPriceByOid($oid);
             $orderTime = $this->getOrderTimeByOid($oid);
             $rebateEvent = $this->getBestRebateByTotal($totalPrice, $orderTime);
-            if ($rebateEvent!= null)
+            if ($rebateEvent != null)
             {
                 $this->addRebateCorrespondByOidAndReid($oid, $rebateEvent->reid);
                 $totalPrice = $totalPrice - $rebateEvent->price;
@@ -175,7 +175,10 @@ class TransactionModel extends CI_Model
                 {
                     $totalPrice = 0;
                 }
-                $totalPrice = $totalPrice - $ecouponPrice;
+                else
+                {
+                    $totalPrice = $totalPrice - $ecouponPrice;
+                }
                 $this->addEcouponCorrespondByOidAndPrice($oid, $ecouponPrice);
                 $this->deleteEcouponByCouponCode($couponCode);
             }
@@ -195,11 +198,12 @@ class TransactionModel extends CI_Model
         $this->db->select('price');
         $this->db->from('ecoupon');
         $this->db->where('couponCode', $couponCode);
-        $this->db->where('startTime >=', $orderTime);
-        $this->db->where('endTime <=', $orderTime);
+        //$this->db->where('startTime >=', $orderTime);
+        //$this->db->where('endTime <=', $orderTime);
         $data = $this->db->get();
         $dataResult = $data->result();
         $price = 0;
+        echo "rows: $data->num_rows()";
         if ($data->num_rows() > 0)
         {
             $price = $dataResult[0]->price;
@@ -209,13 +213,17 @@ class TransactionModel extends CI_Model
     
     public function addEcouponCorrespondByOidAndPrice($oid, $price)
     {
-        $this->db->insert('ecouponcorrespond', array('oid' => $oid, 'price' => $price));
+        $data = array(
+                        'oid' => $oid,
+                        'price' => $price
+        );
+        $this->db->insert('ecouponcorrespond', $data);
     }
     
     public function deleteEcouponByCouponCode($couponCode)
     {
         $this->db->where('couponCode', $couponCode);
-        $this->db->delete('ecouponcorrespond');
+        $this->db->delete('ecoupon');
     }
     
     public function refreshEcouponByOrderTime($orderTime)
