@@ -179,6 +179,7 @@ class Transaction extends CI_Controller
         {
             $this->TransactionModel->resetShoppingCartQuantityFromTransactionErrorByMid($mid);
             $ShoppingCartData['restQuantity'] = $this->TransactionModel->getRestQuantityShoppingCartData($mid);
+            $result = count($ShoppingCartData['restQuantity']);
             $this->ShoppingCartModel->clearShoppingCart($mid);
             $ShoppingCartData['mid'] = $mid;
             $this->load->view('Transaction/TransactionFail', $ShoppingCartData);
