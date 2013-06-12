@@ -16,7 +16,6 @@
 			<h3>
 			     關注書單
 			</h3>
-        
             <?php if ($total_NumRows <= 0) {?>
                 <div id="empty">關注書單裡面沒有任何東西，快來看看有什麼<a href="">新書</a>！</div>
             <?php } else { ?>
@@ -59,17 +58,16 @@
                             PrintPageliTag($i, $url.$i, $i==$page ? "active" : "");
                         }
                         $page+1 <= $pages ? PrintPageliTag("Next", $url.($page+1)) : "";
-                        
-                        
-                        function PrintPageliTag($word, $url, $active = "")
-                        {
-                            echo "<li class='$active'><a href='$url'>$word</a></li>";
-                        } 
                     ?>
                     </ul>
                 </div>
             </div>
-            <?php } ?>
+            <?php }
+                function PrintPageliTag($word, $url, $active = "")
+                {
+                    echo "<li class='$active'><a href='$url'>$word</a></li>";
+                }  
+            ?>
 		</div>
 	</div>
 </div>
