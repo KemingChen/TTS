@@ -103,14 +103,14 @@ function setAccountAuthority(mid, authority){
                             ?>
 						<td>
                             <a href="#" onclick="setAccountAvaliable(<?= $account->
-        mid ?>, 1)"><?= $account->available ?></a>
+        mid ?>, 1)"><?= $account->available==1?'TRUE': 'FALSE' ?></a>
 						</td>
                         <?php
                             } else {
                         ?>
 						<td>
                             <a href="#" onclick="setAccountAvaliable(<?= $account->
-        mid ?>, 0)"><?= $account->available ?></a>
+        mid ?>, 0)"><?= $account->available==1?'TRUE': 'FALSE' ?></a>
 						</td>
                         <?php
     }
