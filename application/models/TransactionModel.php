@@ -86,6 +86,25 @@ class TransactionModel extends CI_Model
         return $data;
     }
 
+    public function getNotArrivedOrderLimit($limit, $offset)
+    {
+        $this->db->select('*');
+        $this->db->from('orderSummary');
+        $this->db->where("state = 'processing' OR state = 'shipping'");
+        $this->db->limit($limit, $offset);
+        $data = $this->db->get()->result();
+        return $data;
+    }
+
+    public function getNotArrivedOrderAmount()
+    {
+        $this->db->select('*');
+        $this->db->from('orderSummary');
+        $this->db->where("state = 'processing' OR state = 'shipping'");
+        $count = $this->db->count_all_results();
+        return $count;
+    }
+
     public function browseTransactionRecordsLimit($limit, $offset)
     {
         $this->db->select('*');
