@@ -13,6 +13,7 @@ class ViewMember extends CI_Controller
         $this->load->helper(array('form', 'url', "date"));
         $this->load->library('form_validation');
         $this->load->model("TransactionModel");
+        $this->load->model("authority");
     }
 
     public function index()
@@ -138,7 +139,6 @@ class ViewMember extends CI_Controller
     public function revisePassword($oldPassword, $newPassword)
     {
         $password = $this->authority->getPassword();
-        //echo "password=$password";
         if ($oldPassword == $password) {
             $this->MemberModel->revisePassword($newPassword);
             $this->authority->reload($newPassword);
