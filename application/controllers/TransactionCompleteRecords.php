@@ -20,7 +20,7 @@ class TransactionCompleteRecords extends CI_Controller
         $slideBarList = $this->MenuModel->getManagerList();
         $slideBarList["TransactionCompleteRecords"]['Active'] = "active";
         $this->initPaginationConfig($config);
-        $config['base_url'] = base_url("TransactionRecords/page/");
+        $config['base_url'] = base_url("TransactionCompleteRecords/page/");
         $config['total_rows'] = $this->TransactionModel->getArrivedOrderAmount();
         $this->pagination->initialize($config);
 
