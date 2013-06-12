@@ -15,9 +15,9 @@ class Authority extends CI_Model
         $userData = $users->result();
         if (count($userData) > 0 && $userData[0]->available == true)
         {
-            $userData[0]->name = urlencode($userData[0]->name);
-            $userData[0]->address = urlencode($userData[0]->address);
+            $this->encode($userData[0]);
             $this->session->set_userdata($userData[0]);
+            print_r($userData[0]);
             return true;
         }
         return false;
@@ -31,49 +31,57 @@ class Authority extends CI_Model
 
     public function getMemberID()
     {
-        $mid = $this->session->userdata('mid');
-        return $mid;
+        return $this->decode('mid');
     }
 
     public function getEmail()
     {
-        $email = $this->session->userdata('email');
-        return $email;
+        return $this->decode('email');
     }
 
     public function getName()
     {
         $name = urldecode($this->session->userdata('name'));
         return $name;
+        return $this->decode('name');
     }
 
     public function getBirthDate()
     {
-        $birthDate = $this->session->userdata('birthday');
-        return $birthDate;
+        return $this->decode('birthday');
     }
 
     public function getZipCode()
     {
-        $zipCode = $this->session->userdata('zipCode');
-        return $zipCode;
+        return $this->decode('zipCode');
     }
 
     public function getAddress()
     {
-        $address = urldecode($this->session->userdata('address'));
-        return $address;
+        return $this->decode('address');
     }
 
     public function getAuthority()
     {
-        $authority = $this->session->userdata('authority');
-        return $authority;
+        return $this->decode('authority');
     }
 
     public function logout()
     {
         $this->session->sess_destroy();
+    }
+    
+    private function decode($key)
+    {
+        return urldecode($this->session->userdata($key));
+    }
+    
+    private function encode(&$array)
+    {
+        foreach($array as &$obj)
+        {
+            $obj = urlencode($obj);
+        }
     }
 }
 
