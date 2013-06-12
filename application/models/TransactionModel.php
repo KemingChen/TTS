@@ -462,7 +462,11 @@ class TransactionModel extends CI_Model
         $this->db->group_by('bid');
         $data = $this->db->get();
         $dataResult = $data->result();
-        $stockQuantity = $dataResult[0]->totalQuantity;
+        $stockQuantity = 0;
+        if ($data->num_rows() > 0)
+        {
+            $stockQuantity = $dataResult[0]->totalQuantity;
+        }
         return $stockQuantity;
     }
     
