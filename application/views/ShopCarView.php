@@ -23,6 +23,10 @@
                 }
             });
     }
+    
+    function buy(){
+        
+    }
 </script>
 <div class="container-fluid">
 	<div class="row-fluid">
@@ -101,16 +105,19 @@ if ($total_NumRows <= 0) {
                         <td><?= $totalPrice ?></td>
                     </tr>
                 </table>
-            <?php
-}
-?>
             </div>
             <div>
                 <h3>優惠</h3>
                 <label>ECoupon
-                <input type="text" id="ecoupon" onchange="ecouponCheck()"/></label>
-                <div class="btn" onclick="ecouponCheck()">檢查</div><i id="notify" class=""></i>
+                <input type="text" id="ecoupon" onchange="ecouponCheck()"/><div class="btn" onclick="ecouponCheck()">檢查</div><i id="notify" class=""></i></label>
+                
             </div>
+            <div align="center">
+                <div class="btn btn-success" onclick="buy()">購買</div>
+            </div>
+            <?php
+            }
+            ?>
 		</div>
 	</div>
 </div>

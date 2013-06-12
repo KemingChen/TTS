@@ -6,11 +6,11 @@ class Authority extends CI_Model
     {
         parent::__construct();
         $this->load->library('session');
+        $this->load->model('accountModel');
     }
 
     public function login($email, $password)
     {
-        $this->load->model('accountModel');
         $users = $this->accountModel->getMemberInfoByAccount($email, $password);
         $userData = $users->result();
         if (count($userData) > 0 && $userData[0]->available == true)
@@ -20,6 +20,12 @@ class Authority extends CI_Model
             return true;
         }
         return false;
+    }
+    
+    public function reload(){
+        $email = $this->session->userdata("email");
+        $password = $this->session->userdata("password");
+        $this->login($email, $password);
     }
 
     public function isLogin()

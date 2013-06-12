@@ -1,5 +1,4 @@
 <?
-
 class ViewMember extends CI_Controller
 {
     private $param;
@@ -10,6 +9,9 @@ class ViewMember extends CI_Controller
         $this->load->model("template");
         $this->load->model("MenuModel");
         $this->load->model("ShoppingCartModel");
+        $this->load->model("MemberModel");
+        $this->load->helper(array('form', 'url'));
+        $this->load->library('form_validation');
     }
 
     public function index()
@@ -21,6 +23,25 @@ class ViewMember extends CI_Controller
     {
         $this->param = $param;
         $this->view($action);
+    }
+
+    public function updateInfo()
+    {
+        $this->form_validation->set_rules('name', 'name', 'required');
+        $this->form_validation->set_rules('birthday', 'birthday', 'required');
+        $this->form_validation->set_rules('zipCode', 'zipcode', 'required');
+        $this->form_validation->set_rules('address', 'address', 'required');
+        if ($this->form_validation->run() == false) {
+        } else {
+            $mid = $this->authority->getMemberID();
+            $name = $this->input->post("name");
+            $birthday = $this->input->post("birthday");
+            $zipCode = $this->input->post("zipCode");
+            $address = $this->input->post("address");
+            $this->MemberModel->updateInfo($mid, $name, $birthday, $zipCode, $address);
+            $this->authority->reload();
+        }
+        $this->view("Info");
     }
 
     private function doInfo(&$content)
@@ -66,9 +87,9 @@ class ViewMember extends CI_Controller
     private function doShopCar(&$content)
     {
         $content = "ShopCarView";
-        
+
         $mid = $this->authority->getMemberID();
-        $info = $data = $this->ShoppingCartModel->getWholeShoppingCart($mid);    
+        $info = $data = $this->ShoppingCartModel->getWholeShoppingCart($mid);
         return $info;
     }
 
@@ -87,5 +108,4 @@ class ViewMember extends CI_Controller
         $this->template->loadView("Member", $slideBarList, $content, $data);
     }
 }
-
 ?>

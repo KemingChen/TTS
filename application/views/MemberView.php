@@ -7,7 +7,8 @@
                     width: 20%;
                 }
             </style>
-            <form action="javascript: showReminderMsg('已送出修改...施工中...');" method="post">
+            <?php echo validation_errors(); ?>
+            <?php echo form_open('ViewMember/updateInfo'); ?>
     			<table class="table table-striped" id="memberinfo">
     				<tbody>
     					<tr>
@@ -17,22 +18,22 @@
     					<tr class="info">
     						<td class="item">名稱</td>
     						<td id="name"><?=$name?></td>
-    						<td class="hide"><input type="text" /></td>
+    						<td class="hide"><input type="text" name="name"/></td>
     					</tr>
     					<tr>
     						<td class="item">生日</td>
     						<td id="bitrhdate"><?=$birthDate?></td>
-    						<td class="hide"><input type="text" /></td>
+    						<td class="hide"><input type="date" name="birthday"/></td>
     					</tr>
     					<tr class="info">
     						<td class="item">郵遞區號</td>
-    						<td id="$zipcode"><?=$zipCode?></td>
-    						<td class="hide"><input type="text" /></td>
+    						<td id="zipcode"><?=$zipCode?></td>
+    						<td class="hide"><input type="text" name="zipCode"/></td>
     					</tr>
     					<tr>
     						<td class="item">地址</td>
-    						<td id="$address"><?=$address?></td>
-    						<td class="hide"><input type="text" /></td>
+    						<td id="address"><?=$address?></td>
+    						<td class="hide"><input type="text" name="address"/></td>
     					</tr>
     				</tbody>
     			</table>
@@ -48,7 +49,7 @@
                     {
                         var input = $(inputs[i]);
                         var source = $(input.parent().parent().find("td")[1]);
-                        input.attr("name", source.attr("id"));
+                        //input.attr("name", source.attr("id"));
                         input.val(source.html());
                         source.hide();
                         input.parent().show();
