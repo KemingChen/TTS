@@ -1,8 +1,7 @@
 <?php
-    echo 'num_rows '.$num_rows.'<br>';
     echo 'total_num_rows '.$total_num_rows.'<br>';
     
-    foreach ($data['books'] as $book)
+    foreach ($books as $book)
     {
         echo '<input type="button" value= detail onclick="browse('.$book->bid.')">'; 
         echo " bid:" . $book->bid;

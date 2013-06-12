@@ -22,7 +22,19 @@ class Browse extends CI_Controller
     public function ByLatestPublish($offset=0, $limit=10)
     {
         $data = $this->BrowseModel->GetLatestBook($offset, $limit);
-        $this->template->view("", "", "browse/category", $data);
+        $this->load->view("browse/category", $data);
+    }
+    
+    public function ByMostConcerned($offset=0, $limit=10)
+    {
+        $data = $this->BrowseModel->GetMostConcernedBook($offset, $limit=10);
+        $this->load->view("browse/category", $data);
+    }
+    
+    public function ByHotRanking($offset=0, $limit=10)
+    {
+        $data = $this->BrowseModel->GetHotRankingBook($offset, $limit=10);
+        $this->load->view("browse/category", $data);
     }
 }
 ?>
