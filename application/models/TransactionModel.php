@@ -28,13 +28,21 @@ class TransactionModel extends CI_Model
             $this->sendThanksMail($mid, $oid);
         }
     }
-    
-    public function getOrderSummaryByOId($oid){
-        $query = $this->db->get_where("orderSummary", array("oid"=>$oid));
+
+    public function getOrderSummaryByOId($oid)
+    {
+        $query = $this->db->get_where("orderSummary", array("oid" => $oid));
         $list = $query->result();
-        if(count($list)>0){
+        if (count($list) > 0) {
             return $list[0];
-        }return NULL;
+        }
+        return null;
+    }
+
+    public function modifyOrderSummaryState($oid, $state)
+    {
+        $this->db->where('oid', $oid);
+        $this->db->update('orderSummary', array("state"=>$state));
     }
 
     public function getMidByOid($oid)
@@ -113,7 +121,7 @@ class TransactionModel extends CI_Model
         $data = $this->db->get()->result();
         return $data;
     }
-    
+
     public function getTransactionRecordAmount()
     {
         $this->db->select('*');
@@ -542,55 +550,46 @@ class TransactionModel extends CI_Model
         $data = $this->db->get();
         return $data;
     }
-    
+
     public function getDiscountEventFromDiscountCorrespondByOidAndBid($oid, $bid)
     {
         $this->db->select('de.name, de.discount_rate');
         $this->db->from('discountcorrespond as dc, discountevent as de');
         $this->db->where("dc.oid = $oid AND dc.bid = $bid AND dc.deid = de.deid");
         $dataResult = $this->db->get()->result();
-        if(count($dataResult) > 0)
-        {
+        if (count($dataResult) > 0) {
             return $dataResult[0];
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
-    
+
     public function getRebateEventFromRebateCorrespondByOid($oid)
     {
         $this->db->select('re.name, re.price');
         $this->db->from('rebateCorrespond as rc, rebateevent as re');
         $this->db->where("rc.oid = $oid AND rc.reid = re.reid");
         $dataResult = $this->db->get()->result();
-        if(count($dataResult) > 0)
-        {
+        if (count($dataResult) > 0) {
             return $dataResult[0];
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
-    
+
     public function getEcouponPriceFromEcouponCorrespondByOid($oid)
     {
         $this->db->select('price');
         $this->db->from('ecouponcorrespond');
         $this->db->where('oid', $oid);
         $dataResult = $this->db->get()->result();
-        if(count($dataResult) > 0)
-        {
+        if (count($dataResult) > 0) {
             return $dataResult[0]->price;
-        }
-        else
-        {
+        } else {
             return 0;
         }
     }
-    
+
     public function getOrderSummaryPriceByOid($oid)
     {
         $this->db->select('totalPrice');
@@ -607,39 +606,41 @@ class TransactionModel extends CI_Model
         $orderItemString = "";
         $sumOfSubTotal = 0;
         $divider = "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\r\n";
-        foreach ($orderItemData->result() as $row)
-        {
+        foreach ($orderItemData->result() as $row) {
             $sumOfSubTotal = $sumOfSubTotal + $row->quantity * $row->soldPrice;
             // 判斷是否使用過discount event
-            $discountEvent = $this->getDiscountEventFromDiscountCorrespondByOidAndBid($oid, $row->bid);
+            $discountEvent = $this->getDiscountEventFromDiscountCorrespondByOidAndBid($oid,
+                $row->bid);
             $discountEventString = "";
-            if($discountEvent != null)
-            {
+            if ($discountEvent != null) {
                 $discount = $discountEvent->discount_rate * 10;
                 $discountEventString = "\r\n[折扣活動][$discountEvent->name][$discount" . "折]";
             }
-            $orderItemString = $orderItemString . $divider . "書名: " . $row->name . $discountEventString . "\r\n售價: " . $row->soldPrice . "   " . "購買數量: " . $row->quantity . "   " . "小計: " . $row->soldPrice * $row->quantity . "\r\n";
+            $orderItemString = $orderItemString . $divider . "書名: " . $row->name . $discountEventString .
+                "\r\n售價: " . $row->soldPrice . "   " . "購買數量: " . $row->quantity . "   " .
+                "小計: " . $row->soldPrice * $row->quantity . "\r\n";
         }
         $sumOfSubTotal = "小計總和： " . $sumOfSubTotal;
         // 判斷是否使用過rebate event
         $rebateEvent = $this->getRebateEventFromRebateCorrespondByOid($oid);
         $rebateEventString = "";
-        if($rebateEvent != null)
-        {
-            $rebateEventString = "\r\n[折價活動][$rebateEvent->name][減價$rebateEvent->price" . "元]";
+        if ($rebateEvent != null) {
+            $rebateEventString = "\r\n[折價活動][$rebateEvent->name][減價$rebateEvent->price" .
+                "元]";
         }
         // 判斷是否使用過ecoupon
         $ecouponPrice = $this->getEcouponPriceFromEcouponCorrespondByOid($oid);
         $ecouponString = "";
-        if($ecouponPrice > 0)
-        {
+        if ($ecouponPrice > 0) {
             $ecouponString = "\r\n[酷碰券][減價$ecouponPrice" . "元]";
         }
         $totalPrice = $this->getOrderSummaryPriceByOid($oid);
         $totalString = "\r\n總計： $totalPrice 元";
         $subject = 'TaipeiTech Store';
         $name = $this->AccountModel->getNameByMid($mid);
-        $message = "親愛的$name" . "您好,"  . "\r\n" . "您的訂單已收到, 正在處理中" . "\r\n\r\n" . "訂單編號: " . $oid . "\r\n" . $orderItemString . $sumOfSubTotal . $rebateEventString . $ecouponString . $totalString;
+        $message = "親愛的$name" . "您好," . "\r\n" . "您的訂單已收到, 正在處理中" . "\r\n\r\n" .
+            "訂單編號: " . $oid . "\r\n" . $orderItemString . $sumOfSubTotal . $rebateEventString .
+            $ecouponString . $totalString;
         $this->GmailModel->sendMail($recipient, $subject, $message);
     }
 
@@ -650,39 +651,40 @@ class TransactionModel extends CI_Model
         $orderItemString = "";
         $sumOfSubTotal = 0;
         $divider = "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\r\n";
-        foreach ($orderItemData->result() as $row)
-        {
+        foreach ($orderItemData->result() as $row) {
             $sumOfSubTotal = $sumOfSubTotal + $row->quantity * $row->soldPrice;
             // 判斷是否使用過discount event
-            $discountEvent = $this->getDiscountEventFromDiscountCorrespondByOidAndBid($oid, $row->bid);
+            $discountEvent = $this->getDiscountEventFromDiscountCorrespondByOidAndBid($oid,
+                $row->bid);
             $discountEventString = "";
-            if($discountEvent != null)
-            {
+            if ($discountEvent != null) {
                 $discount = $discountEvent->discount_rate * 10;
                 $discountEventString = "\r\n[折扣活動][$discountEvent->name][$discount" . "折]";
             }
-            $orderItemString = $orderItemString . $divider . "書名: " . $row->name . "\r\n" . "售價: " . $row->soldPrice . "\r\n" . "購買數量: " . $row->quantity . "\r\n"; 
+            $orderItemString = $orderItemString . $divider . "書名: " . $row->name . "\r\n" .
+                "售價: " . $row->soldPrice . "\r\n" . "購買數量: " . $row->quantity . "\r\n";
         }
         $sumOfSubTotal = "小計總和： " . $sumOfSubTotal;
         // 判斷是否使用過rebate event
         $rebateEvent = $this->getRebateEventFromRebateCorrespondByOid($oid);
         $rebateEventString = "";
-        if($rebateEvent != null)
-        {
-            $rebateEventString = "\r\n[折價活動][$rebateEvent->name][減價$rebateEvent->price" . "元]";
+        if ($rebateEvent != null) {
+            $rebateEventString = "\r\n[折價活動][$rebateEvent->name][減價$rebateEvent->price" .
+                "元]";
         }
         // 判斷是否使用過ecoupon
         $ecouponPrice = $this->getEcouponPriceFromEcouponCorrespondByOid($oid);
         $ecouponString = "";
-        if($ecouponPrice > 0)
-        {
+        if ($ecouponPrice > 0) {
             $ecouponString = "\r\n[酷碰券][減價$ecouponPrice" . "元]";
         }
         $totalPrice = $this->getOrderSummaryPriceByOid($oid);
         $totalString = "\r\n總計： $totalPrice 元";
         $subject = 'TaipeiTech Store';
         $name = $this->AccountModel->getNameByMid($mid);
-        $message = "親愛的$name" . "您好," . "\r\n" . "您的訂單已送達" . "\r\n\r\n" . "訂單編號: " . $oid . "\r\n" . $orderItemString . $sumOfSubTotal . $rebateEventString . $ecouponString . $totalString . "\r\n" . $divider . "\r\n謝謝您的訂購.";
+        $message = "親愛的$name" . "您好," . "\r\n" . "您的訂單已送達" . "\r\n\r\n" . "訂單編號: " . $oid .
+            "\r\n" . $orderItemString . $sumOfSubTotal . $rebateEventString . $ecouponString .
+            $totalString . "\r\n" . $divider . "\r\n謝謝您的訂購.";
         $this->GmailModel->sendMail($recipient, $subject, $message);
     }
 

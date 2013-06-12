@@ -43,6 +43,11 @@ class OrderManagement extends CI_Controller
         $config['full_tag_open'] = '<div class="pagination pagination-centered"><ul>';
         $config['full_tag_close'] = '</ul></div>';
     }
+    
+    public function modifyOrderSummaryState($oid, $state){
+        $this->TransactionModel->modifyOrderSummaryState($oid, $state);
+        echo "OK";
+    }
 }
 
 ?>

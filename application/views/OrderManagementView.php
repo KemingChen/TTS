@@ -1,3 +1,14 @@
+<script>
+function setOrderSummaryState(oid, state){
+    console.log(oid + "," + state);
+    $.ajax({url: "<?= base_url("OrderManagement/modifyOrderSummaryState") ?>/"+oid +"/" + state}).
+            done(function(data){
+                if(data == "OK")
+                    location.reload();
+            });  
+}
+</script>
+
 <div class="container-fluid">
 	<div class="row-fluid">
 		<div class="span12">
@@ -87,7 +98,25 @@
 							<?= $orderSummary->orderTime ?>
 						</td>
 						<td>
-							<?= $orderSummary->state ?>
+                            <?php
+                            if($orderSummary->state=="processing"){
+                            ?>
+                                <select onchange="setOrderSummaryState(<?=$orderSummary->oid?>,this.options[this.selectedIndex].value)" class="selectpicker">
+                                    <option value="processing" selected="true">Processing</option>
+                                    <option value="shipping">Shipping</option>
+                                    <option value="arrived">Arrived</option>
+                                </select>
+                            <?php
+                            }else{
+                            ?>
+                                <select onchange="setOrderSummaryState(<?=$orderSummary->oid?>,this.options[this.selectedIndex].value)" class="selectpicker">
+                                    <option value="processing">Processing</option>
+                                    <option value="shipping" selected="true">Shipping</option>
+                                    <option value="arrived">Arrived</option>
+                                </select>
+                            <?php
+                            }
+							?>
 						</td>
 						<td>
 							<?= $orderSummary->totalPrice ?>
