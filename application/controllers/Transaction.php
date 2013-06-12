@@ -157,7 +157,7 @@ class Transaction extends CI_Controller
         $this->browseManageOrder();
     }
     
-    public function order($mid)
+    public function order($mid, $couponCode="")
     {
         $originalShoppingCartData = $this->TransactionModel->getShoppingCartDataByMid($mid);
         $stockEnough = false;
@@ -172,7 +172,7 @@ class Transaction extends CI_Controller
                             'orderTime' => $now,
                             'state' => 'processing'
             );
-            $this->TransactionModel->order($mid, $data);
+            $this->TransactionModel->order($mid, $data, $couponCode);
             $this->browseTransactionRecordsByMid($mid);
         }
         else

@@ -7,6 +7,7 @@ class NewMember extends CI_Controller
         $this->load->model("template");
         $this->load->model("MenuModel");
         $this->load->model("AccountModel");
+        $this->load->model("MemberModel");
         $this->load->library('form_validation');
         $this->load->model("BrowseModel");
         $this->load->model('AnnouncementModel');
@@ -22,7 +23,6 @@ class NewMember extends CI_Controller
         $this->form_validation->set_rules('password', 'password', 'required');
         $this->form_validation->set_rules('name', 'name', 'required');
         $this->form_validation->set_rules('phoneNumber', 'phoneNumber', 'required');
-        echo $this->input->post('freeze');
         if ($this->form_validation->run() === false) {
             $content = "NewMemberView";
             $this->template->loadView("NewMember", $slideBarList, $content, array());
@@ -33,7 +33,7 @@ class NewMember extends CI_Controller
                 $this->template->loadView("NewMember", $slideBarList, $content, array("error" =>
                     "帳號已重複"));
             } else {
-                $this->AccountModel->createAccount();
+                $this->MemberModel->register();
                 $email = $this->input->post("email");
                 $password = $this->input->post("password");
                 $this->authority->login($email, $password);

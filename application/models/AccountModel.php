@@ -69,7 +69,7 @@ class AccountModel extends CI_Model
             'zipCode' => $this->input->post('zipCode'),
             'birthday' => $this->input->post('birthday'),
             'address' => $this->input->post('address'),
-            'name' => $this->input->post('name')
+            'name' => $this->input->post('name'),
     	);
         if($this->input->post('authority')){
             $accountData['authority'] = $this->input->post('authority');   

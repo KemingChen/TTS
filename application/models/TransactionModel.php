@@ -150,7 +150,7 @@ class TransactionModel extends CI_Model
         $this->db->delete('orderItem');
     }
     
-    public function order($mid, $data)
+    public function order($mid, $data, $couponCode="")
     {
         $this->db->trans_start();
         $shoppingCartData = $this->getShoppingCartDataByMid($mid);
@@ -177,6 +177,11 @@ class TransactionModel extends CI_Model
             $this->sendInformMail($mid, $oid);
         }
         $this->db->trans_complete();
+    }
+    
+    public function getEcouponPriceByCouponCode($couponCode)
+    {
+        
     }
     
     public function getOrderTimeByOid($oid)
