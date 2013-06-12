@@ -2,7 +2,7 @@
 	<div class="row-fluid">
 		<div class="span12">
 			<h3>
-				書本庫存
+                抱歉！我們下列書籍的庫存不夠
 			</h3>
 			<table class="table table-striped">
 				<thead>
