@@ -54,7 +54,7 @@ class ECouponModel extends CI_Model
                 'endTime' => $endTime,
                 'price' => $price
 	       );
-        $this->db->insert('ecoupon', $ecouponData);
+            if(!($this->db->insert('ecoupon', $ecouponData))) $i--;
         }
 	    
         //return $this->db->insert_id();
