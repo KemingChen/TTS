@@ -57,6 +57,26 @@ class TransactionModel extends CI_Model
         return $data;
     }
 
+    public function getArrivedOrderAmount()
+    {
+        $this->db->select('*');
+        $this->db->from('orderSummary');
+        $this->db->where("state = 'arrived'");
+        $count = $this->db->count_all_results();
+        return $count;
+    }
+
+
+    public function getArrivedOrderLimit($limit, $offset)
+    {
+        $this->db->select('*');
+        $this->db->from('orderSummary');
+        $this->db->where("state = 'arrived'");
+        $this->db->limit($limit, $offset);
+        $data = $this->db->get()->result();
+        return $data;
+    }
+
     public function BrowseManageOrder()
     {
         $this->db->select('*');
