@@ -160,18 +160,23 @@ class TransactionModel extends CI_Model
             $oid = $this->db->insert_id();
             $this->setOrderItemByOidAndCartData($oid, $shoppingCartData);
             $totalPrice = $this->getTotalPriceByOid($oid);
+            $orderTime = $this->getOrderTimeByOid($oid);
+            $rebateEvent = $this->getBestRebateByTotal($totalPrice, $orderTime);
+            if ($rebateEvent!= null)
+            {
+                $this->addRebateCorrespondByOidAndReid($oid, $rebateEvent->reid);
+                $totalPrice = $totalPrice - $rebateEvent->price;
+            }
+            // 肚琌ㄏノecoupon把计耞穝total price
             $totalPriceData = array(
                                         'totalPrice' => $totalPrice
             );
-            // insert rebate event
-            // 肚琌ㄏノecoupon把计耞穝total price
             $this->db->where('oid', $oid);
             $this->db->update('ordersummary', $totalPriceData);
             $this->ShoppingCartModel->clearShoppingCart($mid);
             $this->sendInformMail($mid, $oid);
         }
         $this->db->trans_complete();
-        
     }
     
     public function getOrderTimeByOid($oid)
@@ -188,7 +193,6 @@ class TransactionModel extends CI_Model
     {
         foreach($shoppingCartData->result() as $cartRow)
         {
-            // insert discount correspond
             $orderTime = $this->getOrderTimeByOid($oid);
             $discountEvent = $this->getBestDiscountByBid($cartRow->bid, $orderTime);
             if ($discountEvent != null)
@@ -333,6 +337,32 @@ class TransactionModel extends CI_Model
         return $soldPrice;
     }
     
+    public function getBestRebateByTotal($afterDiscountTotal, $time)
+    {
+        $this->db->select('reid, name, threshold, price'); //
+        $this->db->from('rebateevent'); // 
+        $this->db->where('threshold <=', $afterDiscountTotal);
+        $this->db->where("startTime <=", $time);
+        $this->db->where("endTime >=", $time);
+        $list = $this->db->get()->result();
+        $count = count($list);
+        $rebateEvent = null;
+        if($count > 0)
+        {
+            for($maxDiscountIndex= 0, $i=0; $i<$count;$i++)
+            {
+                if($list[$i]->threshold > $list[$maxDiscountIndex]->threshold)
+                {
+                    $maxDiscountIndex = $i;
+                }              
+            }
+            $reid = $list[$maxDiscountIndex]->reid;
+            $price = $list[$maxDiscountIndex]->price;
+            $rebateEvent = $list[$maxDiscountIndex];
+        }
+        return $rebateEvent;
+    }
+    
     public function getBestDiscountByBid($bid, $time)
     {
         $this->db->select('de.deid, de.name, de.discount_rate'); //
@@ -343,9 +373,12 @@ class TransactionModel extends CI_Model
         $list = $this->db->get()->result();
         $count = count($list);
         $discountEvent = null;
-        if($count>0){
-            for($minDiscountIndex= 0, $i=0; $i<$count;$i++){
-                if($list[$i]->discount_rate < $list[$minDiscountIndex]->discount_rate){
+        if($count > 0)
+        {
+            for($minDiscountIndex= 0, $i=0; $i<$count;$i++)
+            {
+                if($list[$i]->discount_rate < $list[$minDiscountIndex]->discount_rate)
+                {
                     $minDiscountIndex = $i;
                 }              
             }
@@ -364,6 +397,15 @@ class TransactionModel extends CI_Model
                     'deid' => $deid
         );
         $this->db->insert('discountcorrespond', $data);
+    }
+    
+    public function addRebateCorrespondByOidAndReid($oid, $reid)
+    {
+        $data = array(
+                    'oid' => $oid,
+                    'reid' => $reid
+        );
+        $this->db->insert('rebatecorrespond', $data);
     }
     
     public function getStockByBid($bid)

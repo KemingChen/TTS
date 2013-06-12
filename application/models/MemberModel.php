@@ -20,22 +20,47 @@ class MemberModel extends CI_Model
         $accountData = array(
             'email' => $this->input->post('email'),
             'password' => $this->input->post('password'),
-            'authority' => 'customer',
             'zipCode' => $this->input->post('zipCode'),
             'birthday' => $this->input->post('birthday'),
             'address' => $this->input->post('address'),
-            'available' => 1,
+            'available' => 0,
             'name' => $this->input->post('name')
     	);
         $this->db->insert('Account', $accountData);
         $email = $accountData['email'];
         $mid = $this->AccountModel->getMidByEmail($email);
+        $name = $accountData['name'];
         $phoneData = array(
             'mid' => $mid,
             'phoneNumber' => $this->input->post('phoneNumber')
     	);
         $this->db->insert('cellphonenumbercorrespond', $phoneData);
+        $this->sendVerificationMail($email, $mid, $name);
         return $email;
+    }
+    
+    public function sendVerificationMail($email = "", $mid, $name)
+    {
+        $recipient = $email;
+        $subject = 'TaipeiTech Store';
+        $name = $name;
+        // local link
+        $link = 'http://localhost/TTS/Member/verificate/'.$mid;
+        // online link
+        // $link = 'http://TTS/Member/verificate/'.$mid;
+        echo $link;
+        $message = 'Hello, ' . $name . "\r\n" . 'your account has registered.' . "\r\n\r\n" . 'Please click the link to verificate your account:' . "\r\n" . $link;
+        $this->GmailModel->sendMail($recipient, $subject, $message);
+    }
+    
+    public function verificate($mid)
+    {
+        $authoriy = $this->getAuthorityByMid($mid);
+        if($authoriy === null)
+        {
+            $this->AccountModel->unfreeze($mid);
+            $this->AccountModel->modifyAuthority($mid, 'customer');
+        }
     }
     
     public function addPhone($mid, $phone)
@@ -110,6 +135,16 @@ class MemberModel extends CI_Model
         $this->db->where('email', $email);
         $data = $this->db->get();
         return $data;
+    }
+    
+    public function getAuthorityByMid($mid)
+    {
+        $this->db->select('authority');
+        $this->db->from('account');
+        $this->db->where('mid', $mid);
+        $dataResult = $this->db->get()->result();
+        $authority = $dataResult[0]->authority;
+        return $authority;
     }
     
     public function getPasswordByEmail($email)

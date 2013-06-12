@@ -7,6 +7,9 @@ class Member extends CI_Controller
         parent::__construct();
         $this->load->library('form_validation');
         $this->load->model("MemberModel");
+        $this->load->model("MenuModel");
+        $this->load->model("AnnouncementModel");
+        $this->load->model("template");
     }
     
     public function index(){
@@ -30,9 +33,29 @@ class Member extends CI_Controller
     	}
     }
     
+    public function verificate($mid)
+    {
+        $this->MemberModel->verificate($mid);
+        $this->browseIndex();
+    }
+    
+    public function browseIndex()
+    {
+        $slideBarList = $this->MenuModel->getAnnouncementList();
+        $slideBarList["Announcement"]['Active'] = "active";
+        $content = "AnnoucementView";
+        $data['size'] = $this->AnnouncementModel->getAnnouncementSize();
+        $data["list"] = $this->AnnouncementModel->getAnnouncementList();
+        $this->template->loadView("Announcement", $slideBarList, $content, $data);
+    }
+    
     public function addPhone($mid, $phone)
     {
         $this->MemberModel->addPhone($mid, $phone);
+    }
+    
+    public function sendVerificationMail($email="", $mid=0, $name=""){
+        $this->MemberModel->sendVerificationMail("j99590314@gmail.com", 93, "ffew");
     }
     
     public function modifyPhone($mid, $phone, $newPhone)
