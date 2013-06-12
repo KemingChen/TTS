@@ -404,7 +404,7 @@ class TransactionModel extends CI_Model
         {
             for($maxDiscountIndex= 0, $i=0; $i<$count;$i++)
             {
-                if($list[$i]->threshold > $list[$maxDiscountIndex]->threshold)
+                if($list[$i]->price > $list[$maxDiscountIndex]->price)
                 {
                     $maxDiscountIndex = $i;
                 }              
