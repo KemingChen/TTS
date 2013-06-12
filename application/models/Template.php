@@ -32,7 +32,8 @@ class Template extends CI_Model
 
     private function updateActive(&$data, $activeID)
     {
-        foreach ($data as & $item) {
+        foreach ($data as & $item)
+        {
             $item["Active"] = $item["ID"] == $activeID ? "active" : "";
         }
     }

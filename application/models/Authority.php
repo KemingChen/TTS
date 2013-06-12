@@ -13,8 +13,10 @@ class Authority extends CI_Model
         $this->load->model('accountModel');
         $users = $this->accountModel->getMemberInfoByAccount($email, $password);
         $userData = $users->result();
-        if(count($userData) > 0 && $userData[0]->available == true)
+        if (count($userData) > 0 && $userData[0]->available == true)
         {
+            $userData[0]->name = urlencode($userData[0]->name);
+            $userData[0]->address = urlencode($userData[0]->address);
             $this->session->set_userdata($userData[0]);
             return true;
         }
@@ -26,38 +28,45 @@ class Authority extends CI_Model
         $email = $this->session->userdata('email');
         return $email != false ? true : false;
     }
-    
-    public function getMemberID(){
+
+    public function getMemberID()
+    {
         $mid = $this->session->userdata('mid');
         return $mid;
     }
 
-    public function getEmail(){
+    public function getEmail()
+    {
         $email = $this->session->userdata('email');
         return $email;
     }
 
-    public function getName(){
-        $name = $this->session->userdata('name');
+    public function getName()
+    {
+        $name = urldecode($this->session->userdata('name'));
         return $name;
     }
 
-    public function getBirthDate(){
+    public function getBirthDate()
+    {
         $birthDate = $this->session->userdata('birthday');
         return $birthDate;
     }
-    
-    public function getZipCode(){
+
+    public function getZipCode()
+    {
         $zipCode = $this->session->userdata('zipCode');
         return $zipCode;
     }
-    
-    public function getAddress(){
-        $address = $this->session->userdata('address');
+
+    public function getAddress()
+    {
+        $address = urldecode($this->session->userdata('address'));
         return $address;
     }
-    
-    public function getAuthority(){
+
+    public function getAuthority()
+    {
         $authority = $this->session->userdata('authority');
         return $authority;
     }
