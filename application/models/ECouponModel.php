@@ -56,8 +56,6 @@ class ECouponModel extends CI_Model
 	       );
             if(!($this->db->insert('ecoupon', $ecouponData))) $i--;
         }
-	    
-        //return $this->db->insert_id();
     }
     
     public function isExist($couponCode){
@@ -81,11 +79,6 @@ class ECouponModel extends CI_Model
         $this->db->select('e.couponCode, e.startTime, e.endTime, e.price');
         $this->db->from('ecoupon as e');
         $this->db->where("e.ecid = $ecid");
-        
-        //$this->db->select('sc.bid, b.name, SUM(sc.quantity) as totalQuantity, SUM(sc.quantity * b.price) as totalPrice');
-        //$this->db->from('shoppingcartcorrespond as sc, book as b');
-        //$this->db->where("sc.mid = $mid AND b.bid = sc.bid");
-        //$this->db->group_by("sc.bid");
         $data = $this->db->get();
         return $data;
     }
