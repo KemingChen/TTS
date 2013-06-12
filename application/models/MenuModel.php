@@ -27,7 +27,7 @@ class MenuModel extends CI_Model
         }
         else
         {
-            array_push($list, array("Url" => "3", "ID" => "NonMember", "Tag" =>
+            array_push($list, array("Url" => "NewMember", "ID" => "NonMember", "Tag" =>
                 "取得帳號"));
         }
         return $list;
