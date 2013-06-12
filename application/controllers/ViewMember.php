@@ -63,9 +63,14 @@ class ViewMember extends CI_Controller
     {
         $this->load->model("TransactionModel");
         $content = "TransactionView";
-
-        $info['list'] = $this->TransactionModel->browseTransactionRecords();
+        $mid = $this->authority->getMemberID();
+        $info['list'] = $this->TransactionModel->browseTransactionRecordsByMid($mid);
         return $info;
+    }
+    
+    public function getTransactionDetailView($oid){
+        $data["list"] = $this->TransactionModel->getOrderItemDataByOid($oid);
+        $this->load->view("TransactionDetailView", $data);
     }
 
     private function doConcern(&$content)

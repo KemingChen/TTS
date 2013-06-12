@@ -3,10 +3,14 @@
 		<div class="span12">
 			<h3>交易紀錄</h3>
             <script>
-                function showRecordInfo(data)
+                function showRecordInfo(oid)
                 {
+                    console.log(oid);
                     $("#recordinfo").modal('show');
-                    
+                    $.ajax({url: "<?= base_url("ViewMember/getTransactionDetailView") ?>"+"/"+oid}).
+                        done(function(data){
+                            $("#transactionDetail").html(data);
+                        });
                 }
             </script>
             <div id="recordinfo" class="modal hide fade in">
@@ -17,18 +21,7 @@
                     <h4 class="red" align="center">顯示多筆交易資料<h4>
                     <div class="container-fluid">
                     	<div class="row-fluid">
-                    		<div class="span10">
-                                <table class="table">
-                    				<thead>
-                    					<tr>
-                    						<th>交易編號</th>
-                    						<th>購買時間</th>
-                    						<th>交易狀態</th>
-                    						<th>金額</th>
-                                            <th></th>
-                    					</tr>
-                    				</thead>
-                    			</table>
+                    		<div class="span10" id="transactionDetail">
                             </div>
                         </div>
                     </div>
@@ -68,7 +61,7 @@
     					echo "</td><td>";
                         echo $record->totalPrice;
     					echo "</td><td>";
-                        echo '<button type="button" class="btn btn-mini btn-info" onclick="showRecordInfo(1)">詳細資料</button>';
+                        echo '<button type="button" class="btn btn-mini btn-info" onclick="showRecordInfo('. $record->oid .')">詳細資料</button>';
                         echo "</td></tr>";
                     }
                     ?>
