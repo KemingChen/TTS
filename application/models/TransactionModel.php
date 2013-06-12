@@ -62,7 +62,7 @@ class TransactionModel extends CI_Model
     {
         $this->db->select('*');
         $this->db->from('orderSummary');
-        $data = $this->db->get();
+        $data = $this->db->get()->result();
         return $data;
     }
 

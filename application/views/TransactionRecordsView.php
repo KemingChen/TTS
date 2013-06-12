@@ -1,46 +1,70 @@
 <div class="container-fluid">
 	<div class="row-fluid">
 		<div class="span12">
+        
+        <?php
+        if (count($list) <= 0) {?>
+        <div>
+            <h3>沒有任何訂單。</h3>
+        </div>
+        <?
+        } else {
+        ?>
 			<table class="table">
 				<thead>
 					<tr>
 						<th>
-							編號
+							交易編號
 						</th>
 						<th>
-							圖片
+							會員編號
 						</th>
 						<th>
-							說明
+							購買時間
+						</th>
+						<th>
+							交易狀態
+						</th>
+						<th>
+							金額
 						</th>
 					</tr>
 				</thead>
 				<tbody>
                 
                 <?php
-                    $isSuccess = FALSE;
-                    foreach ($list as $item){
-                        if($isSuccess){
-					       echo '<tr class="success">';
-                        }else{
-					       echo "<tr>";
+                    $isSuccess = false;
+                    foreach ($list as $orderSummary) {
+                        if ($isSuccess) {
+                            echo '<tr class="success">';
+                        } else {
+                            echo "<tr>";
                         }
-                        $isSuccess = ! $isSuccess;
+                        $isSuccess = !$isSuccess;
                 ?>
 						<td>
-							<?=$item->adid?>
+							<?= $orderSummary->oid ?>
 						</td>
 						<td>
-							<img src="data:image/jpeg;base64,<?=base64_encode($item->picture)?>" alt="photo">
+							<?= $orderSummary->mid ?>
 						</td>
 						<td>
-						  <?=$item->description ?>
+							<?= $orderSummary->orderTime ?>
+						</td>
+						<td>
+							<?= $orderSummary->state ?>
+						</td>
+						<td>
+							<?= $orderSummary->totalPrice ?>
 						</td>
                 <?php
-                    }
-                ?>
+    }
+?>
 				</tbody>
 			</table>
+            <?php
+}
+?>
 		</div>
 	</div>
 </div>
