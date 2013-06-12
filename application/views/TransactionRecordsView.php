@@ -7,7 +7,13 @@
                 {
                     console.log(oid);
                     $("#recordinfo").modal('show');
-                    $.ajax({url: "<?= base_url("ViewMember/getTransactionDetailView") ?>"+"/"+oid}).
+                    
+                    $.ajax({url: "<?= base_url("ViewMember/getTransactionTitle") ?>/"+oid}).
+                        done(function(data){
+                            $("#windowTitle").html(data);
+                        });
+                    
+                    $.ajax({url: "<?= base_url("ViewMember/getTransactionDetailView") ?>/"+oid}).
                         done(function(data){
                             $("#transactionDetail").html(data);
                         });
@@ -15,7 +21,7 @@
             </script>
             <div id="recordinfo" class="modal hide fade in">
                 <div class="modal-header">
-                    <h3>交易明細(2 at 2013-06-22 state asasfd)</h3>
+                    <h3 id="windowTitle">交易明細(2 at 2013-06-22 state asasfd)</h3>
                 </div>
                 <div class="modal-body">
                     <h4 class="red" align="center">顯示多筆交易資料<h4>
@@ -56,6 +62,7 @@
 						<th>
 							金額
 						</th>
+                        <th></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -85,6 +92,9 @@
 						<td>
 							<?= $orderSummary->totalPrice ?>
 						</td>
+                        <td>
+                            <button type="button" class="btn btn-mini btn-info" onclick="showRecordInfo(<?=$orderSummary->oid?>)">詳細資料</button>
+                        </td>
                 <?php
     }
 ?>

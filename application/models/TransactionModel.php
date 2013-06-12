@@ -28,6 +28,14 @@ class TransactionModel extends CI_Model
             $this->sendThanksMail($mid, $oid);
         }
     }
+    
+    public function getOrderSummaryByOId($oid){
+        $query = $this->db->get_where("orderSummary", array("oid"=>$oid));
+        $list = $query->result();
+        if(count($list)>0){
+            return $list[0];
+        }return NULL;
+    }
 
     public function getMidByOid($oid)
     {

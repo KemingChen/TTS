@@ -68,10 +68,21 @@ class ViewMember extends CI_Controller
         $info['list'] = $this->TransactionModel->browseTransactionRecordsByMid($mid);
         return $info;
     }
-    
-    public function getTransactionDetailView($oid){
+
+    public function getTransactionDetailView($oid)
+    {
         $data["list"] = $this->TransactionModel->getOrderItemDataByOid($oid)->result();
         $this->load->view("TransactionDetailView", $data);
+    }
+
+    public function getTransactionTitle($oid)
+    {//äº¤æ˜“æ˜Žç´°(2 at 2013-06-22 state asasfd)
+        $orderSummary = $this->TransactionModel->getOrderSummaryByOId($oid);
+        $oid = $orderSummary->oid;
+        $orderTime = $orderSummary->orderTime;
+        $state = $orderSummary->state;
+        echo "äº¤æ˜“æ˜Žç´°($oid at $orderTime state $state)";
+        //getOrderSummaryByOId
     }
 
     private function doConcern(&$content)
@@ -121,11 +132,11 @@ class ViewMember extends CI_Controller
             $slideBarList["ShopCar"]['Active'] = "active";
             $this->template->loadView("Member", $slideBarList, $content, $data);
         } else {
-            //±NÁÊª«¨®¸ê°T§ï¬°®w¦s¼Æ¶q
-            //¨ú±o®w¦s¸ê®Æ
+            //å°‡è³¼ç‰©è»Šè³‡è¨Šæ”¹ç‚ºåº«å­˜æ•¸é‡
+            //å–å¾—åº«å­˜è³‡æ–™
             $ShoppingCartData['restQuantityList'] = $this->TransactionModel->
                 getNotEnoughBookStockQuantity($originalShoppingCartData->result());
-            //ÁÙ­ì®w¦s¸ê®Æ
+            //é‚„åŽŸåº«å­˜è³‡æ–™
             $this->ShoppingCartModel->clearShoppingCart($mid);
             foreach ($originalShoppingCartData->result() as $row) {
                 $this->ShoppingCartModel->addShoppingCart($mid, $row->bid, $row->quantity);
