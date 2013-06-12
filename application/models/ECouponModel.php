@@ -37,6 +37,13 @@ class ECouponModel extends CI_Model
         return $data;
     }
     
+    public function generateCouponCode()
+    {
+        $couponCode = uniqid();
+        return $couponCode;
+        //printf("uniqid(): %s\r\n", uniqid());
+    }
+    
     public function insertECoupon($couponCode, $startTime, $endTime, $price)
     {
         $ecouponData = array(
@@ -47,6 +54,30 @@ class ECouponModel extends CI_Model
     	);
 	    $this->db->insert('ecoupon', $ecouponData);
         //return $this->db->insert_id();
+    }
+    
+    public function getCustomerInformation($mid)
+    {
+        $this->db->select('name, email');
+        $this->db->from('account');
+        $this->db->where('mid', $mid);
+        $data = $this->db->get();
+        return $data;
+        
+    }
+    
+    public function emailContent($ecid)
+    {
+        $this->db->select('e.couponCode, e.startTime, e.endTime, e.price');
+        $this->db->from('ecoupon as e');
+        $this->db->where("e.ecid = $ecid");
+        
+        //$this->db->select('sc.bid, b.name, SUM(sc.quantity) as totalQuantity, SUM(sc.quantity * b.price) as totalPrice');
+        //$this->db->from('shoppingcartcorrespond as sc, book as b');
+        //$this->db->where("sc.mid = $mid AND b.bid = sc.bid");
+        //$this->db->group_by("sc.bid");
+        $data = $this->db->get();
+        return $data;
     }
     
     public function updateECoupon($ecid, $startTime, $endTime)
