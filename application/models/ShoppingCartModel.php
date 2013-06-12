@@ -100,8 +100,7 @@ class ShoppingCartModel extends CI_Model
         if ($query->num_rows() > 0) {
             $rebate = $query->row(0);
             $data["rebateName"] = $rebate->name;
-            $data["rebatePrice"] = floor($data["after_discount_total_price"] / $rebate->
-                threshold) * $rebate->price;
+            $data["rebatePrice"] = $rebate->price;
         }else{
             $data["rebateName"] = "無任何折扣";
             $data["rebatePrice"] = 0    ;
