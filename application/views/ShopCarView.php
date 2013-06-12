@@ -6,8 +6,8 @@
             done(function(data){
                 if(data != "OK")
                     alert(data);
+                    document.location.reload();
             });
-        $(obj).parent().parent().remove();
     }
 </script>
 <div class="container-fluid">
@@ -16,6 +16,15 @@
 			<h3>
 				購物車
 			</h3>
+            <?php
+            if($total_NumRows<=0){
+            ?>
+            <div>
+            購物車沒有任何東西，快來看看有什麼<a href="<?=base_url("Announcement")?>">新活動</a>！
+            </div>
+            <?php
+            }else{
+            ?>
 			<table class="table table-striped">
 				<thead>
 					<tr>
@@ -56,13 +65,18 @@
                         echo '<button type="button" class="btn btn-mini btn-danger" onclick="removeShoppingCart(this, '.$book->bid.')">取消訂購</button>';
                         echo "</td></tr>";
                     }
-                    echo '打折小計-> '.$after_discount_total_price;
-                    echo '<br/>    '.$rebateName;
-                    echo ' 再折-> '.$rebatePrice;
-                    echo '<br/>總計'.$totalPrice;
                     ?>
 				</tbody>
 			</table>
+            <div>
+            <?php
+                echo '打折小計-> '.$after_discount_total_price;
+                echo '<br/>    '.$rebateName;
+                echo ' 再折-> '.$rebatePrice;
+                echo '<br/>總計'.$totalPrice;
+            }
+            ?>
+            </div>
 		</div>
 	</div>
 </div>
