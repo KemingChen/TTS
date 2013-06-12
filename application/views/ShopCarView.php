@@ -6,7 +6,7 @@
             done(function(data){
                 if(data != "OK")
                     alert(data);
-                    //document.location.reload();
+                    document.location.reload();
             });
     }
     

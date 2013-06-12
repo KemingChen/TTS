@@ -91,6 +91,7 @@ class ViewMember extends CI_Controller
 
         $mid = $this->authority->getMemberID();
         $info = $data = $this->ShoppingCartModel->getWholeShoppingCart($mid);
+        $info['mid'] = $mid;
         return $info;
     }
 
