@@ -1,4 +1,5 @@
 <?
+
 class Stock extends CI_Controller
 {
     public function __construct()
@@ -20,9 +21,15 @@ class Stock extends CI_Controller
     public function page($offset = 0)
     {
         $config['base_url'] = base_url('Stock/page');
-        $config['total_rows'] = $this->BookModel->getTotalAmount();
+        //$config['total_rows'] = $this->BookModel->getTotalAmount();
         $config['per_page'] = 20;
         $config['num_links'] = 5;
+        $config['num_tag_open'] = $config['prev_tag_open'] = $config['next_tag_open'] =
+            $config['first_tag_open'] = $config['last_tag_open'] = '<li>';
+        $config['num_tag_close'] = $config['prev_tag_close'] = $config['next_tag_close'] =
+            $config['first_tag_close'] = $config['last_tag_close'] = '</li>';
+        $config['cur_tag_open'] = "<li = class='active'><a href='#'>";
+        $config['cur_tag_close'] = "</a>";
         $config['full_tag_open'] = '<div class="pagination pagination-centered"><ul>';
         $config['full_tag_close'] = '</ul></div>';
         $this->pagination->initialize($config);
@@ -31,8 +38,8 @@ class Stock extends CI_Controller
         $slideBarList = $this->MenuModel->getManagerList();
         $slideBarList["Stock"]['Active'] = "active";
         $content = "StockView";
-        $data["list"] = $this->BookModel->getAllBooks($offset, 20);
-        $data["pagination"] = $this->pagination->create_links();
+        $data["list"] = array();
+        //$data["pagination"] = $this->pagination->create_links();
         $this->template->loadView("Manager", $slideBarList, $content, $data);
     }
 
@@ -72,11 +79,36 @@ class Stock extends CI_Controller
         $this->load->view('Stock/browseBooksStock', $data);
     }
 
-
     public function browseStockRecord($offset = 0, $limit = 10)
     {
         $data = $this->StockModel->browseStockRecord($limit, $offset);
         $this->load->view('Stock/browseStockRecord', $data);
+    }
+
+    public function getBookInfo($isbns = null)
+    {
+        if ($isbns == null)
+            return;
+        $this->load->model("CustomSearchModel");
+        $data["lists"] = array();
+        $data["errors"] = array();
+        $isbns = urldecode($isbns);
+        foreach (explode(",", $isbns) as $isbn)
+        {
+            if ($isbn != "")
+            {
+                $temp = $this->CustomSearchModel->searchByISBN($isbn);
+                if (count($temp) > 0)
+                {
+                    array_push($data["lists"], $temp);
+                }
+                else
+                {
+                    array_push($data["errors"], $isbn);
+                }
+            }
+        }
+        $this->load->view('AjaxView/StockItem', $data);
     }
 }
 
