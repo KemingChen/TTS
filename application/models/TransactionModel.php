@@ -65,6 +65,14 @@ class TransactionModel extends CI_Model
         $data = $this->db->get()->result();
         return $data;
     }
+    
+    public function getTransactionRecordAmount()
+    {
+        $this->db->select('*');
+        $this->db->from('orderSummary');
+        $count = $this->db->count_all_results();
+        return $count;
+    }
 
     public function browseTransactionRecordsByTimeInterval($start, $end)
     {

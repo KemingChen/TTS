@@ -65,6 +65,7 @@
             <?php
 }
 ?>
+            <?=$pagination?>
 		</div>
 	</div>
 </div>
