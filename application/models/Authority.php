@@ -23,22 +23,22 @@ class Authority extends CI_Model
 
     public function reload($password = "")
     {
-        $email = $this->session->userdata("email");
+        $email = $this->getEmail();
         if ($password == "") {
-            $password = $this->session->userdata("password");
+            $password = $this->getPassword();
         }
         $this->login($email, $password);
     }
 
     public function isLogin()
     {
-        $email = $this->session->userdata('email');
+        $email = $this->getEmail();
         return $email != false ? true : false;
     }
 
     public function getPassword()
     {
-        return $this->session->userdata("password");
+        return $this->decode("password");
     }
 
     public function getMemberID()
