@@ -14,7 +14,7 @@
         ecoupon = $("#ecoupon").val();
         notify = $("#notify");
         
-        $.ajax({url: "<?=base_url("ECoupon/isExist")?>/" + ecoupon}).
+        $.ajax({url: "<?= base_url("ECoupon/isExist") ?>/" + ecoupon}).
             always(function(data){
                 if(data=="OK"){
                     notify.attr("class", "icon-ok icon");
@@ -25,7 +25,16 @@
     }
     
     function buy(){
-        
+        var ecoupon = $("#ecoupon").val();
+        console.log(url);
+        $.ajax({url: "<?= base_url("Transaction/order") ?>/" + <?= $mid ?> + "/" + ecoupon}).
+            always(function(data){
+                if(data=="OK"){
+                    notify.attr("class", "icon-ok icon");
+                }else{
+                    notify.attr("class", "icon-remove icon-black");
+                }
+            });
     }
 </script>
 <div class="container-fluid">
@@ -56,35 +65,37 @@ if ($total_NumRows <= 0) {
 				</thead>
 				<tbody>
                     <?php
-    $isInfo = false;
-
-    foreach ($cart as $book) {
-        if ($isInfo) {
-            echo '<tr class="info"><td>';
-        } else {
-            echo "<tr><td>";
-        }
-        $isInfo = !$isInfo;
-        echo $book->ISBN;
-        echo "</td><td style='width: 30%;'>";
-        echo '<a href="' . base_url() . 'ViewBook/book/' . $book->bid . '">' . $book->
-            name . "</a>";
-        echo "</td><td>";
-        echo $book->quantity;
-        echo "</td><td>";
-        echo $book->price;
-        echo "</td><td>";
-        echo $book->discountName;
-        echo "</td><td>";
-        echo $book->soldPrice;
-        echo "</td><td>";
-        echo '<button type="button" class="btn btn-mini btn-danger" onclick="removeShoppingCart(this, ' .
-            $book->bid . ')">取消訂購</button>';
-        echo "</td></tr>";
-    }
-?>
+                $isInfo = false;
+            
+                foreach ($cart as $book) {
+                    if ($isInfo) {
+                        echo '<tr class="info"><td>';
+                    } else {
+                        echo "<tr><td>";
+                    }
+                    $isInfo = !$isInfo;
+                    echo $book->ISBN;
+                    echo "</td><td style='width: 30%;'>";
+                    echo '<a href="' . base_url() . 'ViewBook/book/' . $book->bid . '">' . $book->
+                        name . "</a>";
+                    echo "</td><td>";
+                    echo $book->quantity;
+                    echo "</td><td>";
+                    echo $book->price;
+                    echo "</td><td>";
+                    echo $book->discountName;
+                    echo "</td><td>";
+                    echo $book->soldPrice;
+                    echo "</td><td>";
+                    echo '<button type="button" class="btn btn-mini btn-danger" onclick="removeShoppingCart(this, ' .
+                        $book->bid . ')">取消訂購</button>';
+                    echo "</td></tr>";
+                }
+            ?>
 				</tbody>
 			</table>
+            <?php echo validation_errors(); ?></div>
+            <?php echo form_open_multipart("ViewMember/order") ?>
             <div>
                 <h3>明細</h3>
                 <table class="table">
@@ -109,12 +120,16 @@ if ($total_NumRows <= 0) {
             <div>
                 <h3>優惠</h3>
                 <label>ECoupon
-                <input type="text" id="ecoupon" onchange="ecouponCheck()"/><div class="btn" onclick="ecouponCheck()">檢查</div><i id="notify" class=""></i></label>
+                <input type="text" name="ecoupon" id="ecoupon" onchange="ecouponCheck()"/><div class="btn" onclick="ecouponCheck()">檢查</div><i id="notify" class=""></i></label>
                 
             </div>
+            
+            
             <div align="center">
-                <div class="btn btn-success" onclick="buy()">購買</div>
+                <button type="submit" name="submit" class="btn btn-success">購買</button>
             </div>
+            </form>
+            
             <?php
             }
             ?>

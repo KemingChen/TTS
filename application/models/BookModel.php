@@ -9,6 +9,16 @@ class BookModel extends CI_Model
         $this->load->database();
     }
     
+    public function getBookDataByBid($bid){
+        $query = $this->db->get_where("book", array("bid"=> $bid));
+        $list = $query->result();
+        if(count($list)>0){
+            return $list[0];
+        }else{
+            return NULL;   
+        }
+    }
+    
     public function listAllBook($offset,$limit)
     {
         $sql = 'SELECT bid, name, cover FROM book Limit '.$offset.','.$limit;

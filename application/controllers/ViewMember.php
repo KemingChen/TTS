@@ -12,6 +12,7 @@ class ViewMember extends CI_Controller
         $this->load->model("MemberModel");
         $this->load->helper(array('form', 'url'));
         $this->load->library('form_validation');
+        $this->load->model("TransactionModel");
     }
 
     public function index()
@@ -93,6 +94,42 @@ class ViewMember extends CI_Controller
         return $info;
     }
 
+    public function order($couponCode = "")
+    {
+        $mid = $this->authority->getMemberID();
+
+
+        $originalShoppingCartData = $this->TransactionModel->getShoppingCartDataByMid($mid);
+        $stockEnough = false;
+        $stockEnough = $this->TransactionModel->IsAllStockEnough($mid);
+        if ($stockEnough) {
+            echo "success buy";
+            $datestring = "%Y-%m-%d";
+            $now = now();
+            $now = mdate($datestring, $now);
+            $data = array('mid' => $mid, 'orderTime' => $now, 'state' => 'processing');
+            $this->TransactionModel->order($mid, $data, $couponCode);
+            //loadview
+            $slideBarList = $this->MenuModel->getMemberList();
+            $data = $this->doShopCar($content);
+            $slideBarList["ShopCar"]['Active'] = "active";
+            $this->template->loadView("Member", $slideBarList, $content, $data);
+        } else {
+            //將購物車資訊改為庫存數量
+            //取得庫存資料
+            $ShoppingCartData['restQuantityList'] = $this->TransactionModel->
+                getNotEnoughBookStockQuantity($originalShoppingCartData->result());
+            //還原庫存資料
+            $this->ShoppingCartModel->clearShoppingCart($mid);
+            foreach ($originalShoppingCartData->result() as $row) {
+                $this->ShoppingCartModel->addShoppingCart($mid, $row->bid, $row->quantity);
+            }
+            //loadview
+            $slideBarList = $this->MenuModel->getMemberList();
+            $this->template->loadView("Member", $slideBarList, "ShopCarViewNotEnough", $ShoppingCartData);
+        }
+    }
+
     public function revisePassword($oldPassword, $newPassword)
     {
         $password = $this->authority->getPassword();
@@ -101,7 +138,7 @@ class ViewMember extends CI_Controller
             $this->MemberModel->revisePassword($newPassword);
             $this->authority->reload($newPassword);
             echo "OK";
-        }else{
+        } else {
             echo "ERROR";
         }
     }

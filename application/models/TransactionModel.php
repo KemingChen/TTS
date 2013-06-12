@@ -10,26 +10,25 @@ class TransactionModel extends CI_Model
         $this->load->model("ShoppingCartModel");
         $this->load->model("AccountModel");
         $this->load->model("GmailModel");
+        $this->load->model("BookModel");
     }
-    
-    public function index(){
+
+    public function index()
+    {
         //echo "hello transaction";
     }
-    
+
     public function manageOrderState($oid, $state)
     {
-        $data = array(
-                        'state' => $state
-        );
+        $data = array('state' => $state);
         $this->db->where('oid', $oid);
         $this->db->update('orderSummary', $data);
-        if ($state === 'arrived')
-        {
+        if ($state === 'arrived') {
             $mid = $this->getMidByOid($oid);
             $this->sendThanksMail($mid, $oid);
         }
     }
-    
+
     public function getMidByOid($oid)
     {
         $this->db->select('mid');
@@ -40,7 +39,7 @@ class TransactionModel extends CI_Model
         $mid = $dataResult[0]->mid;
         return $mid;
     }
-    
+
     public function getArrivedOrder()
     {
         $this->db->select('*');
@@ -49,7 +48,7 @@ class TransactionModel extends CI_Model
         $data = $this->db->get();
         return $data;
     }
-    
+
     public function BrowseManageOrder()
     {
         $this->db->select('*');
@@ -66,7 +65,7 @@ class TransactionModel extends CI_Model
         $data = $this->db->get();
         return $data;
     }
-    
+
     public function browseTransactionRecordsByTimeInterval($start, $end)
     {
         $this->db->select('*');
@@ -76,7 +75,7 @@ class TransactionModel extends CI_Model
         $data = $this->db->get();
         return $data;
     }
-    
+
     public function browseTransactionRecordsByState($state)
     {
         $this->db->select('*');
@@ -85,7 +84,7 @@ class TransactionModel extends CI_Model
         $data = $this->db->get();
         return $data;
     }
-    
+
     public function browseTransactionRecordsByLimit($start, $length)
     {
         $this->db->select('*');
@@ -94,7 +93,7 @@ class TransactionModel extends CI_Model
         $data = $this->db->get();
         return $data;
     }
-    
+
     public function browseTransactionRecordsByMid($mid)
     {
         $this->db->select('*');
@@ -103,7 +102,7 @@ class TransactionModel extends CI_Model
         $data = $this->db->get();
         return $data;
     }
-    
+
     public function browseTransactionRecordsByTimeIntervalById($mid, $start, $end)
     {
         $this->db->select('*');
@@ -114,7 +113,7 @@ class TransactionModel extends CI_Model
         $data = $this->db->get();
         return $data;
     }
-    
+
     public function browseTransactionRecordsByStateByMid($mid, $state)
     {
         $this->db->select('*');
@@ -124,7 +123,7 @@ class TransactionModel extends CI_Model
         $data = $this->db->get();
         return $data;
     }
-    
+
     public function getOrderItemDataByOid($oid)
     {
         $this->db->select('SUM(o.quantity) as quantity, o.soldPrice, b.name');
@@ -134,57 +133,49 @@ class TransactionModel extends CI_Model
         $data = $this->db->get();
         return $data;
     }
-    
+
     public function cancelTheTransaction($oid)
     {
         $this->db->trans_start();
         $this->deleteOrderItemByOid($oid);
         $this->db->where('oid', $oid);
         $this->db->delete('orderSummary');
-        $this->db->trans_complete(); 
+        $this->db->trans_complete();
     }
-    
+
     public function deleteOrderItemByOid($oid)
     {
         $this->db->where('oid', $oid);
         $this->db->delete('orderItem');
     }
-    
+
     public function order($mid, $data, $couponCode)
     {
         $this->db->trans_start();
         $shoppingCartData = $this->getShoppingCartDataByMid($mid);
-        if($shoppingCartData->num_rows() > 0)
-        {
+        if ($shoppingCartData->num_rows() > 0) {
             $this->db->insert('orderSummary', $data);
             $oid = $this->db->insert_id();
             $this->setOrderItemByOidAndCartData($oid, $shoppingCartData);
             $totalPrice = $this->getTotalPriceByOid($oid);
             $orderTime = $this->getOrderTimeByOid($oid);
             $rebateEvent = $this->getBestRebateByTotal($totalPrice, $orderTime);
-            if ($rebateEvent != null)
-            {
+            if ($rebateEvent != null) {
                 $this->addRebateCorrespondByOidAndReid($oid, $rebateEvent->reid);
                 $totalPrice = $totalPrice - $rebateEvent->price;
             }
             $this->refreshEcouponByOrderTime($orderTime);
             $ecouponPrice = $this->getEcouponPriceByCouponCode($couponCode, $orderTime);
-            if($ecouponPrice > 0)
-            {
-                if ($ecouponPrice > $totalPrice)
-                {
+            if ($ecouponPrice > 0) {
+                if ($ecouponPrice > $totalPrice) {
                     $totalPrice = 0;
-                }
-                else
-                {
+                } else {
                     $totalPrice = $totalPrice - $ecouponPrice;
                 }
                 $this->addEcouponCorrespondByOidAndPrice($oid, $ecouponPrice);
                 $this->deleteEcouponByCouponCode($couponCode);
             }
-            $totalPriceData = array(
-                                        'totalPrice' => $totalPrice
-            );
+            $totalPriceData = array('totalPrice' => $totalPrice);
             $this->db->where('oid', $oid);
             $this->db->update('ordersummary', $totalPriceData);
             $this->ShoppingCartModel->clearShoppingCart($mid);
@@ -192,7 +183,7 @@ class TransactionModel extends CI_Model
         }
         $this->db->trans_complete();
     }
-    
+
     public function getEcouponPriceByCouponCode($couponCode, $orderTime)
     {
         $this->db->select('price');
@@ -204,34 +195,30 @@ class TransactionModel extends CI_Model
         $dataResult = $data->result();
         $price = 0;
         echo "rows: $data->num_rows()";
-        if ($data->num_rows() > 0)
-        {
+        if ($data->num_rows() > 0) {
             $price = $dataResult[0]->price;
         }
         return $price;
     }
-    
+
     public function addEcouponCorrespondByOidAndPrice($oid, $price)
     {
-        $data = array(
-                        'oid' => $oid,
-                        'price' => $price
-        );
+        $data = array('oid' => $oid, 'price' => $price);
         $this->db->insert('ecouponcorrespond', $data);
     }
-    
+
     public function deleteEcouponByCouponCode($couponCode)
     {
         $this->db->where('couponCode', $couponCode);
         $this->db->delete('ecoupon');
     }
-    
+
     public function refreshEcouponByOrderTime($orderTime)
     {
         $this->db->where('endTime <', $orderTime);
         $this->db->delete('ecoupon');
     }
-    
+
     public function getOrderTimeByOid($oid)
     {
         $this->db->select('orderTime');
@@ -241,91 +228,77 @@ class TransactionModel extends CI_Model
         $orderTime = $dataResult[0]->orderTime;
         return $orderTime;
     }
-    
+
     public function setOrderItemByOidAndCartData($oid, $shoppingCartData)
     {
-        foreach($shoppingCartData->result() as $cartRow)
-        {
+        foreach ($shoppingCartData->result() as $cartRow) {
             $orderTime = $this->getOrderTimeByOid($oid);
             $discountEvent = $this->getBestDiscountByBid($cartRow->bid, $orderTime);
-            if ($discountEvent != null)
-            {
-                $this->addDiscountCorrespondByOidAndBid($oid, $cartRow->bid, $discountEvent->deid);
+            if ($discountEvent != null) {
+                $this->addDiscountCorrespondByOidAndBid($oid, $cartRow->bid, $discountEvent->
+                    deid);
             }
             $cartQuantity = $cartRow->quantity;
             $stockData = $this->getStockDataByBid($cartRow->bid);
-            while ($cartQuantity > 0)
-            {
-                foreach($stockData->result() as $stockRow)
-                {
+            while ($cartQuantity > 0) {
+                foreach ($stockData->result() as $stockRow) {
                     $stockRestAmount = $stockRow->restAmount;
-                    if($stockRestAmount >= $cartQuantity)
-                    {
+                    if ($stockRestAmount >= $cartQuantity) {
                         $this->modifyStockRestAmountBySrid($stockRow->srid, $stockRestAmount - $cartQuantity);
-                        $orderItemCostQuantity = $this->getOrderItemQuantityByCost($oid, $cartRow->bid, $stockRow->price);
-                        if($orderItemCostQuantity > 0)
-                        {
-                            $this->modifyOrderItemQuantityByOidAndBidAndCost($oid, $cartRow->bid, $cartQuantity + $orderItemCostQuantity, $stockRow->price);
-                        }
-                        else
-                        {
-                            $this->addOrderItemByOidAndBid($oid, $cartRow->bid, $cartQuantity, $stockRow->price);
+                        $orderItemCostQuantity = $this->getOrderItemQuantityByCost($oid, $cartRow->bid,
+                            $stockRow->price);
+                        if ($orderItemCostQuantity > 0) {
+                            $this->modifyOrderItemQuantityByOidAndBidAndCost($oid, $cartRow->bid, $cartQuantity +
+                                $orderItemCostQuantity, $stockRow->price);
+                        } else {
+                            $this->addOrderItemByOidAndBid($oid, $cartRow->bid, $cartQuantity, $stockRow->
+                                price);
                         }
                         $cartQuantity = 0;
                         break 2;
-                    }
-                    else
-                    {
+                    } else {
                         $cartQuantity = $cartQuantity - $stockRestAmount;
                         $this->modifyStockRestAmountBySrid($stockRow->srid, 0);
-                        $orderItemCostQuantity = $this->getOrderItemQuantityByCost($oid, $cartRow->bid, $stockRow->price);
-                        if($orderItemCostQuantity > 0)
-                        {
-                            $this->modifyOrderItemQuantityByOidAndBidAndCost($oid, $cartRow->bid, $stockRow->restAmount + $orderItemCostQuantity, $stockRow->price);
-                        }
-                        else
-                        {
-                            $this->addOrderItemByOidAndBid($oid, $cartRow->bid, $stockRow->restAmount, $stockRow->price);
+                        $orderItemCostQuantity = $this->getOrderItemQuantityByCost($oid, $cartRow->bid,
+                            $stockRow->price);
+                        if ($orderItemCostQuantity > 0) {
+                            $this->modifyOrderItemQuantityByOidAndBidAndCost($oid, $cartRow->bid, $stockRow->
+                                restAmount + $orderItemCostQuantity, $stockRow->price);
+                        } else {
+                            $this->addOrderItemByOidAndBid($oid, $cartRow->bid, $stockRow->restAmount, $stockRow->
+                                price);
                         }
                     }
                 }
             }
         }
     }
-    
+
     public function modifyStockRestAmountBySrid($srid, $quantity)
     {
-        $stockRecordData = array(
-                        'restAmount' => $quantity
-        );
+        $stockRecordData = array('restAmount' => $quantity);
         $this->db->where('srid', $srid);
         $this->db->update('stockrecord', $stockRecordData);
     }
-    
-    public function modifyOrderItemQuantityByOidAndBidAndCost($oid, $bid, $quantity, $cost)
+
+    public function modifyOrderItemQuantityByOidAndBidAndCost($oid, $bid, $quantity,
+        $cost)
     {
-        $orderItemData = array(
-                        'quantity' => $quantity
-        );
+        $orderItemData = array('quantity' => $quantity);
         $this->db->where('oid', $oid);
         $this->db->where('bid', $cartRow->bid);
         $this->db->where('cost', $cost);
         $this->db->update('orderitem', $orderItemData);
     }
-    
+
     public function addOrderItemByOidAndBid($oid, $bid, $quantity, $cost)
     {
         $time = $this->getOrderTimeByOid($oid);
-        $orderItemData = array(
-                        'oid' => $oid,
-                        'bid' => $bid,
-                        'soldPrice' => $this->getSoldPriceByBidAndTime($bid, $time),
-                        'quantity' => $quantity,
-                        'cost' => $cost
-        );
+        $orderItemData = array('oid' => $oid, 'bid' => $bid, 'soldPrice' => $this->
+            getSoldPriceByBidAndTime($bid, $time), 'quantity' => $quantity, 'cost' => $cost);
         $this->db->insert('orderitem', $orderItemData);
     }
-    
+
     public function getOrderItemQuantityByCost($oid, $bid, $cost)
     {
         $this->db->select('quantity');
@@ -335,16 +308,13 @@ class TransactionModel extends CI_Model
         $this->db->where('cost', $cost);
         $data = $this->db->get();
         $dataResult = $data->result();
-        if($data->num_rows() > 0)
-        {
+        if ($data->num_rows() > 0) {
             $quantity = $dataResult[0]->quantity;
-        }
-        else
-        {
+        } else {
             $quantity = 0;
         }
     }
-    
+
     public function getTotalPriceByOid($oid)
     {
         $this->db->select('oid, SUM(quantity * soldPrice) as totalPrice');
@@ -353,17 +323,14 @@ class TransactionModel extends CI_Model
         $this->db->group_by('oid');
         $totalPriceData = $this->db->get();
         $totalPriceDataResult = $totalPriceData->result();
-        if($totalPriceData->num_rows() > 0)
-        {
+        if ($totalPriceData->num_rows() > 0) {
             $totalPrice = $totalPriceDataResult[0]->totalPrice;
-        }
-        else
-        {
+        } else {
             $totalPrice = 0;
         }
         return $totalPrice;
     }
-    
+
     public function getShoppingCartDataByMid($mid)
     {
         $this->db->select('bid, quantity');
@@ -372,7 +339,7 @@ class TransactionModel extends CI_Model
         $data = $this->db->get();
         return $data;
     }
-    
+
     public function getSoldPriceByBidAndTime($bid, $time)
     {
         $this->db->select('price');
@@ -381,33 +348,29 @@ class TransactionModel extends CI_Model
         $dataResult = $this->db->get()->result();
         $soldPrice = $dataResult[0]->price;
         $discountEvent = $this->getBestDiscountByBid($bid, $time);
-        $discountRate = 1; 
-        if ($discountEvent != null)
-        {
+        $discountRate = 1;
+        if ($discountEvent != null) {
             $discountRate = $discountEvent->discount_rate;
         }
-        $soldPrice = $soldPrice * $discountRate;   
+        $soldPrice = $soldPrice * $discountRate;
         return $soldPrice;
     }
-    
+
     public function getBestRebateByTotal($afterDiscountTotal, $time)
     {
         $this->db->select('reid, name, threshold, price'); //
-        $this->db->from('rebateevent'); // 
+        $this->db->from('rebateevent'); //
         $this->db->where('threshold <=', $afterDiscountTotal);
         $this->db->where("startTime <=", $time);
         $this->db->where("endTime >=", $time);
         $list = $this->db->get()->result();
         $count = count($list);
         $rebateEvent = null;
-        if($count > 0)
-        {
-            for($maxDiscountIndex= 0, $i=0; $i<$count;$i++)
-            {
-                if($list[$i]->price > $list[$maxDiscountIndex]->price)
-                {
+        if ($count > 0) {
+            for ($maxDiscountIndex = 0, $i = 0; $i < $count; $i++) {
+                if ($list[$i]->price > $list[$maxDiscountIndex]->price) {
                     $maxDiscountIndex = $i;
-                }              
+                }
             }
             $reid = $list[$maxDiscountIndex]->reid;
             $price = $list[$maxDiscountIndex]->price;
@@ -415,25 +378,22 @@ class TransactionModel extends CI_Model
         }
         return $rebateEvent;
     }
-    
+
     public function getBestDiscountByBid($bid, $time)
     {
         $this->db->select('de.deid, de.name, de.discount_rate'); //
-        $this->db->from('categorycorrespond as cc, discountevent as de'); // 
+        $this->db->from('categorycorrespond as cc, discountevent as de'); //
         $this->db->where("cc.cid = de.cid AND cc.bid = $bid");
         $this->db->where("de.startTime <=", $time);
         $this->db->where("de.endTime >=", $time);
         $list = $this->db->get()->result();
         $count = count($list);
         $discountEvent = null;
-        if($count > 0)
-        {
-            for($minDiscountIndex= 0, $i=0; $i<$count;$i++)
-            {
-                if($list[$i]->discount_rate < $list[$minDiscountIndex]->discount_rate)
-                {
+        if ($count > 0) {
+            for ($minDiscountIndex = 0, $i = 0; $i < $count; $i++) {
+                if ($list[$i]->discount_rate < $list[$minDiscountIndex]->discount_rate) {
                     $minDiscountIndex = $i;
-                }              
+                }
             }
             $deid = $list[$minDiscountIndex]->deid;
             $discount = $list[$minDiscountIndex]->discount_rate;
@@ -441,26 +401,19 @@ class TransactionModel extends CI_Model
         }
         return $discountEvent;
     }
-    
+
     public function addDiscountCorrespondByOidAndBid($oid, $bid, $deid)
     {
-        $data = array(
-                    'oid' => $oid,
-                    'bid' => $bid,
-                    'deid' => $deid
-        );
+        $data = array('oid' => $oid, 'bid' => $bid, 'deid' => $deid);
         $this->db->insert('discountcorrespond', $data);
     }
-    
+
     public function addRebateCorrespondByOidAndReid($oid, $reid)
     {
-        $data = array(
-                    'oid' => $oid,
-                    'reid' => $reid
-        );
+        $data = array('oid' => $oid, 'reid' => $reid);
         $this->db->insert('rebatecorrespond', $data);
     }
-    
+
     public function getStockByBid($bid)
     {
         $this->db->select('bid, SUM(restAmount) as totalQuantity');
@@ -471,13 +424,14 @@ class TransactionModel extends CI_Model
         $data = $this->db->get();
         $dataResult = $data->result();
         $stockQuantity = 0;
-        if ($data->num_rows() > 0)
-        {
+        if ($data->num_rows() > 0) {
             $stockQuantity = $dataResult[0]->totalQuantity;
+        } else {
+            $stockQuantity = 0;
         }
         return $stockQuantity;
     }
-    
+
     public function getStockDataByBid($bid)
     {
         $this->db->select('srid, price, restAmount');
@@ -487,51 +441,42 @@ class TransactionModel extends CI_Model
         $data = $this->db->get();
         return $data;
     }
-    
+
     public function isStockEnough($bid, $quantity)
     {
-        if($this->getStockByBid($bid) >= $quantity)
-        {
+        if ($this->getStockByBid($bid) >= $quantity) {
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
-    
+
     public function IsAllStockEnough($mid)
     {
         $stockEnough = true;
         $shoppingCartData = $this->getShoppingCartDataByMid($mid);
-        foreach($shoppingCartData->result() as $row)
-        {
+        foreach ($shoppingCartData->result() as $row) {
             $stockEnough = $stockEnough && $this->isStockEnough($row->bid, $row->quantity);
-            if(!$this->isStockEnough($row->bid, $row->quantity))
-            {
+            if (!$this->isStockEnough($row->bid, $row->quantity)) {
                 $this->ShoppingCartModel->modifyShoppingCart($mid, $row->bid, 0);
             }
         }
         return $stockEnough;
     }
-    
+
     public function resetShoppingCartQuantityFromTransactionErrorByMid($mid)
     {
         $shoppingCartData = $this->getShoppingCartDataByMid($mid);
-        foreach($shoppingCartData->result() as $row)
-        {
-            if($row->quantity > 0)
-            {
+        foreach ($shoppingCartData->result() as $row) {
+            if ($row->quantity > 0) {
                 $this->ShoppingCartModel->modifyShoppingCart($mid, $row->bid, 0);
-            }
-            else
-            {
+            } else {
                 $restQuantity = $this->getStockByBid($row->bid);
                 $this->ShoppingCartModel->modifyShoppingCart($mid, $row->bid, $restQuantity);
             }
         }
     }
-    
+
     public function getRestQuantityShoppingCartData($mid)
     {
         $this->db->select('cart.quantity, b.name');
@@ -549,13 +494,14 @@ class TransactionModel extends CI_Model
         $orderItemData = $this->getOrderItemDataByOid($oid);
         $orderItemString = "";
         $divider = "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\r\n";
-        foreach ($orderItemData->result() as $row)
-        {
-            $orderItemString = $orderItemString . $divider . "book name: " . $row->name . "\r\n" . "quantity: " . $row->quantity . "\r\n" . "sold price: " . $row->soldPrice . "\r\n"; 
+        foreach ($orderItemData->result() as $row) {
+            $orderItemString = $orderItemString . $divider . "book name: " . $row->name . "\r\n" .
+                "quantity: " . $row->quantity . "\r\n" . "sold price: " . $row->soldPrice . "\r\n";
         }
         $subject = 'TaipeiTech Store';
         $name = $this->AccountModel->getNameByMid($mid);
-        $message = 'Hello, ' . $name . "\r\n" . "we have receved your order." . "\r\n\r\n" . "order id: " . $oid . "\r\n" . $orderItemString;
+        $message = 'Hello, ' . $name . "\r\n" . "we have receved your order." . "\r\n\r\n" .
+            "order id: " . $oid . "\r\n" . $orderItemString;
         $this->GmailModel->sendMail($recipient, $subject, $message);
     }
 
@@ -565,14 +511,29 @@ class TransactionModel extends CI_Model
         $orderItemData = $this->getOrderItemDataByOid($oid);
         $orderItemString = "";
         $divider = "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\r\n";
-        foreach ($orderItemData->result() as $row)
-        {
-            $orderItemString = $orderItemString . $divider . "book name: " . $row->name . "\r\n" . "quantity: " . $row->quantity . "\r\n" . "sold price: " . $row->soldPrice . "\r\n"; 
+        foreach ($orderItemData->result() as $row) {
+            $orderItemString = $orderItemString . $divider . "book name: " . $row->name . "\r\n" .
+                "quantity: " . $row->quantity . "\r\n" . "sold price: " . $row->soldPrice . "\r\n";
         }
         $subject = 'TaipeiTech Store';
         $name = $this->AccountModel->getNameByMid($mid);
-        $message = 'Hello, ' . $name . "\r\n" . "your order has arrived." . "\r\n\r\n" . "order id: " . $oid . "\r\n" . $orderItemString . $divider . "\r\nThanks for your order.";
+        $message = 'Hello, ' . $name . "\r\n" . "your order has arrived." . "\r\n\r\n" .
+            "order id: " . $oid . "\r\n" . $orderItemString . $divider . "\r\nThanks for your order.";
         $this->GmailModel->sendMail($recipient, $subject, $message);
+    }
+
+    public function getNotEnoughBookStockQuantity($originalShoppingCartList)
+    {
+        $list = array();
+        foreach ($originalShoppingCartList as $book) {
+            $restStockQuantity = $this->getStockByBid($book->bid);
+            if ($restStockQuantity < $book->quantity) {
+                $bookData = $this->BookModel->getBookDataByBid($book->bid);
+                array_push($list, array("name" => $bookData->name, "ISBN" => $bookData->ISBN,
+                    "quantity" => $restStockQuantity));
+            }
+        }
+        return $list;
     }
 }
 
