@@ -12,14 +12,20 @@ class TransactionRecords extends CI_Controller
 
     public function index($offset = 0)
     {
+        $this->page($offset);
+    }
+
+    public function page($offset = 0)
+    {
         $slideBarList = $this->MenuModel->getManagerList();
         $slideBarList["TransactionRecords"]['Active'] = "active";
         $this->initPaginationConfig($config);
+        $config['base_url'] = base_url("TransactionRecords/page/");
         $config['total_rows'] = $this->TransactionModel->getTransactionRecordAmount();
         $this->pagination->initialize($config);
 
         $content = "TransactionRecordsView";
-        $data["list"] = $this->TransactionModel->browseTransactionRecords();
+        $data["list"] = $this->TransactionModel->browseTransactionRecordsLimit(20, $offset);
         $data['pagination'] = $this->pagination->create_links();
         $this->template->loadView("Manager", $slideBarList, $content, $data);
     }
