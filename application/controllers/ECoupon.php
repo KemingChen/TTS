@@ -71,5 +71,11 @@ class ECoupon extends CI_Controller
         $message = 'Hello, ' . $name . "\r\n" . 'Here is a coupon fou YOU!! Have a good time!.' . "\r\n" . $couponInfo;
         $this->GmailModel->sendMail($recipient, $subject, $message);
     }
+    
+    public function isExist($couponCode){
+        if($this->ECouponModel->isExist($couponCode)){
+            echo "OK";
+        }
+    }
 }
 ?>

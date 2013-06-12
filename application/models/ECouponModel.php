@@ -60,6 +60,12 @@ class ECouponModel extends CI_Model
         //return $this->db->insert_id();
     }
     
+    public function isExist($couponCode){
+        $query = $this->db->get_where('ecoupon', array("couponCode"=>$couponCode));
+        $list = $query->result();
+        return count($list)>0;
+    }
+    
     public function getCustomerInformation($mid)
     {
         $this->db->select('name, email');
