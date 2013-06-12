@@ -158,12 +158,15 @@ class TransactionModel extends CI_Model
         return $data;
     }
 
-    public function browseTransactionRecordsByMid($mid)
+    public function browseTransactionRecordsByMid($mid,$start, $length)
     {
         $this->db->select('*');
         $this->db->from('orderSummary');
         $this->db->where('mid', $mid);
-        $data = $this->db->get();
+        $this->db->limit($length, $start);
+        $data["list"] = $this->db->get();
+        $this->db->from('orderSummary')->where('mid', $mid);
+        $data["total_NumRows"] = $this->db->count_all_results();
         return $data;
     }
 

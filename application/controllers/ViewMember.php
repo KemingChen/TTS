@@ -65,7 +65,15 @@ class ViewMember extends CI_Controller
         $this->load->model("TransactionModel");
         $content = "TransactionView";
         $mid = $this->authority->getMemberID();
-        $info['list'] = $this->TransactionModel->browseTransactionRecordsByMid($mid);
+        
+        $page = $this->param === null ? 1 : $this->param;
+        $selectNum = 5;
+        $offset = $selectNum * ($page - 1);
+
+        $info = $this->TransactionModel->browseTransactionRecordsByMid($mid,$offset, $selectNum);
+        $info["page"] = $page;
+        $info["pages"] = ceil($info["total_NumRows"] / $selectNum);
+        
         return $info;
     }
 

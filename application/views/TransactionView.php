@@ -36,6 +36,9 @@
                     <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">關閉</button>
                 </div>
             </div>
+            <?php if($list->num_rows()==0){ ?>
+            交易記錄是空的，快來看看有什麼<a href="">新書</a>！
+            <?php }else{ ?>
 			<table class="table">
 				<thead>
 					<tr>
@@ -73,31 +76,25 @@
                     ?>
 				</tbody>
 			</table>
-			<div class="pagination pagination-centered">
-				<ul>
-					<li>
-						<a href="#">Prev</a>
-					</li>
-					<li>
-						<a href="#">1</a>
-					</li>
-					<li>
-						<a href="#">2</a>
-					</li>
-					<li>
-						<a href="#">3</a>
-					</li>
-					<li>
-						<a href="#">4</a>
-					</li>
-					<li>
-						<a href="#">5</a>
-					</li>
-					<li>
-						<a href="#">Next</a>
-					</li>
-				</ul>
-			</div>
+            <div class="pagination" align="center">
+                <ul>    
+                <?php
+                    $url = base_url("ViewMember/Me/Transaction")."/";
+                    $page-1 >= 1 ? PrintPageliTag("Prev", $url.($page-1)) : "";
+                    for($i=1;$i<=$pages;$i++)
+                    {
+                        PrintPageliTag($i, $url.$i, $i==$page ? "active" : "");
+                    }
+                    $page+1 <= $pages ? PrintPageliTag("Next", $url.($page+1)) : "";
+                ?>
+                </ul>
+            </div>
+			<?php }
+                function PrintPageliTag($word, $url, $active = "")
+                {
+                    echo "<li class='$active'><a href='$url'>$word</a></li>";
+                }  
+            ?>
 		</div>
 	</div>
 </div>
