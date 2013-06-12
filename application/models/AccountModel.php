@@ -123,7 +123,7 @@ class AccountModel extends CI_Model
 
     public function getMemberInfoByAccount($email, $password)
     {
-        $this->db->select('mid,email,authority,available,name, address, zipCode, birthday');
+        $this->db->select('mid,password,email,authority,available,name, address, zipCode, birthday');
         $this->db->where('email', $email);
         $this->db->where('password', $password);
         $this->db->from('account');

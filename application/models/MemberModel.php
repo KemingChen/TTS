@@ -9,6 +9,7 @@ class MemberModel extends CI_Model
         $this->load->database();
         $this->load->model("GmailModel");
         $this->load->model("AccountModel");
+        $this->load->model("authority");
     }
 
     public function index()
@@ -99,6 +100,13 @@ class MemberModel extends CI_Model
         $this->db->where('email', $email);
         $this->db->where('password', $password);
         $this->db->update('Account', $newData);
+    }
+
+    public function revisePassword($password)
+    {
+        $mid = $this->authority->getMemberID();
+        $this->db->where('mid', $mid);
+        $this->db->update('Account', array("password"=> $password));
     }
 
     public function getMemberInfoByEmailFromView()

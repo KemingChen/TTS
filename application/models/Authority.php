@@ -13,18 +13,20 @@ class Authority extends CI_Model
     {
         $users = $this->accountModel->getMemberInfoByAccount($email, $password);
         $userData = $users->result();
-        if (count($userData) > 0 && $userData[0]->available == true)
-        {
+        if (count($userData) > 0 && $userData[0]->available == true) {
             $this->encode($userData[0]);
             $this->session->set_userdata($userData[0]);
             return true;
         }
         return false;
     }
-    
-    public function reload(){
+
+    public function reload($password = "")
+    {
         $email = $this->session->userdata("email");
-        $password = $this->session->userdata("password");
+        if ($password == "") {
+            $password = $this->session->userdata("password");
+        }
         $this->login($email, $password);
     }
 
@@ -32,6 +34,11 @@ class Authority extends CI_Model
     {
         $email = $this->session->userdata('email');
         return $email != false ? true : false;
+    }
+
+    public function getPassword()
+    {
+        return $this->session->userdata("password");
     }
 
     public function getMemberID()
@@ -73,16 +80,15 @@ class Authority extends CI_Model
     {
         $this->session->sess_destroy();
     }
-    
+
     private function decode($key)
     {
         return urldecode($this->session->userdata($key));
     }
-    
+
     private function encode(&$array)
     {
-        foreach($array as &$obj)
-        {
+        foreach ($array as & $obj) {
             $obj = urlencode($obj);
         }
     }

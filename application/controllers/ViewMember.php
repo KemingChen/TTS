@@ -32,6 +32,7 @@ class ViewMember extends CI_Controller
         $this->form_validation->set_rules('zipCode', 'zipcode', 'required');
         $this->form_validation->set_rules('address', 'address', 'required');
         if ($this->form_validation->run() == false) {
+            $this->view("Info");
         } else {
             $mid = $this->authority->getMemberID();
             $name = $this->input->post("name");
@@ -40,8 +41,8 @@ class ViewMember extends CI_Controller
             $address = $this->input->post("address");
             $this->MemberModel->updateInfo($mid, $name, $birthday, $zipCode, $address);
             $this->authority->reload();
+            $this->Me("Info");
         }
-        $this->view("Info");
     }
 
     private function doInfo(&$content)
@@ -90,6 +91,19 @@ class ViewMember extends CI_Controller
         $mid = $this->authority->getMemberID();
         $info = $data = $this->ShoppingCartModel->getWholeShoppingCart($mid);
         return $info;
+    }
+
+    public function revisePassword($oldPassword, $newPassword)
+    {
+        $password = $this->authority->getPassword();
+        //echo "password=$password";
+        if ($oldPassword == $password) {
+            $this->MemberModel->revisePassword($newPassword);
+            $this->authority->reload($newPassword);
+            echo "OK";
+        }else{
+            echo "ERROR";
+        }
     }
 
     private function doPassword(&$content)
