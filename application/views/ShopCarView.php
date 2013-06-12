@@ -104,11 +104,11 @@ if ($total_NumRows <= 0) {
                         <td><?= $after_discount_total_price ?></td>
                     </tr>
                     <tr class="info">
-                        <td>打折內容</td>
+                        <td>折價內容</td>
                         <td><?= $rebateName ?></td>
                     </tr>
                     <tr class="error">
-                        <td>再折</td>
+                        <td>折價</td>
                         <td><?= $rebatePrice ?></td>
                     </tr>
                     <tr class="success">
