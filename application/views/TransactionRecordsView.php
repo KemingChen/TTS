@@ -1,7 +1,35 @@
 <div class="container-fluid">
 	<div class="row-fluid">
 		<div class="span12">
-        
+			<h3>交易紀錄</h3>
+            <script>
+                function showRecordInfo(oid)
+                {
+                    console.log(oid);
+                    $("#recordinfo").modal('show');
+                    $.ajax({url: "<?= base_url("ViewMember/getTransactionDetailView") ?>"+"/"+oid}).
+                        done(function(data){
+                            $("#transactionDetail").html(data);
+                        });
+                }
+            </script>
+            <div id="recordinfo" class="modal hide fade in">
+                <div class="modal-header">
+                    <h3>交易明細(2 at 2013-06-22 state asasfd)</h3>
+                </div>
+                <div class="modal-body">
+                    <h4 class="red" align="center">顯示多筆交易資料<h4>
+                    <div class="container-fluid">
+                    	<div class="row-fluid">
+                    		<div class="span10" id="transactionDetail">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">關閉</button>
+                </div>
+            </div>
         <?php
         if (count($list) <= 0) {?>
         <div>

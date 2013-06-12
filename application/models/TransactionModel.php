@@ -135,7 +135,7 @@ class TransactionModel extends CI_Model
 
     public function getOrderItemDataByOid($oid)
     {
-        $this->db->select('b.bid, SUM(o.quantity) as quantity, o.soldPrice, b.name');
+        $this->db->select('b.bid as bid, SUM(o.quantity) as quantity, o.soldPrice, b.name, b.ISBN');
         $this->db->from('orderitem as o, book as b');
         $this->db->where("o.oid = $oid AND o.bid = b.bid");
         $this->db->group_by('b.bid');

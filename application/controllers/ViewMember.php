@@ -70,7 +70,7 @@ class ViewMember extends CI_Controller
     }
     
     public function getTransactionDetailView($oid){
-        $data["list"] = $this->TransactionModel->getOrderItemDataByOid($oid);
+        $data["list"] = $this->TransactionModel->getOrderItemDataByOid($oid)->result();
         $this->load->view("TransactionDetailView", $data);
     }
 

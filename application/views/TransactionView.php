@@ -7,7 +7,7 @@
                 {
                     console.log(oid);
                     $("#recordinfo").modal('show');
-                    $.ajax({url: "<?= base_url("ViewMember/getTransactionDetailView") ?>"+"/"+oid}).
+                    $.ajax({url: "<?= base_url("ViewMember/getTransactionDetailView") ?>/"+oid}).
                         done(function(data){
                             $("#transactionDetail").html(data);
                         });
