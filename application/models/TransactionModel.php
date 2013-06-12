@@ -221,7 +221,7 @@ class TransactionModel extends CI_Model
     public function refreshEcouponByOrderTime($orderTime)
     {
         $this->db->where('endTime <', $orderTime);
-        $this->db->delete('ecouponcorrespond');
+        $this->db->delete('ecoupon');
     }
     
     public function getOrderTimeByOid($oid)
