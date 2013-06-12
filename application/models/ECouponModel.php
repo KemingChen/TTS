@@ -44,15 +44,19 @@ class ECouponModel extends CI_Model
         //printf("uniqid(): %s\r\n", uniqid());
     }
     
-    public function insertECoupon($couponCode, $startTime, $endTime, $price)
-    {
-        $ecouponData = array(
-            'couponCode' => $couponCode,
-            'startTime' => $startTime,
-            'endTime' => $endTime,
-            'price' => $price
-    	);
-	    $this->db->insert('ecoupon', $ecouponData);
+    public function insertECoupon($quantity, $startTime, $endTime, $price)
+    {  
+        for($i=0;$i<$quantity;$i++)
+        {
+            $ecouponData = array(
+                'couponCode' => $this->generateCouponCode(),
+                'startTime' => $startTime,
+                'endTime' => $endTime,
+                'price' => $price
+	       );
+        $this->db->insert('ecoupon', $ecouponData);
+        }
+	    
         //return $this->db->insert_id();
     }
     

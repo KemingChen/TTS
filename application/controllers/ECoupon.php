@@ -34,11 +34,11 @@ class ECoupon extends CI_Controller
         $this->load->view("Ecoupon/browse", $data);
     }
     
-    public function insertECoupon($startTime, $endTime, $price)
+    public function insertECoupon($quantity = 1, $startTime, $endTime, $price)
     {
         //$name = urldecode($name);
         $couponCode = $this->ECouponModel->generateCouponCode();
-        $this->ECouponModel->insertECoupon($couponCode, $startTime, $endTime, $price);
+        $this->ECouponModel->insertECoupon($quantity, $startTime, $endTime, $price);
         $data["ecoupon"] = $this->ECouponModel->browse(0, 9999);
         $this->load->view('Ecoupon/browse', $data);
     }
