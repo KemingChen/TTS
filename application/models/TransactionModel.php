@@ -167,7 +167,17 @@ class TransactionModel extends CI_Model
                 $this->addRebateCorrespondByOidAndReid($oid, $rebateEvent->reid);
                 $totalPrice = $totalPrice - $rebateEvent->price;
             }
-            // 多傳一個是否使用ecoupon參數判斷並更新total price
+            $ecouponPrice = $this->getEcouponPriceByCouponCode($couponCode, $orderTime);
+            if($ecouponPrice > 0)
+            {
+                if ($ecouponPrice > $totalPrice)
+                {
+                    $totalPrice = 0;
+                }
+                $totalPrice = $totalPrice - $ecouponPrice;
+                $this->addEcouponCorrespondByOidAndPrice($oid, $ecouponPrice);
+                $this->deleteEcouponByCouponCode($couponCode);
+            }
             $totalPriceData = array(
                                         'totalPrice' => $totalPrice
             );
@@ -179,9 +189,32 @@ class TransactionModel extends CI_Model
         $this->db->trans_complete();
     }
     
-    public function getEcouponPriceByCouponCode($couponCode)
+    public function getEcouponPriceByCouponCode($couponCode, $orderTime)
     {
-        
+        $this->db->select('price');
+        $this->db->from('ecoupon');
+        $this->db->where('couponCode', $couponCode);
+        $this->db->where('startTime >=', $orderTime);
+        $this->db->where('endTime <=', $orderTime);
+        $data = $this->db->get();
+        $dataResult = $data->result();
+        $price = 0;
+        if ($data->num_rows() > 0)
+        {
+            $price = $dataResult[0]->price;
+        }
+        return $price;
+    }
+    
+    public function addEcouponCorrespondByOidAndPrice($oid, $price)
+    {
+        $this->db->insert('ecouponcorrespond', array('oid' => $oid, 'price' => $price));
+    }
+    
+    public function deleteEcouponByCouponCode($couponCode)
+    {
+        $this->db->where('couponCode', $couponCode);
+        $this->db->delete('ecouponcorrespond');
     }
     
     public function getOrderTimeByOid($oid)
