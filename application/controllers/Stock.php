@@ -93,6 +93,7 @@ class Stock extends CI_Controller
         $data["lists"] = array();
         $data["errors"] = array();
         $isbns = urldecode($isbns);
+        $isbns = str_replace(" ", "", $isbns);
         foreach (explode(",", $isbns) as $isbn)
         {
             if ($isbn != "")
