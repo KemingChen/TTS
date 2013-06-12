@@ -11,19 +11,15 @@ class ViewBook extends CI_Controller
         $this->load->model("authority");
     }
 
-    public function book($bid=1, $cid=null, $offset=0)
+    public function book($bid=1, $cid=0, $offset=0)
     {
         $slideBarList = $this->MenuModel->getCategoryList();
         $content = "BookView";
         
-        $array = $this->BookModel->browse($bid);
-        $data["book"] = $array["book"];
-        $data['writer'] = $array["writer"];
-        $data['translator'] = $array["translator"];
-        $data["category"] = $array['category'];
+        $data = $this->BookModel->browse($bid);
         $data["offset"] = $offset;
-        $cid = $cid === null ? $data["category"][0]->cid : $cid;
         
+        $cid = $cid == 0 ? $data["category"][0]->cid : $cid;
         $data["cid"] = $cid;
         $data["cname"] = '';
         foreach ($data["category"] as $object)
