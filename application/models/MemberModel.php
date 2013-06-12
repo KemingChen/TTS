@@ -48,7 +48,6 @@ class MemberModel extends CI_Model
         $link = 'http://localhost/TTS/Member/verificate/'.$mid;
         // online link
         // $link = 'http://TTS/Member/verificate/'.$mid;
-        echo $link;
         $message = 'Hello, ' . $name . "\r\n" . 'your account has registered.' . "\r\n\r\n" . 'Please click the link to verificate your account:' . "\r\n" . $link;
         $this->GmailModel->sendMail($recipient, $subject, $message);
     }
