@@ -112,37 +112,20 @@ function fixedEncodeURIComponent (str) {
 							<?= $discount->deid ?>
 						</td>
 						<td>
-                            <textarea rows="3" class="input-medium" id="name<?= $discount->deid ?>"><?= $discount->name ?></textarea>
+                            <?= $discount->name ?>
 						</td>
 						<td>
-                            <select id="cid<?= $discount->deid ?>">
-                            <?php
-                            foreach($categoryList as $category){
-                            ?>
-                                <option value="<?=$category->cid?>"
-                                <?php
-                                if($category->cid == $discount->cid){
-                                    echo " selected='true'";
-                                }
-                                ?>
-                                ><?=$category->name?></option>
-                            <?php
-                            }
-                            ?>
-                            </select>
+                            <?=$discount->name?>
 						</td>
 						<td>
-                            <input type="date" class="input-medium" id="startTime<?= $discount->deid ?>" value="<?= $discount->startTime ?>"/>
+                            <?= $discount->startTime ?>
 						</td>
 						<td>
-                            <input type="date" class="input-medium" id="endTime<?= $discount->deid ?>" value="<?= $discount->endTime ?>"/>
+                            <?= $discount->endTime ?>
 						</td>
 						<td>
-                            <input type="number" class="input-small" id="discountRate<?= $discount->deid ?>" value="<?= $discount->discount_rate ?>"/>
+                            <?=$discount->discount_rate ?>
 						</td>
-                        <td>
-                            <button class="btn btn-info" onclick="updateRebate(<?= $discount->deid ?>)">修改</button>
-                        </td>
                     </tr>
                 <?php
                 }
