@@ -9,6 +9,7 @@ class ViewBook extends CI_Controller
         $this->load->model("CategoryModel");
         $this->load->model("BookModel");
         $this->load->model("authority");
+        $this->load->model("TransactionModel");
     }
 
     public function book($bid=1, $cid=0, $offset=0)
@@ -32,7 +33,7 @@ class ViewBook extends CI_Controller
             }
         }
         $data['isLogin'] = $this->authority->isLogin();
-        
+        $data['stockQuantity'] = $this->TransactionModel->getStockByBid($data['book']->bid);
         $this->template->loadView("Category", $slideBarList, $content, $data);
     }
 }

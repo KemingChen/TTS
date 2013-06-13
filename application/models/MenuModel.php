@@ -82,6 +82,7 @@ class MenuModel extends CI_Model
         $list["ViewReport"] = array("ID" => "ViewReport", "Tag" => "觀看報表", "Url" => "ViewReport");
         $list["OrderManagement"] = array("ID" => "OrderManagement", "Tag" => "管理未完成交易訂單", "Url" => "OrderManagement");
         $list["AnnouncementManagement"] = array("ID" => "AnnouncementManagement", "Tag" => "管理活動", "Url" => "AnnouncementManagement");
+        $list["AddAnnouncement"] = array("ID" => "AddAnnouncement", "Tag" => "新增活動", "Url" => "AddAnnouncement");
         $list["OnShelf"] = array("ID" => "OnShelf", "Tag" => "上架", "Url" => "OnShelf");
         $list["OffShelf"] = array("ID" => "OffShelf", "Tag" => "下架", "Url" => "OffShelf");
         $list["AddBook"] = array("ID" => "AddBook", "Tag" => "新增書籍", "Url" => "AddBook");

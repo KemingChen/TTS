@@ -108,6 +108,23 @@
                 <td>定價</td>
                 <td><i class="icon-chevron-right"></i> <?=$book->price?></td>
             </tr>
+            <?php
+            if($book->onShelf){
+            ?>
+            <tr>
+                <td>庫存</td>
+                <td><i class="icon-chevron-right"></i> <?=$stockQuantity?></td>
+            </tr>
+            <?php
+                
+            }else{
+            ?>
+            
+            <?php
+                
+            }
+            ?>
+            
             <tr>
             <?php
             if(sizeof($discounts)>0){
@@ -123,12 +140,28 @@
         <?php
         if($isLogin){
         ?>
+            <?php
+            if($book->onShelf){
+            ?>
         <div>
             <label>購買數量:</label>
             <input id="quantity" type="number" min="1" value="1" style="width: 80px;" />
         </div>
+        <?php
+        }
+        ?>
         <div class="btn-group">
+            <?php
+            if($book->onShelf){
+            ?>
             <button class="btn btn-middle btn-danger" onclick="addShopCar(this, <?=$book->bid?>)">加入購物車</button>
+            <?php
+            }else{
+            ?>
+            <button class="btn btn-middle" disabled="true">此書已下架</button>
+            <?php
+            }
+            ?>
             <button class="btn btn-middle btn-warning" onclick="addConcern(this, <?=$book->bid?>)">加入關注</button>
         </div>
         <?php
