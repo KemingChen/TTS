@@ -1,4 +1,5 @@
 <?
+
 class AddBook extends CI_Controller
 {
     public function __construct()
@@ -15,9 +16,9 @@ class AddBook extends CI_Controller
         $this->load->model("CategoryModel");
     }
 
-    public function index($action="")
-    {//bid cover name pid publishedDate price ISBN description onShelf
-    
+    public function index($action = "")
+    { //bid cover name pid publishedDate price ISBN description onShelf
+
         $this->form_validation->set_rules('name', 'Name', 'required');
         $this->form_validation->set_rules('ISBN', 'ISBN', 'required');
         $this->form_validation->set_rules('description', 'Description', 'required');
@@ -27,53 +28,70 @@ class AddBook extends CI_Controller
         $this->form_validation->set_rules('description', 'Description', 'required');
 
 
-        
         $data['publisherList'] = $this->PublisherModel->getAllPublishers();
         $data['categoryList'] = $this->CategoryModel->getCategoryList();
         $data['writerList'] = $this->AuthorModel->getWriterList();
         $data['translatorList'] = $this->AuthorModel->getTranslatorList();
         $slideBarList = $this->MenuModel->getManagerList();
         $slideBarList['AddBook']['Active'] = 'active';
-        
-        if ($this->form_validation->run() === false) {
-            $data["error"] = $action == "Upload" ? "true" : "false";
+
+        if ($this->form_validation->run() === false)
+        {
+            $data["error"] = $action == "Upload" ? "true" : "";
             $this->template->loadView("Manager", $slideBarList, "AddBookView", $data);
-        } else {
+        }
+        else
+        {
             //先檢查upload的限制  如果通過再上傳
-            if ($this->upload->do_upload('cover')) {
-                
+            if ($this->upload->do_upload('cover'))
+            {
+
                 $uploadData = $this->upload->data();
                 $file_data = file_get_contents($uploadData['full_path']);
-                
+
                 //$file_data = file_get_contents($this->upload->data());
                 //$this->AnnouncementModel->createAnnouncement($file_data);
                 $name = $this->input->post("name");
                 $ISBN = $this->input->post("ISBN");
-                $cover = $file_data;//$this->input->post("cover");
+                $cover = $file_data; //$this->input->post("cover");
                 $pid = $this->input->post("pid");
                 $publishedDate = $this->input->post("publishedDate");
                 $price = $this->input->post("price");
                 $description = $this->input->post("description");
-                $bid = $this->BookModel->createBook($name, $ISBN, $cover, $pid, $publishedDate, $price, $description);
-                
+                $bid = $this->BookModel->createBook($name, $ISBN, $cover, $pid, $publishedDate,
+                    $price, $description);
+
                 $categories = $this->input->post("category");
-                foreach($categories as $category){
-                    $this->BookModel->insertCategory($bid, $category);
+                if ($categories != null)
+                {
+                    foreach ($categories as $category)
+                    {
+                        $this->BookModel->insertCategory($bid, $category);
+                    }
                 }
-                
+
                 $translators = $this->input->post("translator");
-                foreach($translators as $translator){
-                    $this->BookModel->insertTranslator($bid, $translator);
+                if ($translators != null)
+                {
+                    foreach ($translators as $translator)
+                    {
+                        $this->BookModel->insertTranslator($bid, $translator);
+                    }
                 }
-                
+
                 $writers = $this->input->post("writer");
-                foreach($writers as $writer){
-                    $this->BookModel->insertWriter($bid, $writer);
+                if ($writers != null)
+                {
+                    foreach ($writers as $writer)
+                    {
+                        $this->BookModel->insertWriter($bid, $writer);
+                    }
                 }
-                
-                $data['message'] = "true";
+                $data['error'] = "false";
                 $this->template->loadView("Manager", $slideBarList, "AddBookView", $data);
-            } else {
+            }
+            else
+            {
                 show_error($this->upload->display_errors());
             }
         }

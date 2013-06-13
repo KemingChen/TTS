@@ -4,16 +4,28 @@
         font-weight: bolder;
     }
 </style>
-<?=validation_errors()?>
-<? if(isset($error))
-{
-    $msg = $error == "true" ? validation_errors() : "書籍上傳成功^__^";
-    ?>
-    <script>
-    </script>
-    <?
+<?php
+
+if(isset($error)){
+    if($error=="false"){
+        $msg ="書籍上傳成功^__^";
+    }else if($error=="true"){
+        $msg ="新增失敗>___<";
+    }else{
+        $msg="";
+    }
+}else {
+    $msg="";
 }
 ?>
+<script>
+    var errorMsg = "<?=$msg?>";
+    if(errorMsg!="")
+    {
+        alert(errorMsg);
+        /*console.log("<?=validation_errors()?>");*/
+    }
+</script>
 <script>
     var selectedWriters = Array();
     var selectedTranslator = Array();
@@ -65,7 +77,7 @@
     
     function createLabel(name, tag, val)
     {
-        return "<label class='label label-important' style='font-size: larger;margin-right: 3px;'>"+name+" | <i style='color: black;' onclick='delete"+tag+"(this, "+val+")'>X</i></label>"
+        return "<label class='label label-important' style='font-size: larger;margin-right: 3px;'>"+name+" | <i class='icon-remove icon-black' style='color: black;' onclick='delete"+tag+"(this, "+val+")'></i></label>"
     }
     
     function arrayContainVal(array, val)
@@ -115,6 +127,10 @@
 	<div class="row-fluid">
 		<div class="span12">
 			<h3>新增書籍</h3>
+            <div class="alert <?=($error=="true" ? "" : "hide");?>">
+                  <button type="button" class="close" data-dismiss="alert">&times;</button>
+                  <?=validation_errors()?>
+            </div>
             <?=form_open_multipart('AddBook/index/Upload')?>
                 <table class="table">
                     <tr class="info">
