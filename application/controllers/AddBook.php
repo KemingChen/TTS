@@ -14,7 +14,7 @@ class AddBook extends CI_Controller
         $this->load->model("CategoryModel");
     }
 
-    public function index()
+    public function index($action="")
     {//bid cover name pid publishedDate price ISBN description onShelf
     
         $this->form_validation->set_rules('name', 'Name', 'required');
@@ -33,6 +33,7 @@ class AddBook extends CI_Controller
         $slideBarList['AddBook']['Active'] = 'active';
         
         if ($this->form_validation->run() === false) {
+            $data["error"] = $action == "Upload" ? "true" : "false";
             $this->template->loadView("Manager", $slideBarList, "AddBookView", $data);
         } else {
             //先檢查upload的限制  如果通過再上傳
@@ -58,8 +59,8 @@ class AddBook extends CI_Controller
                     $this->BookModel->insertCategory($bid, $category);
                 }
                 
+                $data['message'] = "true";
                 $this->template->loadView("Manager", $slideBarList, "AddBookView", $data);
-                $data['message'] = "成功新增書籍!";
             } else {
                 show_error($this->upload->display_errors());
             }

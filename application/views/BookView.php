@@ -18,6 +18,7 @@
                 console.log(data);
                 action = Array()
                 action["name"]= "移至關注";
+                action["HideIknow"] = "true";
                 action["click"] = function(){location.href = "<?=base_url("ViewMember/Me/Concern")?>";};
                 showReminderMsg("已加入關注列表", action);
             });

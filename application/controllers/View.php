@@ -79,6 +79,7 @@ class View extends CI_Controller
         $config['uri_segment'] = 4;
         $config['total_rows'] = $this->CustomSearchModel->getSearchByISBNSize($ISBN, $offset,
             20);
+            echo $this->db->last_query();
         $this->initPaginationConfig($config);
         $this->pagination->initialize($config);
 
