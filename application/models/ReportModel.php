@@ -53,7 +53,23 @@ class ReportModel extends CI_Model
         $data = $this->db->get();
         return $data;
     }
-        
+    
+    public function getOrderQuantityByRebateEvent()
+    {
+        $this->db->select();
+        $this->db->from();
+        $this->db->where();
+        $data = $this->db->get();
+        return $data;
+    }
+    
+    public function eCouponUtility()
+    {
+        $maxCount = $this->db->query("SELECT  CASE	WHEN MAX(e.ecid) >= COUNT(ec.oid) THEN  MAX(e.ecid) WHEN MAX(e.ecid) < COUNT(ec.oid) THEN COUNT(ec.oid) END as count FROM ecoupon as e , ecouponcorrespond as ec")->result();
+        $used = $this->db->query("SELECT count(ec.oid) as count FROM ecouponcorrespond as ec")->result();
+        if($maxCount[0]->count != 0)$data = $used[0]->count / $maxCount[0]->count;
+        return $data;
+    }   
 
     public function getSalesByDate($date)
     {

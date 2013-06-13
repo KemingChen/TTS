@@ -49,4 +49,16 @@ class Report extends CI_Controller
         $data["report"] = $this->ReportModel->priceAdvice();
         $this->load->view('Report/browsePriceAdvice', $data);
     }
+    
+    public function getOrderQuantityByRebateEvent()
+    {
+        $data["report"] = $this->ReportModel->getOrderQuantityByRebateEvent();
+        $this->load->view('Report/browsePriceAdvice', $data);
+    }
+    
+    public function eCouponUtility()
+    {
+        $data["report"] = $this->ReportModel->eCouponUtility();
+        //$this->load->view('Report/browsePriceAdvice', $data);
+    }
 }
