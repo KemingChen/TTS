@@ -99,6 +99,18 @@ class Account extends CI_Controller
         $this->AccountModel->unfreeze($mid);
         $this->browseAccountList();
     }
+    
+    public function getMemberInfoForEcoupon ($mid)
+    {
+        $memberResult = $this->AccountModel->getMemberInfoForEcoupon($mid);
+        return $memberResult;
+    }
+    
+    public function getValidMemberListForEcoupon()
+    {
+        $memberResultList = $this->AccountModel->getValidMemberForEcoupon();
+        return $member;
+    }
 }
 
 ?>

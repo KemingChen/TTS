@@ -22,14 +22,16 @@ class AccountModel extends CI_Model
         $data = $this->db->get();
         return $data;
     }
-    
-    public function getAccountAmountByEmail($email){
+
+    public function getAccountAmountByEmail($email)
+    {
         $this->db->from("account");
         $this->db->like("email", $email);
         return $this->db->count_all_results();
     }
-    
-    public function getAccountListByEmail($email="", $limit=20, $offset=0){
+
+    public function getAccountListByEmail($email = "", $limit = 20, $offset = 0)
+    {
         $this->db->from("account");
         $this->db->like("email", $email);
         $this->db->limit($limit, $offset);
@@ -45,13 +47,14 @@ class AccountModel extends CI_Model
         $data = $this->db->get();
         return $data;
     }
-    
-    public function isExist($email){
-        $query = $this->db->get_where("account", array("email"=>$email));
+
+    public function isExist($email)
+    {
+        $query = $this->db->get_where("account", array("email" => $email));
         $result = $query->result();
-        return count($result)>0 ? TRUE:FALSE;
+        return count($result) > 0 ? true : false;
     }
-    
+
     public function browsePhoneByMid($mid)
     {
         $this->db->select('mid, phoneNumber');
@@ -60,64 +63,53 @@ class AccountModel extends CI_Model
         $data = $this->db->get();
         return $data;
     }
-    
+
     public function createAccount()
     {
-        $accountData = array(
-            'email' => $this->input->post('email'),
-            'password' => $this->input->post('password'),
-            'zipCode' => $this->input->post('zipCode'),
-            'birthday' => $this->input->post('birthday'),
-            'address' => $this->input->post('address'),
-            'name' => $this->input->post('name'),
-    	);
-        if($this->input->post('authority')){
-            $accountData['authority'] = $this->input->post('authority');   
-        }else{
+        $accountData = array('email' => $this->input->post('email'), 'password' => $this->
+            input->post('password'), 'zipCode' => $this->input->post('zipCode'), 'birthday' =>
+            $this->input->post('birthday'), 'address' => $this->input->post('address'),
+            'name' => $this->input->post('name'), );
+        if ($this->input->post('authority')) {
+            $accountData['authority'] = $this->input->post('authority');
+        } else {
             $accountData['authority'] = "custom";
         }
-        if($this->input->post('available')){
-            $accountData['available'] = $this->input->post('available'); 
-        }else{
-            $accountData['available'] = 1;//null;//'1';
+        if ($this->input->post('available')) {
+            $accountData['available'] = $this->input->post('available');
+        } else {
+            $accountData['available'] = 1; //null;//'1';
         }
         $this->db->insert('account', $accountData);
         $email = $accountData['email'];
         $mid = $this->getMidByEmail($email);
-        $phoneData = array(
-            'mid' => $mid,
-            'phoneNumber' => $this->input->post('phoneNumber')
-    	);
-	    $this->db->insert('cellphonenumbercorrespond', $phoneData);
+        $phoneData = array('mid' => $mid, 'phoneNumber' => $this->input->post('phoneNumber'));
+        $this->db->insert('cellphonenumbercorrespond', $phoneData);
     }
-    
-//    public function modifyAuthority($mid, $data)
-//    {
-//        $this->db->where('mid', $mid);
-//        $this->db->update('account', $data);
-//    }
+
+    //    public function modifyAuthority($mid, $data)
+    //    {
+    //        $this->db->where('mid', $mid);
+    //        $this->db->update('account', $data);
+    //    }
 
     public function modifyAuthority($mid, $authority)
     {
         $this->db->where('mid', $mid);
         $this->db->update('account', array("authority" => $authority));
     }
-    
+
     public function freeze($mid)
     {
         $this->db->where('mid', $mid);
-        $data = array(
-                        'available' => 0
-                     );
+        $data = array('available' => 0);
         $this->db->update('account', $data);
     }
 
     public function unfreeze($mid)
     {
         $this->db->where('mid', $mid);
-        $data = array(
-                        'available' => 1
-                     );
+        $data = array('available' => 1);
         $this->db->update('account', $data);
     }
 
@@ -130,7 +122,7 @@ class AccountModel extends CI_Model
         $data = $this->db->get();
         return $data;
     }
-    
+
     public function getMidByEmail($email)
     {
         $this->db->select('mid');
@@ -141,7 +133,7 @@ class AccountModel extends CI_Model
         $mid = $result[0]->mid;
         return $mid;
     }
-    
+
     public function getEmailByMid($mid)
     {
         $this->db->select('email');
@@ -152,7 +144,7 @@ class AccountModel extends CI_Model
         $email = $result[0]->email;
         return $email;
     }
-    
+
     public function getNameByMid($mid)
     {
         $this->db->select('name');
@@ -162,6 +154,25 @@ class AccountModel extends CI_Model
         $result = $data->result();
         $name = $result[0]->name;
         return $name;
+    }
+    
+    public function getMemberInfoForEcoupon($mid)
+    {
+        $this->db->select('mid, email, name');
+        $this->db->from('account');
+        $this->db->where('mid', $mid);
+        $dataResult = $this->db->get()->result();
+        return count($dataResult) > 0 ? $dataResult[0] : null;
+    }
+    
+    public function getValidMemberListForEcoupon()
+    {
+        $this->db->select('mid, count(*) as quantity');
+        $this->db->from('account');
+        $this->db->where('authority', 'customer');
+        $this->db->where('available', 1);
+        $dataResult = $this->db->get()->result();
+        return count($dataResult) > 0 ? $dataResult : null;
     }
 }
 
