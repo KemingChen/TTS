@@ -53,6 +53,15 @@ class RebateManagement extends CI_Controller
             echo "ERROR";
         }
     }
+    
+    public function insertRebate($name, $startTime, $endTime, $threshold, $price){
+        $name = urldecode($name);//
+        if($this->RebateModel->insertRebate($name, $startTime, $endTime, $threshold, $price)){
+            echo "OK";
+        }else{
+            echo "ERROR";
+        }
+    }
 }
 
 ?>

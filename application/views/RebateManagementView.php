@@ -25,13 +25,44 @@ function updateRebate(reid){
             };
             showReminderMsg("成功修改", action);
         }else{
-            showReminderMsg("資料有誤，開始時間不能大於結束時間", action);
+            showReminderMsg("資料有誤，開始時間不能大於結束時間");
         }
     });
 }
 
 function fixedEncodeURIComponent (str) {
   return encodeURIComponent(str).replace(/[!'()]/g, escape).replace(/\*/g, "%2A");
+}
+
+function insertRebate(){
+    var name = $("#name").val()
+    console.log("name=" + name);
+    var startTime = $("#startTime").val()
+    console.log("startTime=" + startTime);
+    var endTime = $("#endTime").val()
+    console.log("endTime=" + endTime);
+    var threshold = $("#threshold").val()
+    console.log("threshold=" + threshold);
+    var price = $("#price").val()
+    console.log("price=" + price);
+    //insertRebate($name, $startTime, $endTime, $threshold, $price){
+    var addUrl = "<?= base_url("RebateManagement/insertRebate") ?>/" 
+        + fixedEncodeURIComponent(name) + "/" + startTime + "/" + endTime + "/" + threshold + "/" + price;
+    console.log(addUrl);
+    $.ajax({url: addUrl}).done(function (data){
+        console.log(data);
+        if(data=="OK"){
+            action = Array()
+            action["name"]= "確定";
+            action["HideIknow"] = "true";
+            action["click"] = function(){
+                document.location.reload();
+            };
+            showReminderMsg("成功新增", action);
+        }else{
+            showReminderMsg("資料有誤，開始時間不能大於結束時間");
+        }
+    });
 }
 
 </script>
@@ -65,55 +96,95 @@ function fixedEncodeURIComponent (str) {
 					</tr>
 				</thead>
 				<tbody>
-                
                 <?php
-$isSuccess = false;
-foreach ($list as $rebate) {
-    if ($isSuccess) {
-        echo '<tr class="success">';
-    } else {
-        echo "<tr>";
-    }
-    $isSuccess = !$isSuccess;
-?>
-						<td>
-							<?= $rebate->reid ?>
-						</td>
-						<td>
-                            <textarea rows="3" class="input-medium" id="name<?= $rebate->
-reid ?>"><?= $rebate->
-name ?></textarea>
-						</td>
-						<td>
-                            <input type="date" class="input-medium" id="startTime<?= $rebate->
-reid ?>" value="<?= $rebate->
-startTime ?>"/>
-						</td>
-						<td>
-                            <input type="date" class="input-medium" id="endTime<?= $rebate->
-reid ?>" value="<?= $rebate->
-endTime ?>"/>
-						</td>
-						<td>
-                            <input type="number" class="input-small" id="threshold<?= $rebate->
-reid ?>" value="<?= $rebate->
-threshold ?>"/>
-						</td>
-						<td>
-                            <input type="number" class="input-small" id="price<?= $rebate->
-reid ?>" value="<?= $rebate->
-price ?>"/>
-						</td>
-                        <td>
-                            <button class="btn btn-info" onclick="updateRebate(<?= $rebate->
-reid ?>)">修改</button>
-                        </td>
+                $isSuccess = false;
+                foreach ($list as $rebate) {
+                    if ($isSuccess) {
+                        echo '<tr class="success">';
+                    } else {
+                        echo "<tr>";
+                    }
+                    $isSuccess = !$isSuccess;
+                ?>
+					<td>
+						<?= $rebate->reid ?>
+					</td>
+					<td>
+                        <textarea rows="3" class="input-medium" id="name<?= $rebate->reid ?>"><?= $rebate->name ?></textarea>
+					</td>
+					<td>
+                        <input type="date" class="input-medium" id="startTime<?= $rebate->reid ?>" value="<?= $rebate->startTime ?>"/>
+					</td>
+					<td>
+                        <input type="date" class="input-medium" id="endTime<?= $rebate->reid ?>" value="<?= $rebate->endTime ?>"/>
+					</td>
+					<td>
+                        <input type="number" class="input-small" id="threshold<?= $rebate->reid ?>" value="<?= $rebate->threshold ?>"/>
+					</td>
+					<td>
+                        <input type="number" class="input-small" id="price<?= $rebate->reid ?>" value="<?= $rebate->price ?>"/>
+					</td>
+                    <td>
+                        <button class="btn btn-info" onclick="updateRebate(<?= $rebate->reid ?>)">修改</button>
+                    </td>
+                    </tr>
                 <?php
-}
-?>
+                }
+                ?>
 				</tbody>
 			</table>
             <?= $pagination ?>
 		</div>
+		<div class="span12">
+            <div>
+                <h3>
+                    新增減價活動
+                </h3>
+            </div>
+            <table>
+				<thead>
+					<tr>
+						<th>
+							減價名稱
+						</th>
+						<th>
+							開始時間
+						</th>
+						<th>
+							結束時間
+						</th>
+						<th>
+							底價
+						</th>
+						<th>
+							回饋金額
+						</th>
+                        <th></th>
+					</tr>
+				</thead>
+				<tbody>
+                    <tr>
+        				<td>
+                            <textarea rows="3" class="input-medium" id="name"></textarea>
+        				</td>
+        				<td>
+                            <input type="date" class="input-medium" id="startTime" value="<?=date('Y-m-d'); ?>" />
+        				</td>
+        				<td>
+                            <input type="date" class="input-medium" id="endTime" value="<?=date('Y-m-d'); ?>"/>
+        				</td>
+        				<td>
+                            <input type="number" class="input-small" id="threshold" value=""/>
+        				</td>
+        				<td>
+                            <input type="number" class="input-small" id="price" value="1"/>
+        				</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div>
+                <button class="btn btn-info" onclick="insertRebate()">新增</button>
+            </div>
+        </div>
 	</div>
 </div>

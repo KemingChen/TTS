@@ -46,13 +46,26 @@ class RebateModel extends CI_Model
 
     public function insertRebate($name, $startTime, $endTime, $threshold, $price)
     {
-        $rebateData = array('name' => $name, 'startTime' => $startTime, 'endTime' => $endTime,
-            'threshold' => $threshold, 'price' => $price);
-        if ($threshold > $price) {
-            $this->db->insert('rebateevent', $rebateData);
+        $startTimeDate = strtotime($startTime);
+        $endTimeDate = strtotime($endTime);
+        if ($startTimeDate > $endTimeDate) {
+            return false;
         }
 
-        //return $this->db->insert_id();
+
+        try {
+            $rebateData = array('name' => $name, 'startTime' => $startTime, 'endTime' => $endTime,
+                'threshold' => $threshold, 'price' => $price);
+            if ($threshold > $price) {
+                $this->db->insert('rebateevent', $rebateData);
+                return true;
+            }
+        }
+        catch (exception $ex) {
+            return false;
+        }
+        return false;
+
     }
 
     public function updateRebate($reid, $startTime, $endTime)
@@ -66,12 +79,12 @@ class RebateModel extends CI_Model
     {
         $startTimeDate = strtotime($startTime);
         $endTimeDate = strtotime($endTime);
-        if($startTimeDate>$endTimeDate){
-            return FALSE;
+        if ($startTimeDate > $endTimeDate) {
+            return false;
         }
         try {
-            $data = array('name' => $name, 'startTime' => $startTime,
-                'endTime' => $endTime, 'threshold' => $threshold, 'price' => $price);
+            $data = array('name' => $name, 'startTime' => $startTime, 'endTime' => $endTime,
+                'threshold' => $threshold, 'price' => $price);
 
             $this->db->where('reid', $reid);
             $this->db->update('rebateevent', $data);

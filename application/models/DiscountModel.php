@@ -46,6 +46,11 @@ class DiscountModel extends CI_Model
 
     public function insertDiscount($cid, $name, $startTime, $endTime, $discount_rate)
     {
+        $startTimeDate = strtotime($startTime);
+        $endTimeDate = strtotime($endTime);
+        if ($startTimeDate > $endTimeDate) {
+            return false;
+        }
         try {
             $discountData = array('cid' => $cid, 'name' => $name, 'startTime' => $startTime,
                 'endTime' => $endTime, 'discount_rate' => $discount_rate);

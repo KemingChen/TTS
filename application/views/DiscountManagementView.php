@@ -18,7 +18,7 @@ function updateRebate(deid){
     $.ajax({url: updateUrl}).done(function (data){
         console.log(data);
         if(data=="OK"){
-            action = Array()
+            action = Array();
             action["name"]= "確定";
             action["HideIknow"] = "true";
             action["click"] = function(){
@@ -26,7 +26,7 @@ function updateRebate(deid){
             };
             showReminderMsg("成功修改", action);
         }else{
-            showReminderMsg("資料有誤，開始時間不能大於結束時間", action);
+            showReminderMsg("資料有誤，開始時間不能大於結束時間");
         }
     });
 }
@@ -57,7 +57,7 @@ function insertDiscount(){
             };
             showReminderMsg("成功新增", action);
         }else{
-            showReminderMsg("資料有誤，開始時間不能大於結束時間", action);
+            showReminderMsg("資料有誤，開始時間不能大於結束時間");
         }
     });
 }
@@ -143,6 +143,7 @@ function fixedEncodeURIComponent (str) {
                         <td>
                             <button class="btn btn-info" onclick="updateRebate(<?= $discount->deid ?>)">修改</button>
                         </td>
+                    </tr>
                 <?php
                 }
                 ?>       
@@ -150,9 +151,10 @@ function fixedEncodeURIComponent (str) {
 			</table>
             <?= $pagination ?>
 		</div>
+		<div class="span12">
             <div>
                 <h3>
-                    新增折扣
+                    新增折扣活動
                 </h3>
             </div>
             <table>
@@ -176,35 +178,36 @@ function fixedEncodeURIComponent (str) {
 					</tr>
 				</thead>
 				<tbody>
-    				<td class="info">
-                        <textarea rows="3" class="input-medium" id="name"></textarea>
-    				</td>
-    				<td>
-                        <select id="cid">
-                        <?php
-                        foreach($categoryList as $category){
-                        ?>
-                            <option value="<?=$category->cid?>"><?=$category->name?></option>
-                        <?php
-                        }
-                        ?>
-                        </select>
-    				</td>
-    				<td>
-                        <input type="date" class="input-medium" id="startTime" value="<?=date('Y-m-d'); ?>" />
-    				</td>
-    				<td>
-                        <input type="date" class="input-medium" id="endTime" value="<?=date('Y-m-d'); ?>"/>
-    				</td>
-    				<td>
-                        <input type="number" class="input-small" id="discountRate" value="1"/>
-    				</td>
+                    <tr>
+        				<td class="info">
+                            <textarea rows="3" class="input-medium" id="name"></textarea>
+        				</td>
+        				<td>
+                            <select id="cid">
+                            <?php
+                            foreach($categoryList as $category){
+                            ?>
+                                <option value="<?=$category->cid?>"><?=$category->name?></option>
+                            <?php
+                            }
+                            ?>
+                            </select>
+        				</td>
+        				<td>
+                            <input type="date" class="input-medium" id="startTime" value="<?=date('Y-m-d'); ?>" />
+        				</td>
+        				<td>
+                            <input type="date" class="input-medium" id="endTime" value="<?=date('Y-m-d'); ?>"/>
+        				</td>
+        				<td>
+                            <input type="number" class="input-small" id="discountRate" value="1"/>
+        				</td>
+                    </tr>
                 </tbody>
             </table>
             <div>
                 <button class="btn btn-info" onclick="insertDiscount()">新增</button>
             </div>
-		<div class="span12">
         </div>
 	</div>
 </div>
