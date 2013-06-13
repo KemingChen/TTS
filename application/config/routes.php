@@ -39,7 +39,7 @@
 */
 
 //$route['default_controller'] = "Nav/Category";
-$route['default_controller'] = "View";
+$route['default_controller'] = "Announcement";
 $route['404_override'] = '';
 
 

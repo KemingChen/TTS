@@ -24,6 +24,7 @@ class BrowseModel extends CI_Model
         $data["total_num_rows"] = $this->db->count_all_results('book');
         $this->db->select('bid,name,cover');
         $this->db->from('book');
+        $this->db->where('onShelf = 1');
         $this->db->order_by('publishedDate','desc');
         $this->db->limit($limit,$offset);
         $data["books"] = $this->db->get();
@@ -38,7 +39,7 @@ class BrowseModel extends CI_Model
         $this->db->group_by('bid');
         $this->db->order_by('COUNT(bid)','desc');
         $this->db->limit($limit,$offset);
-        $data["books"] = $this->db->get()->result();;
+        $data["books"] = $this->db->get()->result();
         $this->db->select('')->from('concern NATURAL JOIN book')->group_by('bid');
         $data["total_num_rows"] = $this->db->get()->num_rows();
         return $data;

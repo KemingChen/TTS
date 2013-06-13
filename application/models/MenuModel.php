@@ -13,7 +13,6 @@ class MenuModel extends CI_Model
     {
         $isLogin = $this->authority->isLogin();
         $list = array();
-        array_push($list, array("Url" => "Announcement", "ID" => "Announcement", "Tag" => "公告"));
         array_push($list, array("Url" => "View", "ID" => "Category", "Tag" => "瀏覽書籍"));
         if ($isLogin)
         {

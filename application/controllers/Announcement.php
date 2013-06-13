@@ -15,7 +15,7 @@ class Announcement extends CI_Controller
 
         $slideBarList["Announcement"]['Active'] = "active";
 
-        $content = "AnnoucementView";
+        $content = "Index";
         $data['size'] = $this->AnnouncementModel->getAnnouncementSize();
         $data["list"] = $this->AnnouncementModel->getAnnouncementList();
         $this->template->loadView("Announcement", $slideBarList, $content, $data);
