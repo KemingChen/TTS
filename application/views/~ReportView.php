@@ -11,10 +11,10 @@
 							ISBN
 						</th>
 						<th>
-							Êõ∏Âêç
+							Æ—¶W
 						</th>
 						<th>
-                            ÂäüËÉΩ                        
+                            •\Ø‡                        
 						</th>
 					</tr>
 				</thead>
@@ -37,7 +37,7 @@
 							<?=$book->ISBN?>
 						</td>
 						<td>
-                            <?=$book->name?>
+                            <?=$book->name ?>
 						</td>
 						<td>
                             <div class="btn-toolbar">

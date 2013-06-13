@@ -6,7 +6,8 @@ class ViewReport extends CI_Controller
         parent::__construct();
         $this->load->model("template");
         $this->load->model("MenuModel");
-        $this->load->model("AnnouncementModel");
+        $this->load->model("ReportModel");
+        $this->load->library('pagination');
     }
 
     public function index($offset = 0)
@@ -15,10 +16,14 @@ class ViewReport extends CI_Controller
 
         $slideBarList["ViewReport"]['Active'] = "active";
 
-        $content = "ViewReportView";
-        $data['size'] = $this->AnnouncementModel->getAnnouncementSize();
-        $data["list"] = $this->AnnouncementModel->getAnnouncementList();
+        $content = "ReportView";
+        $result = $this->ReportModel->bookSellReport();
+        $data["list"] = $result["report"];
+        $data["pagination"] = $this->pagination->create_links();
         $this->template->loadView("Manager", $slideBarList, $content, $data);
+        //$data['size'] = $this->ReportModel->getAnnouncementSize();
+        //$data["list"] = $this->ReportModel->getAnnouncementList();
+        //$this->template->loadView("Manager", $slideBarList, $content, $data);
     }
 }
 

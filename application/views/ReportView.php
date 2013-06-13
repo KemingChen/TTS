@@ -5,16 +5,13 @@
 				<thead>
 					<tr>
 						<th>
-							BID
-						</th>
-						<th>
-							ISBN
-						</th>
-						<th>
 							書名
 						</th>
 						<th>
-                            功能                        
+							賣出數量
+						</th>
+						<th>
+                            獲利
 						</th>
 					</tr>
 				</thead>
@@ -22,30 +19,24 @@
                 
                 <?php
                     $isSuccess = FALSE;
-                    foreach ($list as $book){
+                    foreach ($list as $report){
                         if($isSuccess){
-					       echo '<tr class="success">';
+    					   echo '<tr class="success">';
                         }else{
 					       echo "<tr>";
                         }
                         $isSuccess = ! $isSuccess;
                 ?>
 						<td>
-							<?=$book->bid?>
+							<?=$report->name?>
 						</td>
 						<td>
-							<?=$book->ISBN?>
+							<?=$report->TOTAL_QUANTITY?>
 						</td>
 						<td>
-                            <?=$book->name?>
+                            <?=$report->profit ?>
 						</td>
-						<td>
-                            <div class="btn-toolbar">
-                                <div class="btn-group">
-                                    <a href="<?=base_url("OffShelf/off/$book->bid")?>" class="btn btn-danger">Off Shelf</a>
-                                </div>
-                            </div>
-						</td>
+                        
                 <?php
                     }
                 ?>

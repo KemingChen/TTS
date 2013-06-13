@@ -16,7 +16,7 @@ class ReportModel extends CI_Model
         $this->db->where("OI.bid = B.bid");
         $this->db->group_by('B.bid');
         $this->db->order_by('profit', 'DESC');
-        $data = $this->db->get();
+        $data['report'] = $this->db->get()->result();
         return $data;
     }
     
@@ -56,10 +56,10 @@ class ReportModel extends CI_Model
     
     public function getOrderQuantityByRebateEvent()
     {
-        $this->db->select();
-        $this->db->from();
-        $this->db->where();
+        $this->db->select("count(oid) as count");
+        $this->db->from("rebateCorrespond");
         $data = $this->db->get();
+        print_r($data->result());
         return $data;
     }
     
