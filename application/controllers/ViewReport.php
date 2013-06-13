@@ -21,9 +21,6 @@ class ViewReport extends CI_Controller
         $data["list"] = $result["report"];
         $data["pagination"] = $this->pagination->create_links();
         $this->template->loadView("Manager", $slideBarList, $content, $data);
-        //$data['size'] = $this->ReportModel->getAnnouncementSize();
-        //$data["list"] = $this->ReportModel->getAnnouncementList();
-        //$this->template->loadView("Manager", $slideBarList, $content, $data);
     }
 }
 
