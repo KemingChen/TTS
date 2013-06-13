@@ -50,8 +50,8 @@ class MemberModel extends CI_Model
         $link = 'http://localhost/TTS/Member/verificate/' . $mid;
         // online link
         // $link = 'http://TTS/Member/verificate/'.$mid;
-        $message = 'Hello, ' . $name . "\r\n" . 'your account has registered.' . "\r\n\r\n" .
-            'Please click the link to verificate your account:' . "\r\n" . $link;
+        $message = "親愛的$name" . "您好," . "\r\n" . '您的帳號已經註冊成功!.' . "\r\n\r\n" .
+            '請點擊連結開通您的帳戶:' . "\r\n" . $link;
         $this->GmailModel->sendMail($recipient, $subject, $message);
     }
 
@@ -156,7 +156,7 @@ class MemberModel extends CI_Model
         $result = $data->result();
         $password = $result[0]->password;
         $name = $result[0]->name;
-        $message = 'Hello, ' . $name . "\r\n" . 'your password:' . $password;
+        $message = "親愛的$name" ."您好,"  . "\r\n" . '您的密碼是:' . $password;
         $this->GmailModel->sendMail($recipient, $subject, $message);
     }
 }
