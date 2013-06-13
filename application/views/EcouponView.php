@@ -8,13 +8,17 @@
     function sendEcoupon()
     {
         var totalnum = $("#totalnum").val();
-        var endDate = $("#endDate").val();
         var startDate = $("#startDate").val();
+        var endDate = $("#endDate").val();
         var price = $("#price").val();
         
         if(totalnum == "" || endDate == "" || startDate == "" || price =="")
         {
             showReminderMsg("尚有未填項目!!!");
+        }
+        else if((new Date(startDate)) > (new Date(endDate)))
+        {
+            showReminderMsg("起始日期 和 截止日期 有問題!!!");
         }
         else
         {
@@ -48,11 +52,11 @@
                 <tr>
                     <td>
                         <label class="titleInfo">起始日期</label>
-                        <input type="date" id="endDate" />
+                        <input type="date" id="startDate" />
                     </td>
                     <td>
                         <label class="titleInfo">截止日期</label>
-                        <input type="date" id="startDate" />
+                        <input type="date" id="endDate" />
                     </td>
                 </tr>
                 <tr>
