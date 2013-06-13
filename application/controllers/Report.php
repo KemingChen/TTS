@@ -26,6 +26,12 @@ class Report extends CI_Controller
         $this->load->view('Report/browseCategorySell', $data);
     }
     
+    public function browseTurnover($year, $month)
+    {
+        $turnover = $this->ReportModel->getTurnoverByYearAndMonth($year, $month);
+        $this->load->view('Report/browseTurnover', $turnover);
+    }
+    
     public function authorSellReport()
     {
         $data["report"] = $this->ReportModel->authorSellReport();
@@ -43,5 +49,4 @@ class Report extends CI_Controller
         $data["report"] = $this->ReportModel->priceAdvice();
         $this->load->view('Report/browsePriceAdvice', $data);
     }
-        
 }

@@ -55,18 +55,41 @@ class ReportModel extends CI_Model
     }
         
 
-
-    public function getSalesByDay()
+    public function getSalesByDate($date)
     {
         
     }
     
-    public function getSalesByMonth()
+    public function getSalesByMonth($month)
     {
         
     }
     
-    public function getSalesByYear()
+    public function getSalesByYear($year)
+    {
+        
+    }
+    
+    public function getTurnoverByDate($date)
+    {
+        $this->db->select('SUM(totoalPrice) as turnover');
+        $this->db->from('ordersummary');
+        $this->db->where('date', $date);
+        $dataResult = $this->db->get()->result();
+        return count($dataResult) > 0 ? $dataResult->turnover : 0;
+    }
+    
+    public function getTurnoverByYearAndMonth($year, $month)
+    {
+        $this->db->select('SUM(totalPrice) as turnover');
+        $this->db->from('ordersummary');
+        $this->db->where('month(orderTime)', $month);
+        $this->db->where('year(orderTime)', $year);
+        $dataResult = $this->db->get()->result();
+        return count($dataResult) > 0 ? $dataResult->turnover : 0;
+    }
+    
+    public function getTurnoverByYear($year)
     {
         
     }
