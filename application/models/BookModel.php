@@ -179,5 +179,13 @@ class BookModel extends CI_Model
         );
         $this->db->insert('translatecorrespond', $data);
     }
+    
+    public function isIsbnExist($isbn)
+    {
+        $this->db->select('ISBN');
+        $this->db->from('book');
+        $this->db->where('ISBN', $isbn);
+        return $this->db->count_all_results()>0;
+    }
 }
 ?>
