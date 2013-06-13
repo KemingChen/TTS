@@ -44,6 +44,14 @@ class RebateManagement extends CI_Controller
         $config['full_tag_close'] = '</ul></div>';
         return $config;
     }
+    
+    public function update($reid, $name, $startTime, $endTime, $threshold, $price){
+        if($this->RebateModel->update($reid, $name, $startTime, $endTime, $threshold, $price)){
+            echo "OK";
+        }else{
+            echo "ERROR";
+        }
+    }
 }
 
 ?>
