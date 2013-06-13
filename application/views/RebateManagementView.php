@@ -106,27 +106,24 @@ function insertRebate(){
                     }
                     $isSuccess = !$isSuccess;
                 ?>
-					<td>
-						<?= $rebate->reid ?>
-					</td>
-					<td>
-                        <textarea rows="3" class="input-medium" id="name<?= $rebate->reid ?>"><?= $rebate->name ?></textarea>
-					</td>
-					<td>
-                        <input type="date" class="input-medium" id="startTime<?= $rebate->reid ?>" value="<?= $rebate->startTime ?>"/>
-					</td>
-					<td>
-                        <input type="date" class="input-medium" id="endTime<?= $rebate->reid ?>" value="<?= $rebate->endTime ?>"/>
-					</td>
-					<td>
-                        <input type="number" class="input-small" id="threshold<?= $rebate->reid ?>" value="<?= $rebate->threshold ?>"/>
-					</td>
-					<td>
-                        <input type="number" class="input-small" id="price<?= $rebate->reid ?>" value="<?= $rebate->price ?>"/>
-					</td>
-                    <td>
-                        <button class="btn btn-info" onclick="updateRebate(<?= $rebate->reid ?>)">修改</button>
-                    </td>
+    					<td>
+    						<?= $rebate->reid ?>
+    					</td>
+    					<td>
+                            <?= $rebate->name ?>
+    					</td>
+    					<td>
+                            <?= $rebate->startTime ?>
+    					</td>
+    					<td>
+                            <?= $rebate->endTime ?>
+    					</td>
+    					<td>
+                            <?= $rebate->threshold ?>
+    					</td>
+    					<td>
+                            <?= $rebate->price ?>
+    					</td>
                     </tr>
                 <?php
                 }
