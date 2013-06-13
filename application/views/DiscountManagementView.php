@@ -5,13 +5,22 @@
 				<thead>
 					<tr>
 						<th>
-							編號
+							折扣編號
 						</th>
 						<th>
-							圖片
+							折扣類別
 						</th>
 						<th>
-							說明
+							折扣名稱
+						</th>
+						<th>
+							開始時間
+						</th>
+						<th>
+							結束時間
+						</th>
+						<th>
+							打折比率
 						</th>
 					</tr>
 				</thead>
@@ -19,7 +28,7 @@
                 
                 <?php
                     $isSuccess = FALSE;
-                    foreach ($list as $item){
+                    foreach ($list as $discount){
                         if($isSuccess){
 					       echo '<tr class="success">';
                         }else{
@@ -28,13 +37,22 @@
                         $isSuccess = ! $isSuccess;
                 ?>
 						<td>
-							<?=$item->adid?>
+							<?=$discount->deid?>
 						</td>
 						<td>
-							<img src="data:image/jpeg;base64,<?=base64_encode($item->picture)?>" alt="photo">
+							<?=$discount->categoryName?>
 						</td>
 						<td>
-						  <?=$item->description ?>
+							<?=$discount->name?>
+						</td>
+						<td>
+							<?=$discount->startTime?>
+						</td>
+						<td>
+							<?=$discount->endTime?>
+						</td>
+						<td>
+							<?=$discount->discount_rate?>
 						</td>
                 <?php
                     }

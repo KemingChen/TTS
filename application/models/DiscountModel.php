@@ -18,13 +18,19 @@ class DiscountModel extends CI_Model
         return $data;
     }
     
-    public function browse($offset, $limit)
+    public function getDiscountTotalAmount(){
+        $this->db->from('discountevent');
+        $count = $this->db->count_all_results();
+        return $count;
+    }
+    
+    public function browseLimit($offset, $limit)
     {
         //$this->db->select('deid, cid, name, startTime, endTime, percentOff');
-        $this->db->select('');
-        $this->db->from('discountevent');
+        $this->db->select("de.*, c.name as categoryName");
+        $this->db->from('discountevent as de join category as c on de.cid=c.cid');
         $this->db->limit($limit, $offset);
-        $data = $this->db->get();
+        $data = $this->db->get()->result();
         return $data;
     }
     
