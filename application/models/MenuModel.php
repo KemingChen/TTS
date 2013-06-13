@@ -19,7 +19,7 @@ class MenuModel extends CI_Model
             array_push($list, array("Url" => "ViewMember", "ID" => "Member", "Tag" => "會員專區"));
             $authority = $this->authority->getAuthority();
             if($authority=="manager"){
-                array_push($list, array("Url" => "TransactionRecords", "ID" => "Manager", "Tag" => "經理"));
+                array_push($list, array("Url" => "ViewReport", "ID" => "Manager", "Tag" => "經理"));
             }else if($authority=="administrator"){
                 array_push($list, array("Url" => "AccountManagement", "ID" => "AccountManagement", "Tag" => "系統管理者"));
             }
@@ -76,21 +76,21 @@ class MenuModel extends CI_Model
     public function getManagerList()
     {
         $list = array();
+        $list["ViewReport"] = array("ID" => "ViewReport", "Tag" => "觀看報表", "Url" => "ViewReport");
         $list["TransactionRecords"] = array("ID" => "TransactionRecords", "Tag" => "瀏覽所有訂單", "Url" => "TransactionRecords");
         $list["TransactionCompleteRecords"] = array("ID" => "TransactionCompleteRecords", "Tag" => "瀏覽交易完成訂單", "Url" => "TransactionCompleteRecords");
-        $list["ViewReport"] = array("ID" => "ViewReport", "Tag" => "觀看報表", "Url" => "ViewReport");
-        $list["OrderManagement"] = array("ID" => "OrderManagement", "Tag" => "管理未完成交易訂單", "Url" => "OrderManagement");
+        $list["OrderManagement"] = array("ID" => "OrderManagement", "Tag" => "管理未完成訂單", "Url" => "OrderManagement");
         $list["AnnouncementManagement"] = array("ID" => "AnnouncementManagement", "Tag" => "管理活動", "Url" => "AnnouncementManagement");
-        $list["AddAnnouncement"] = array("ID" => "AddAnnouncement", "Tag" => "新增活動", "Url" => "AddAnnouncement");
-        $list["OnShelf"] = array("ID" => "OnShelf", "Tag" => "上架", "Url" => "OnShelf");
-        $list["OffShelf"] = array("ID" => "OffShelf", "Tag" => "下架", "Url" => "OffShelf");
-        $list["AddBook"] = array("ID" => "AddBook", "Tag" => "新增書籍", "Url" => "AddBook");
-        $list["Stock"] = array("ID" => "Stock", "Tag" => "進貨", "Url" => "Stock");
-        $list["Ecoupon"] = array("ID" => "Ecoupon", "Tag" => "Ecoupon活動", "Url" => "ViewEcoupon");
-        $list["StockBrowse"] = array("ID" => "StockBrowse", "Tag" => "關看庫存", "Url" => "StockBrowse");
+        //$list["AddAnnouncement"] = array("ID" => "AddAnnouncement", "Tag" => "新增活動", "Url" => "AddAnnouncement");
         $list["DiscountManagement"] = array("ID" => "DiscountManagement", "Tag" => "管理折扣活動", "Url" => "DiscountManagement");
         $list["RebateManagement"] = array("ID" => "RebateManagement", "Tag" => "管理減價活動", "Url" => "RebateManagement");
-        return $list;
+        $list["Ecoupon"] = array("ID" => "Ecoupon", "Tag" => "發送ECoupon", "Url" => "ViewEcoupon");
+        $list["AddBook"] = array("ID" => "AddBook", "Tag" => "新增書籍", "Url" => "AddBook");
+        $list["StockBrowse"] = array("ID" => "StockBrowse", "Tag" => "觀看庫存", "Url" => "StockBrowse");
+        $list["Stock"] = array("ID" => "Stock", "Tag" => "管理庫存", "Url" => "Stock");
+        $list["OnShelf"] = array("ID" => "OnShelf", "Tag" => "上架", "Url" => "OnShelf");
+        $list["OffShelf"] = array("ID" => "OffShelf", "Tag" => "下架", "Url" => "OffShelf");
+        return $list;        
     }
 
     public function getAdministratorList()
