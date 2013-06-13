@@ -25,4 +25,23 @@ class Report extends CI_Controller
         $data["report"] = $this->ReportModel->categorySellReport();
         $this->load->view('Report/browseCategorySell', $data);
     }
+    
+    public function authorSellReport()
+    {
+        $data["report"] = $this->ReportModel->authorSellReport();
+        $this->load->view('Report/browseAuthorSell', $data);
+    }
+    
+    public function revenueFromPromotionalActivities()
+    {
+        $data["report"] = $this->ReportModel->revenueFromPromotionalActivities();
+        $this->load->view('Report/browseRevenue', $data);
+    }
+    
+    public function priceAdvice()
+    {
+        $data["report"] = $this->ReportModel->priceAdvice();
+        $this->load->view('Report/browsePriceAdvice', $data);
+    }
+        
 }
