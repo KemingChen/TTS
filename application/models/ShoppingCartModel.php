@@ -76,7 +76,7 @@ class ShoppingCartModel extends CI_Model
             LEFT JOIN  `discountevent` AS d ON  `d`.`cid` =  `c`.`cid` 
             AND NOW( ) 
             BETWEEN d.startTime
-            AND d.endTime
+            AND d.endTime + INTERVAL 1 DAY
             WHERE mid = ' . $mid . '
             ORDER BY discount_rate
             ) AS t ON b.bid = t.bid
@@ -92,7 +92,7 @@ class ShoppingCartModel extends CI_Model
         }
 
         $this->db->select('name,threshold,price')->from('rebateevent');
-        $this->db->where('Now() between startTime and endTime');
+        $this->db->where('Now() between startTime and endTime + INTERVAL 1 DAY');
         $this->db->where($data["after_discount_total_price"] . ' >= threshold', '', false);
         $this->db->order_by('(price/threshold)', 'desc');
 
@@ -106,7 +106,7 @@ class ShoppingCartModel extends CI_Model
             $data["rebatePrice"] = 0    ;
             
         }
-        $data["totalPrice"] = $data["after_discount_total_price"] - $data["rebatePrice"];
+        $data["totalPrice"] = round($data["after_discount_total_price"] - $data["rebatePrice"]);
         return $data;
     }
 
