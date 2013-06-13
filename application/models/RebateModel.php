@@ -66,7 +66,6 @@ class RebateModel extends CI_Model
     {
         $startTimeDate = strtotime($startTime);
         $endTimeDate = strtotime($endTime);
-        $name = urldecode($name);
         if($startTimeDate>$endTimeDate){
             return FALSE;
         }

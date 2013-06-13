@@ -8,7 +8,7 @@ class DiscountModel extends CI_Model
         parent::__construct();
         $this->load->database();
     }
-    
+
     public function browseSize()
     {
         //$this->db->select('deid, cid, name, startTime, endTime, percentOff');
@@ -17,13 +17,14 @@ class DiscountModel extends CI_Model
         $data = $this->db->get();
         return $data;
     }
-    
-    public function getDiscountTotalAmount(){
+
+    public function getDiscountTotalAmount()
+    {
         $this->db->from('discountevent');
         $count = $this->db->count_all_results();
         return $count;
     }
-    
+
     public function browseLimit($offset, $limit)
     {
         //$this->db->select('deid, cid, name, startTime, endTime, percentOff');
@@ -33,7 +34,7 @@ class DiscountModel extends CI_Model
         $data = $this->db->get()->result();
         return $data;
     }
-    
+
     public function browseOne($deid)
     {
         $this->db->select('');
@@ -42,28 +43,39 @@ class DiscountModel extends CI_Model
         $data = $this->db->get();
         return $data;
     }
-    
+
     public function insertDiscount($cid, $name, $startTime, $endTime, $discount_rate)
     {
-        $discountData = array(
-            'cid' => $cid,
-            'name' => $name,
-            'startTime' => $startTime,
-            'endTime' => $endTime,
-            'discount_rate' => $discount_rate
-    	);
-	    $this->db->insert('discountevent', $discountData);
+        $discountData = array('cid' => $cid, 'name' => $name, 'startTime' => $startTime,
+            'endTime' => $endTime, 'discount_rate' => $discount_rate);
+        $this->db->insert('discountevent', $discountData);
         //return $this->db->insert_id();
     }
-    
+
     public function updateDiscount($deid, $startTime, $endTime)
     {
-        $data = array(
-            'startTime' => $startTime,
-            'endTime' => $endTime
-        );
+        $data = array('startTime' => $startTime, 'endTime' => $endTime);
         $this->db->where('deid', $deid);
         $this->db->update('discountevent', $data);
+    }
+
+    public function update($deid, $cid, $name, $startTime, $endTime, $discountRate)
+    {
+        $startTimeDate = strtotime($startTime);
+        $endTimeDate = strtotime($endTime);
+        if($startTimeDate>$endTimeDate){
+            return FALSE;
+        }
+        try {
+            $data = array('cid' => $cid, 'startTime' => $startTime, 'name' => $name,
+                'startTime' => $startTime, 'endTime' => $endTime, 'discount_rate' => $discountRate);
+            $this->db->where('deid', $deid);
+            $this->db->update('discountevent', $data);
+            return TRUE;
+        }
+        catch (exception $exceptino) {
+            return FALSE;
+        }
     }
 }
 ?>

@@ -46,6 +46,7 @@ class RebateManagement extends CI_Controller
     }
     
     public function update($reid, $name, $startTime, $endTime, $threshold, $price){
+        $name = urldecode($name);
         if($this->RebateModel->update($reid, $name, $startTime, $endTime, $threshold, $price)){
             echo "OK";
         }else{

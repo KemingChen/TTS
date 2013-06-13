@@ -49,6 +49,15 @@ class DiscountManagement extends CI_Controller
         $config['full_tag_close'] = '</ul></div>';
         return $config;
     }
+    
+    public function update($deid, $cid, $name, $startTime, $endTime, $discountRate){
+        $name = urldecode($name);
+        if($this->DiscountModel->update($deid, $cid, $name, $startTime, $endTime, $discountRate)){
+            echo "OK";
+        }else{
+            echo "ERROR";
+        }
+    }
 }
 
 ?>
