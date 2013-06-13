@@ -11,6 +11,14 @@ if (isset($error)) {
         			</h3>
         		</div>
             <?php
+}else if(isset($successRegister)){
+    ?>
+	<div class="span12 success">
+		<h3>
+            已將認證信寄至<?=$email?>，請收信以解鎖此帳號！
+		</h3>
+	</div>
+ <?php
 }
 ?>
             <?php echo validation_errors(); ?></div>

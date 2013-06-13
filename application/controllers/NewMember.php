@@ -52,14 +52,15 @@ class NewMember extends CI_Controller
     }
     
     public function loadView(){
-        $slideBarList = $this->MenuModel->getAnnouncementList();
+        $slideBarList = $this->MenuModel->getNonMemberList();
+        $slideBarList["NewMember"]['Active'] = "active";
 
-        $slideBarList["Announcement"]['Active'] = "active";
-
+        $data["email"] = $this->input->post("email");
+        $data["successRegister"] = "";
         $content = "AnnoucementView";
         $data['size'] = $this->AnnouncementModel->getAnnouncementSize();
         $data["list"] = $this->AnnouncementModel->getAnnouncementList();
-        $this->template->loadView("Announcement", $slideBarList, $content, $data);
+        $this->template->loadView("NewMember", $slideBarList, "NewMemberView", $data);
     }
 }
 
