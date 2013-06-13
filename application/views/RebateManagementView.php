@@ -5,13 +5,22 @@
 				<thead>
 					<tr>
 						<th>
-							編號
+							減價編號
 						</th>
 						<th>
-							圖片
+							減價名稱
 						</th>
 						<th>
-							說明
+							開始時間
+						</th>
+						<th>
+							結束時間
+						</th>
+						<th>
+							底價
+						</th>
+						<th>
+							回饋金額
 						</th>
 					</tr>
 				</thead>
@@ -19,7 +28,7 @@
                 
                 <?php
                     $isSuccess = FALSE;
-                    foreach ($list as $item){
+                    foreach ($list as $rebate){
                         if($isSuccess){
 					       echo '<tr class="success">';
                         }else{
@@ -28,13 +37,22 @@
                         $isSuccess = ! $isSuccess;
                 ?>
 						<td>
-							<?=$item->adid?>
+							<?=$rebate->reid?>
 						</td>
 						<td>
-							<img src="data:image/jpeg;base64,<?=base64_encode($item->picture)?>" alt="photo">
+							<?=$rebate->name?>
 						</td>
 						<td>
-						  <?=$item->description ?>
+							<?=$rebate->startTime?>
+						</td>
+						<td>
+							<?=$rebate->endTime?>
+						</td>
+						<td>
+							<?=$rebate->threshold?>
+						</td>
+						<td>
+							<?=$rebate->price?>
 						</td>
                 <?php
                     }

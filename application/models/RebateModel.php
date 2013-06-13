@@ -18,14 +18,21 @@ class RebateModel extends CI_Model
         return $data;
     }
     
-    public function browse($offset, $limit)
+    public function browseLimit($offset, $limit)
     {
         //$this->db->select('deid, cid, name, startTime, endTime, percentOff');
         $this->db->select('');
         $this->db->from('rebateevent');
         $this->db->limit($limit, $offset);
-        $data = $this->db->get();
+        $data = $this->db->get()->result();
         return $data;
+    }
+    
+    public function getRebateAmount()
+    {
+        $this->db->from('rebateevent');
+        $count = $this->db->count_all_results();
+        return $count;
     }
     
     public function browseOne($reid)
