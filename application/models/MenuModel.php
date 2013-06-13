@@ -86,6 +86,7 @@ class MenuModel extends CI_Model
         $list["OffShelf"] = array("ID" => "OffShelf", "Tag" => "下架", "Url" => "OffShelf");
         $list["AddBook"] = array("ID" => "AddBook", "Tag" => "新增書籍", "Url" => "AddBook");
         $list["Stock"] = array("ID" => "Stock", "Tag" => "進貨", "Url" => "Stock");
+        $list["StockBrowse"] = array("ID" => "StockBrowse", "Tag" => "關看庫存", "Url" => "StockBrowse");
         return $list;
     }
 

@@ -23,7 +23,7 @@ class StockModel extends CI_Model
     
     public function browseStockRecord($limit,$offset)
     {
-        $this->db->select('s.*,b.name');
+        $this->db->select('s.*,b.name, b.ISBN');
         $this->db->from('StockRecord as s');
         $this->db->join('book as b','b.bid=s.bid');
         $this->db->order_by('stockTime','desc');
@@ -31,6 +31,16 @@ class StockModel extends CI_Model
         $data["records"] = $data = $this->db->get()->result();
         $data['total_num'] = $this->db->count_all('StockRecord');
         return $data;
+    }
+    
+    public function getStockTotalAmount()
+    {
+        $this->db->select('s.*,b.name, b.ISBN');
+        $this->db->from('StockRecord as s');
+        $this->db->join('book as b','b.bid=s.bid');
+        $this->db->order_by('stockTime','desc');
+        $count = $this->db->count_all_results();
+        return $count;
     }
     
     public function addStockRecord($bid, $price, $amount)
