@@ -124,6 +124,11 @@ class Book extends CI_Controller
         $this->BookModel->insertTranslator($bid, $aid);
         $this->browse($bid);
     }
+    
+    public function deleteBookByBid($bid)
+    {
+        $this->BookModel->deleteBookByBid($bid);
+    }
 }
 
 ?>

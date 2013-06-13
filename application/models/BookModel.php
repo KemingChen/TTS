@@ -187,5 +187,17 @@ class BookModel extends CI_Model
         $this->db->where('ISBN', $isbn);
         return $this->db->count_all_results()>0;
     }
+    
+    public function deleteBookByBid($bid)
+    {
+        $this->db->where('bid', $bid);
+        $this->db->delete('translatecorrespond');
+        $this->db->where('bid', $bid);
+        $this->db->delete('writercorrespond');
+        $this->db->where('bid', $bid);
+        $this->db->delete('categorycorrespond');
+        $this->db->where('bid', $bid);
+        $this->db->delete('book');
+    }
 }
 ?>
