@@ -19,7 +19,7 @@ class MenuModel extends CI_Model
             array_push($list, array("Url" => "ViewMember", "ID" => "Member", "Tag" => "會員專區"));
             $authority = $this->authority->getAuthority();
             if($authority=="manager"){
-                array_push($list, array("Url" => "OnShelf", "ID" => "Manager", "Tag" => "經理"));
+                array_push($list, array("Url" => "TransactionRecords", "ID" => "Manager", "Tag" => "經理"));
             }else if($authority=="administrator"){
                 array_push($list, array("Url" => "AccountManagement", "ID" => "AccountManagement", "Tag" => "系統管理者"));
             }

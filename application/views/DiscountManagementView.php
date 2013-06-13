@@ -20,6 +20,7 @@ function updateRebate(deid){
         if(data=="OK"){
             action = Array()
             action["name"]= "確定";
+            action["HideIknow"] = "true";
             action["click"] = function(){
                 document.location.reload();
             };
