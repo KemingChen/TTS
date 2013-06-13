@@ -46,10 +46,15 @@ class DiscountModel extends CI_Model
 
     public function insertDiscount($cid, $name, $startTime, $endTime, $discount_rate)
     {
-        $discountData = array('cid' => $cid, 'name' => $name, 'startTime' => $startTime,
-            'endTime' => $endTime, 'discount_rate' => $discount_rate);
-        $this->db->insert('discountevent', $discountData);
-        //return $this->db->insert_id();
+        try {
+            $discountData = array('cid' => $cid, 'name' => $name, 'startTime' => $startTime,
+                'endTime' => $endTime, 'discount_rate' => $discount_rate);
+            $this->db->insert('discountevent', $discountData);
+            return true;
+        }
+        catch (exception $exception) {
+            return false;
+        }
     }
 
     public function updateDiscount($deid, $startTime, $endTime)
@@ -63,18 +68,18 @@ class DiscountModel extends CI_Model
     {
         $startTimeDate = strtotime($startTime);
         $endTimeDate = strtotime($endTime);
-        if($startTimeDate>$endTimeDate){
-            return FALSE;
+        if ($startTimeDate > $endTimeDate) {
+            return false;
         }
         try {
             $data = array('cid' => $cid, 'startTime' => $startTime, 'name' => $name,
                 'startTime' => $startTime, 'endTime' => $endTime, 'discount_rate' => $discountRate);
             $this->db->where('deid', $deid);
             $this->db->update('discountevent', $data);
-            return TRUE;
+            return true;
         }
         catch (exception $exceptino) {
-            return FALSE;
+            return false;
         }
     }
 }

@@ -58,6 +58,15 @@ class DiscountManagement extends CI_Controller
             echo "ERROR";
         }
     }
+    
+    public function insertDiscount($cid, $name, $startTime, $endTime, $discount_rate){
+        $name = urldecode($name);//
+        if($this->DiscountModel->insertDiscount($cid, $name, $startTime, $endTime, $discount_rate)){
+            echo "OK";
+        }else{
+            echo "ERROR";
+        }
+    }
 }
 
 ?>
