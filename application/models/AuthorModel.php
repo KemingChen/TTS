@@ -48,6 +48,8 @@ class AuthorModel extends CI_Model
         $this->db->select('a.aid, a.name, a.introduction');
         $this->db->from('translatorcorrespond as tc, author as a');
         $this->db->where("tc.aid = a.aid");
+        $dataResult = $this->db->get()->result();
+        return $dataResult;
     }
     
     public function getWriterList()
@@ -55,6 +57,8 @@ class AuthorModel extends CI_Model
         $this->db->select('a.aid, a.name, a.introduction');
         $this->db->from('writercorrespond as wc, author as a');
         $this->db->where("wc.aid = a.aid");
+        $dataResult = $this->db->get()->result();
+        return $dataResult;
     }
 }
 
