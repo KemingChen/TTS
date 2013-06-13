@@ -76,6 +76,19 @@ class Authority extends CI_Model
         return $this->decode('authority');
     }
 
+    public function checkAuth($array)
+    {
+        $auth = $this->decode('authority');
+        foreach($array as $obj)
+        {
+            if($auth == $obj)
+            {
+                return;
+            }
+        }
+        show_error('權限不足', 500);
+    }
+
     public function logout()
     {
         $this->session->sess_destroy();

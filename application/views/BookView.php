@@ -16,7 +16,10 @@
         $.ajax({url: "<?=base_url("Concern/Add")?>"+"/"+bid}).
             always(function(data){
                 console.log(data);
-                showReminderMsg("已加入關注列表");
+                action = Array()
+                action["name"]= "移至關注";
+                action["click"] = function(){location.href = "<?=base_url("ViewMember/Me/Concern")?>";};
+                showReminderMsg("已加入關注列表", action);
             });
     }
     function addShopCar(obj, bid)
@@ -34,7 +37,7 @@
                     action = Array()
                     action["name"]= "移至購物車";
                     action["click"] = function(){location.href = "<?=base_url("ViewMember/Me/ShopCar")?>";};
-                    showReminderMsg("已加入", action);
+                    showReminderMsg("已加入購物車", action);
                 });
         }
     }

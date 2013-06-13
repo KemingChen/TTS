@@ -86,6 +86,7 @@ class MenuModel extends CI_Model
         $list["OffShelf"] = array("ID" => "OffShelf", "Tag" => "下架", "Url" => "OffShelf");
         $list["AddBook"] = array("ID" => "AddBook", "Tag" => "新增書籍", "Url" => "AddBook");
         $list["Stock"] = array("ID" => "Stock", "Tag" => "進貨", "Url" => "Stock");
+        $list["Ecoupon"] = array("ID" => "Ecoupon", "Tag" => "Ecoupon活動", "Url" => "ViewEcoupon");
         $list["StockBrowse"] = array("ID" => "StockBrowse", "Tag" => "關看庫存", "Url" => "StockBrowse");
         $list["DiscountManagement"] = array("ID" => "DiscountManagement", "Tag" => "管理折扣活動", "Url" => "DiscountManagement");
         $list["RebateManagement"] = array("ID" => "RebateManagement", "Tag" => "管理減價活動", "Url" => "RebateManagement");

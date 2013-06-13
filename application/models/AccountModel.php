@@ -167,7 +167,7 @@ class AccountModel extends CI_Model
     
     public function getValidMemberListForEcoupon()
     {
-        $this->db->select('mid, count(*) as quantity');
+        $this->db->select('mid');
         $this->db->from('account');
         $this->db->where('authority', 'customer');
         $this->db->where('available', 1);
