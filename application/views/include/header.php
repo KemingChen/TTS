@@ -111,8 +111,18 @@
         </div>
     </div>
     <script>
-        function showReminderMsg(msg)
+        function showReminderMsg(msg, action)
         {
+            if(action != null)
+            {
+                $("#MoreAction").show();
+                $("#MoreAction").html(action["name"]);
+                $("#MoreAction").click(action["click"]);
+            }
+            else
+            {
+                $("#MoreAction").hide();
+            }
             $("#reminder").modal('show');
             $("#reminderMsg").html(msg);
         }
@@ -126,6 +136,7 @@
             <h4 class="red" align="center" id="reminderMsg"><h4>
         </div>
         <div class="modal-footer">
+            <button class="btn btn-primary" id="MoreAction"></button>
             <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">我知道了</button>
         </div>
     </div>

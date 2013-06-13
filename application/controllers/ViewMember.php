@@ -79,7 +79,9 @@ class ViewMember extends CI_Controller
 
     public function getTransactionDetailView($oid)
     {
+        $orderSummary = $this->TransactionModel->getOrderSummaryByOId($oid);
         $data["list"] = $this->TransactionModel->getOrderItemDataByOid($oid)->result();
+        $data["state"] = $orderSummary->state;
         $this->load->view("TransactionDetailView", $data);
     }
 
@@ -88,8 +90,8 @@ class ViewMember extends CI_Controller
         $orderSummary = $this->TransactionModel->getOrderSummaryByOId($oid);
         $oid = $orderSummary->oid;
         $orderTime = $orderSummary->orderTime;
-        $state = $orderSummary->state;
-        echo "交易明細($oid at $orderTime state $state)";
+        //$state = $orderSummary->state;
+        echo "交易明細#$oid ($orderTime)";
         //getOrderSummaryByOId
     }
 

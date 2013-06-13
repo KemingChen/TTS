@@ -6,8 +6,9 @@
                 function showRecordInfo(oid)
                 {
                     console.log(oid);
+                    $("#windowTitle").html('');
+                    $("#transactionDetail").html('Loading...^^');
                     $("#recordinfo").modal('show');
-                    
                     $.ajax({url: "<?= base_url("ViewMember/getTransactionTitle") ?>/"+oid}).
                         done(function(data){
                             $("#windowTitle").html(data);
@@ -24,10 +25,9 @@
                     <h3 id="windowTitle">交易明細(2 at 2013-06-22 state asasfd)</h3>
                 </div>
                 <div class="modal-body">
-                    <h4 class="red" align="center">顯示多筆交易資料<h4>
                     <div class="container-fluid">
                     	<div class="row-fluid">
-                    		<div class="span10" id="transactionDetail">
+                    		<div id="transactionDetail">
                             </div>
                         </div>
                     </div>

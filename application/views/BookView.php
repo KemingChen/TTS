@@ -31,7 +31,10 @@
             quantity = parseInt(textValue, 10);
             $.ajax({url: "<?=base_url("ShoppingCart/addBook")?>" + "/" + bid + "/" + quantity}).
                 always(function(data){
-                    showReminderMsg("已加入");
+                    action = Array()
+                    action["name"]= "移至購物車";
+                    action["click"] = function(){location.href = "<?=base_url("ViewMember/Me/ShopCar")?>";};
+                    showReminderMsg("已加入", action);
                 });
         }
     }
