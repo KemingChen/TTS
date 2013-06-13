@@ -231,7 +231,7 @@ class TransactionModel extends CI_Model
                 $this->addRebateCorrespondByOidAndReid($oid, $rebateEvent->reid);
                 $totalPrice = $totalPrice - $rebateEvent->price;
             }
-            $this->refreshEcouponByOrderTime($orderTime);
+            //$this->refreshEcouponByOrderTime($orderTime);
             $ecouponPrice = $this->getEcouponPriceByCouponCode($couponCode, $orderTime);
             if ($ecouponPrice > 0) {
                 if ($ecouponPrice > $totalPrice) {

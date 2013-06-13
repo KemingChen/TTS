@@ -26,4 +26,19 @@ class ReportModel extends CI_Model
 //        $this->db->from("ORDERITEM NATURAL JOIN book AS b JOIN publisher AS p ON b.pid = p.pi");
 //        $this->db->
 //    }
+
+    public function getSalesByDay()
+    {
+        
+    }
+    
+    public function getSalesByMonth()
+    {
+        
+    }
+    
+    public function getSalesByYear()
+    {
+        
+    }
 }
