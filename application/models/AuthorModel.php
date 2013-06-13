@@ -42,6 +42,20 @@ class AuthorModel extends CI_Model
         );
         $this->db->delete($this->tableName, $data); 
     }
+    
+    public function getTranslatorList()
+    {
+        $this->db->select('a.aid, a.name, a.introduction');
+        $this->db->from('translatorcorrespond as tc, author as a');
+        $this->db->where("tc.aid = a.aid");
+    }
+    
+    public function getWriterList()
+    {
+        $this->db->select('a.aid, a.name, a.introduction');
+        $this->db->from('writercorrespond as wc, author as a');
+        $this->db->where("wc.aid = a.aid");
+    }
 }
 
 ?>

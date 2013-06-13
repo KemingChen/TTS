@@ -26,12 +26,42 @@ class Report extends CI_Controller
         $this->load->view('Report/browseCategorySell', $data);
     }
     
-    public function browseTurnover($year, $month)
+    public function browseDateTurnoverByDate($date)
     {
-        $turnover = $this->ReportModel->getTurnoverByYearAndMonth($year, $month);
-        $this->load->view('Report/browseTurnover', $turnover);
+        $data['turnover'] = $this->ReportModel->getTurnoverByDate($date);
+        $this->load->view('Report/browseTurnover', $data);
     }
     
+    public function browseMonthTurnoverByYearAndMonth($year, $month)
+    {
+        $data['turnover'] = $this->ReportModel->getTurnoverByYearAndMonth($year, $month);
+        $this->load->view('Report/browseTurnover', $data);
+    }
+    
+    public function browseYearTurnoverByYear($year)
+    {
+        $data['turnover'] = $this->ReportModel->getTurnoverByYear($year);
+        $this->load->view('Report/browseTurnover', $data);
+    }
+    ////////////////////////////////////////////
+    public function browseDateProfitByDate($date)
+    {
+        $data['profit'] = $this->ReportModel->getProfitByDate($date);
+        $this->load->view('Report/browseProfit', $data);
+    }
+    
+    public function browseMonthProfitByYearAndMonth($year, $month)
+    {
+        $data['profit'] = $this->ReportModel->getProfitByYearAndMonth($year, $month);
+        $this->load->view('Report/browseProfit', $data);
+    }
+    
+    public function browseYearProfitByYear($year)
+    {
+        $data['profit'] = $this->ReportModel->getProfitByYear($year);
+        $this->load->view('Report/browseProfit', $data);
+    }
+    ////////////////////////////////////////////////
     public function authorSellReport()
     {
         $data["report"] = $this->ReportModel->authorSellReport();

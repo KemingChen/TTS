@@ -71,28 +71,49 @@ class ReportModel extends CI_Model
         return $data;
     }   
 
-    public function getSalesByDate($date)
+    public function getProfitByDate($date)
     {
-        
+        $queryString = "select sum(totalPrice) as totalPrice ,sum(cost) as totalCost from(
+                        SELECT oid,totalPrice,sum(cost*quantity) as cost,totalPrice-cost as profit 
+                        FROM ordersummary natural join orderitem WHERE orderTime = '".$date."' group by oid 
+                        )as temp";
+        $query = $this->db->query($queryString);
+        $queryResult = $query->result();
+        $profit = $queryResult[0]->totalPrice - $queryResult[0]->totalCost;
+        return $profit > 0 ? $profit : 0;
     }
     
-    public function getSalesByMonth($month)
+    public function getProfitByYearAndMonth($year, $month)
     {
-        
+       $queryString = "select sum(totalPrice) as totalPrice ,sum(cost) as totalCost from(
+                        SELECT oid,totalPrice,sum(cost*quantity) as cost,totalPrice-cost as profit 
+                        FROM ordersummary natural join orderitem WHERE year(orderTime) = '".$year."' AND month(orderTime) = '".$month."' group by oid 
+                        )as temp";
+        $query = $this->db->query($queryString);
+        $queryResult = $query->result();
+        $profit = $queryResult[0]->totalPrice - $queryResult[0]->totalCost;
+        return $profit > 0 ? $profit : 0;
     }
     
-    public function getSalesByYear($year)
+    public function getProfitByYear($year)
     {
-        
+        $queryString = "select sum(totalPrice) as totalPrice ,sum(cost) as totalCost from(
+                        SELECT oid,totalPrice,sum(cost*quantity) as cost,totalPrice-cost as profit 
+                        FROM ordersummary natural join orderitem WHERE year(orderTime) = '".$year."' group by oid 
+                        )as temp";
+        $query = $this->db->query($queryString);
+        $queryResult = $query->result();
+        $profit = $queryResult[0]->totalPrice - $queryResult[0]->totalCost;
+        return $profit > 0 ? $profit : 0;
     }
     
     public function getTurnoverByDate($date)
     {
-        $this->db->select('SUM(totoalPrice) as turnover');
+        $this->db->select('SUM(totalPrice) as turnover');
         $this->db->from('ordersummary');
-        $this->db->where('date', $date);
+        $this->db->where('orderTime', $date);
         $dataResult = $this->db->get()->result();
-        return count($dataResult) > 0 ? $dataResult->turnover : 0;
+        return count($dataResult) > 0 ? $dataResult[0]->turnover : 0;
     }
     
     public function getTurnoverByYearAndMonth($year, $month)
@@ -102,11 +123,15 @@ class ReportModel extends CI_Model
         $this->db->where('month(orderTime)', $month);
         $this->db->where('year(orderTime)', $year);
         $dataResult = $this->db->get()->result();
-        return count($dataResult) > 0 ? $dataResult->turnover : 0;
+        return count($dataResult) > 0 ? $dataResult[0]->turnover : 0;
     }
     
     public function getTurnoverByYear($year)
     {
-        
+        $this->db->select('SUM(totalPrice) as turnover');
+        $this->db->from('ordersummary');
+        $this->db->where('year(orderTime)', $year);
+        $dataResult = $this->db->get()->result();
+        return count($dataResult) > 0 ? $dataResult[0]->turnover : 0;
     }
 }
