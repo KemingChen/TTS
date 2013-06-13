@@ -8,6 +8,7 @@ class AnnouncementManagement extends CI_Controller
         $this->load->model("MenuModel");
         $this->load->model("AnnouncementModel");
         $this->load->library('pagination');
+        $this->load->helper(array('form', 'url'));
     }
 
     public function index($param = null)
@@ -34,7 +35,6 @@ class AnnouncementManagement extends CI_Controller
     
     public function create()
     {
-        $this->load->helper(array('form', 'url'));
         $this->load->library('upload');
         $this->load->library('form_validation');
         
@@ -43,9 +43,13 @@ class AnnouncementManagement extends CI_Controller
         
         $this->form_validation->set_rules('description', 'Description', 'required');
         
-        if ($this->form_validation->run() === false) {
-            $this->template->loadView("Manager", $slideBarList, "Announcement/create", array());
-        } else {
+        if ($this->form_validation->run() === false) 
+        {
+            $this->page();
+            //$this->template->loadView("Manager", $slideBarList, "Announcement/create", array());
+        } 
+        else 
+        {
             //先檢查upload的限制  如果通過再上傳
             if ($this->upload->do_upload('picture')) {
                 $data = array('upload_data' => $this->upload->data());
@@ -60,18 +64,30 @@ class AnnouncementManagement extends CI_Controller
 
     public function update($adid)
     {
+        $this->load->library('upload');
+        $this->load->library('form_validation');
+        
+        $slideBarList = $this->MenuModel->getManagerList();
+        $slideBarList["AnnouncementManagement"]['Active'] = "active";
+        //print_r($this->input->post());
         $data["adid"] = $adid;
         $picValid = $this->upload->do_upload('picture');
-        if ($this->input->post("description") || $picValid) {
+        if ($this->input->post("description") || $picValid) 
+        {
             $file_data = '';
             if ($picValid) {
                 $data = array('upload_data' => $this->upload->data());
                 $file_data = file_get_contents($data['upload_data']['full_path']);
             }
             $this->AnnouncementModel->updateAnnouncement($adid, $file_data);
-            $this->browse();
-        } else {
-            $this->template->view("", "", "Announcement/update", $data);
+            $this->page();
+            //echo 'ok';
+        }
+        else 
+        {
+            $this->page();            
+            //$this->template->loadView("Manager", $slideBarList, "Announcement/update", $data);
+            //echo 'error';
         }
     }
     

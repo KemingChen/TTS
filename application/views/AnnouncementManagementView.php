@@ -2,8 +2,10 @@
 	<div class="row-fluid">
 		<div class="span12">
             
-            <?php $url = base_url('AnnouncementManagement/create'); ?>
-            <input class="btn btn-primary" type="button" value="create" onclick="window.location='<?=$url?>' "/>
+            <?php $addFormHeader = form_open_multipart('AnnouncementManagement/create'); ?>
+            <?php echo validation_errors(); ?>
+            <input class="btn btn-primary" type="button" value="Create" onclick="create_or_edit(this)"
+                data-formHeader='<?=$addFormHeader?>'/>
             <?php if ($total_NumRows <= 0) {?>
             <div id="empty">目前沒有任何活動！</div>
             <?php } else { ?>
@@ -27,6 +29,7 @@
     					       echo "<tr>";
                             }
                             $isSuccess = ! $isSuccess;
+                            $formHeader = form_open_multipart('AnnouncementManagement/update/'.$item->adid);
                     ?>
     						<td>
     							<span class="badge badge-info"><?=$item->adid?></span>
@@ -39,7 +42,9 @@
                                     data-adid="<?=$item->adid?>"
                                     data-pic="<?=base64_encode($item->picture)?>"/>
     						
-                                <input class="btn" type="button" value="Edit" onclick="edit(this)" data-adid="<?=$item->adid?>"/>
+                                <input id="edit-<?=$item->adid?>" class="btn" type="button" value="Edit" onclick="create_or_edit(this)" 
+                                     data-formHeader='<?=$formHeader?>'
+                                     />
                                 <input class="btn btn-info" type="button" value="Delete" onclick="deleteObj(this)" data-adid="<?=$item->adid?>"/>
                             </td>
                     <?php
@@ -56,6 +61,24 @@
                           </div>
                           <div class="modal-footer">
                             <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">OK</button>
+                          </div>
+                        </div>
+                        <!-- EditModal -->
+                        <div id="editModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h3>EDIT</h3>
+                          </div>
+                          <div class="modal-body" align="center">
+                                <div id="formheader">
+                                <input id="updatePic" type="file" name="picture" style="width: 220px;"/>
+                                <br />
+                                <textarea name="description" placeholder="Description"></textarea>
+                                </from>
+                                </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button class="btn btn-primary" onclick="onUpdateSubmit()" data-dismiss="modal" aria-hidden="true">Sumbit</button>
                           </div>
                         </div>
     				</tbody>
@@ -91,12 +114,20 @@ function show(obj)
     var picElement = '<img src="data:image/jpeg;base64,'+pic+'" alt="photo">';
     var title = $("#desciption-"+adid).html();
     $('#myModalLabel').html(title);
-    $('.modal-body').html(picElement);
+    $('#myModal .modal-body').html(picElement);
     $('#myModal').modal();
 }
-function edit(adid)
+function create_or_edit(obj)
 {
-    
+    var formheader = $(obj).data('formheader')+$('#formheader').html();
+    var title = $(obj).val();
+    $("#editModal h3").html(title);
+    $('#formheader').html(formheader)
+    $('#editModal').modal();
+}
+function onUpdateSubmit(obj)
+{
+    $("#editModal #formheader").children().submit();
 }
 function deleteObj(obj)
 {
