@@ -6,6 +6,7 @@ class AddBook extends CI_Controller
         parent::__construct();
         $this->load->model("template");
         $this->load->model("PublisherModel");
+        $this->load->model("AuthorModel");
         //上傳檔案要用的
         $this->load->helper(array('form', 'url'));
         $this->load->library('upload');
@@ -29,6 +30,8 @@ class AddBook extends CI_Controller
         
         $data['publisherList'] = $this->PublisherModel->getAllPublishers();
         $data['categoryList'] = $this->CategoryModel->getCategoryList();
+        $data['writerList'] = $this->AuthorModel->getWriterList();
+        $data['translatorList'] = $this->AuthorModel->getTranslatorList();
         $slideBarList = $this->MenuModel->getManagerList();
         $slideBarList['AddBook']['Active'] = 'active';
         
@@ -55,8 +58,17 @@ class AddBook extends CI_Controller
                 
                 $categories = $this->input->post("category");
                 foreach($categories as $category){
-                    //$cid = $this->CategoryModel->getCategoryName($category);
                     $this->BookModel->insertCategory($bid, $category);
+                }
+                
+                $translators = $this->input->post("translator");
+                foreach($translators as $translator){
+                    $this->BookModel->insertTranslator($bid, $translator);
+                }
+                
+                $writers = $this->input->post("writer");
+                foreach($writers as $writer){
+                    $this->BookModel->insertWriter($bid, $writer);
                 }
                 
                 $data['message'] = "true";
