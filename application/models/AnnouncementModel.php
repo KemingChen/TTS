@@ -9,20 +9,10 @@ class AnnouncementModel extends CI_Model
         $this->load->database();
     }
     
-    public function browseAnnouncement()
+    public function getAnnouncementSize()
     {
-        $query = $this->db->get('advertisement');
-        return $query;
-    }
-    
-    public function getAnnouncementSize(){
         $table_row_count = $this->db->count_all('advertisement');
         return $table_row_count;
-//        $query = $this->db->get('advertisement');
-//        $list = $query->result();
-//        $count = count($list);
-//        return $count;
-        
     }
     
     public function getAnnouncementList()

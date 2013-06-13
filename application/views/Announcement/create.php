@@ -1,5 +1,5 @@
 <?php echo validation_errors(); ?>
-<?php echo form_open_multipart('Announcement_backup/create') ?>
+<?php echo form_open_multipart('AnnouncementManagement/create') ?>
 
     <input type="file" name="picture" size="20"/>
 	<label for="description">Description</label>

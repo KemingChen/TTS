@@ -67,7 +67,6 @@ class Announcement_backup extends CI_Controller
 
     public function delete($id)
     {
-        echo $id;
         $this->AnnouncementModel->deleteAnnouncement($id);
         $this->browse();
     }
