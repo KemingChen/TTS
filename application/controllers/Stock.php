@@ -92,12 +92,14 @@ class Stock extends CI_Controller
         $this->load->model("CustomSearchModel");
         $data["lists"] = array();
         $data["errors"] = array();
+        $tempArray = array();
         $isbns = urldecode($isbns);
         $isbns = str_replace(" ", "", $isbns);
         foreach (explode(",", $isbns) as $isbn)
         {
-            if ($isbn != "")
+            if ($isbn != "" && !in_array($isbn, $tempArray))
             {
+                array_push($tempArray, $isbn);
                 $temp = $this->CustomSearchModel->searchByISBN($isbn);
                 if (count($temp) > 0)
                 {
