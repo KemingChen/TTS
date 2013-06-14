@@ -5,9 +5,12 @@
 <th>Name</th>
 <th>數量</th>
 <th>售價</th>
+<th>打折</th>
+<th>總價</th>
 </tr>
 </thead>
 <?php
+    $after_discount_total_price = 0;
     foreach ($list as $orderItem) {
         $isInfo = false;
         if ($isInfo){
@@ -25,8 +28,54 @@
         <td width="10%"><?= $orderItem->quantity ?></td>
         <td width="10%"><?= $orderItem->soldPrice ?></td>
         <?php
+        $discountEvent = $this->TransactionModel->getDiscountEventFromDiscountCorrespondByOidAndBid($oid,$orderItem->bid);
+        if($discountEvent!=null){
+            echo "<td width='10%'>$discountEvent->name</td>";
+        }else{
+            echo "<td></td>";
+        }
+        ?>
+        <td width="10%"><?= $orderItem->quantity*$orderItem->soldPrice ?></td>
+        <?php
+        $after_discount_total_price += $orderItem->quantity*$orderItem->soldPrice;
         echo "</tr>";
 }
 ?>
 </table>
-<h5>State: <span class='label label-info'><?=$state?></span></h5>
+<div>
+
+<div>
+    <h3>明細</h3>
+    <table class="table">
+        <tr class="warning">
+            <td>打折小計</td>
+            <td><?= $after_discount_total_price ?></td>
+        </tr>
+        <?php
+        if($rebateEvent!=null){
+        ?>
+        <tr class="info">
+            <td>折價內容</td>
+            <td><?= $rebateEvent->name ?></td>
+            
+        </tr>
+        <tr class="error">
+            <td>折價</td>
+            <td><?= $rebateEvent->price ?></td>
+        </tr>
+        <?php
+        }else{
+        ?>
+        <?php
+        }
+        ?>
+        <tr class="success">
+            <td>總計</td>
+            <td><?= $orderSummary->totalPrice ?></td>
+        </tr>
+        <tr>
+            <td>狀態</td>
+            <td><span class='label label-info'><?=$state?></span></td>
+        </tr>
+    </table>
+</div>

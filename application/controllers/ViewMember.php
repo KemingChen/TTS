@@ -65,28 +65,40 @@ class ViewMember extends CI_Controller
         $this->load->model("TransactionModel");
         $content = "TransactionView";
         $mid = $this->authority->getMemberID();
-        
+
         $page = $this->param === null ? 1 : $this->param;
         $selectNum = 5;
         $offset = $selectNum * ($page - 1);
 
-        $info = $this->TransactionModel->browseTransactionRecordsByMid($mid,$offset, $selectNum);
+        $info = $this->TransactionModel->browseTransactionRecordsByMid($mid, $offset, $selectNum);
         $info["page"] = $page;
         $info["pages"] = ceil($info["total_NumRows"] / $selectNum);
-        
+
         return $info;
     }
 
     public function getTransactionDetailView($oid)
     {
         $orderSummary = $this->TransactionModel->getOrderSummaryByOId($oid);
+        $data['orderSummary'] = $orderSummary;
         $data["list"] = $this->TransactionModel->getOrderItemDataByOid($oid)->result();
         $data["state"] = $orderSummary->state;
+        $data['rebateEvent'] = $this->TransactionModel->getRebateEventFromRebateCorrespondByOid($oid);// (result : null)
+        $data['ecoupon'] = $this->TransactionModel->getEcouponPriceFromEcouponCorrespondByOid($oid);
+        $data['oid'] = $oid;
+        //getEcouponPriceFromEcouponCorrespondByOid($oid) (price : 0)
+        
+        //$data[''] = $this->TransactionModel->getDiscountEventFromDiscountCorrespondByOidAndBid($oid)
+        //getDiscountEventFromDiscountCorrespondByOidAndBid($oid, $row->bid); (result : null)
+        //getRebateEventFromRebateCorrespondByOid($oid) (result : null)
+        //getEcouponPriceFromEcouponCorrespondByOid($oid) (price : 0)
+
+
         $this->load->view("TransactionDetailView", $data);
     }
 
     public function getTransactionTitle($oid)
-    {//交易明細(2 at 2013-06-22 state asasfd)
+    { //交易明細(2 at 2013-06-22 state asasfd)
         $orderSummary = $this->TransactionModel->getOrderSummaryByOId($oid);
         $oid = $orderSummary->oid;
         $orderTime = $orderSummary->orderTime;
