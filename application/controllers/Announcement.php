@@ -18,15 +18,15 @@ class Announcement extends CI_Controller
     }
     
     public function getData(){
-        $temp = $this->BrowseModel->GetLatestBook(0, 5);
+        $temp = $this->BrowseModel->GetLatestBook(0, 5,false);
         $data["latestPublishList"] = $temp['books'];
         
         
-        $temp = $this->BrowseModel->GetHotRankingBook(0, 5);
+        $temp = $this->BrowseModel->GetHotRankingBook(0, 5,false);
         $data["hotRankingList"] = $temp['books'];
         
         
-        $temp = $this->BrowseModel->GetMostConcernedBook(0, 5);
+        $temp = $this->BrowseModel->GetMostConcernedBook(0, 5,false);
         $data["mostConcernedList"] = $temp['books'];
         
         $categoryList = $this->CategoryModel->getCategoryList();
@@ -36,7 +36,7 @@ class Announcement extends CI_Controller
         
         $data['categoryName'] = $categoryName;
         
-        $temp = $this->BrowseModel->GetBookByCategory($categoryID, 0, 5);
+        $temp = $this->BrowseModel->GetBookByCategory($categoryID, 0, 5,false);
         $data["categoryBookList"] = $temp['books'];
         
         $data['size'] = $this->AnnouncementModel->getAnnouncementSize();

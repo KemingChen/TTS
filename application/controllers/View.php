@@ -37,7 +37,6 @@ class View extends CI_Controller
             $slideBarList[$categoryID]['Active'] = "active";
         }
 
-
         $content = "CategoryView";
         $data["cid"] = $categoryID;
         $data["category"] = $this->CategoryModel->getCategoryName($categoryID);
