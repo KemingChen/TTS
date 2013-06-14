@@ -147,6 +147,22 @@ class ReportModel extends CI_Model
     
     public function getEveryDayTurnoverByYearAndMonth($year, $month)
     {
-        // to do
+        $this->db->select('orderTime as date, SUM(totalPrice) as turnover');
+        $this->db->from('ordersummary');
+        $this->db->where('year(orderTime)', $year);
+        $this->db->where('month(orderTime)', $month);
+        $this->db->group_by('orderTime');
+        $dataResult = $this->db->get()->result();
+        return $dataResult;
+    }
+    
+    public function getBookTurnoverByDate($date)
+    {
+        $this->db->select('b.name as name, SUM(oi.quantity * oi.soldPrice) as turnover');
+        $this->db->from('ordersummary as os, orderItem as oi, book as b');
+        $this->db->where("os.orderTime = '$date' AND os.oid = oi.oid AND oi.bid = b.bid");
+        $this->db->group_by('oi.bid');
+        $dataResult = $this->db->get()->result();
+        return $dataResult;
     }
 }

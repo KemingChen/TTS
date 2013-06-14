@@ -130,7 +130,8 @@ class Report extends CI_Controller
     
     public function test()
     {
-        $data['turnover'] = $this->ReportModel->getEveryMonthTurnoverByYear(2013);
+        $date = '2013-6-13';
+        $data['turnover'] = $this->ReportModel->getBookTurnoverByDate($date);
         $this->load->view('test', $data);
     }
 }
