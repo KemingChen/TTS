@@ -69,7 +69,7 @@ if(isset($error)){
         $(obj).parent().remove();
     }
     
-    function deleteTranslator(val)
+    function deleteTranslator(obj, val)
     {
         deleteArrayVal(selectedTranslator, val);
         $(obj).parent().remove();
