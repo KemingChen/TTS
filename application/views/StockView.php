@@ -76,7 +76,7 @@
 						<th>ISBN</th>
 						<th>書名</th>
 						<th>數量</th>
-						<th>單價</th>
+						<th>成本</th>
 						<th></th>
 					</tr>
 				</thead>
