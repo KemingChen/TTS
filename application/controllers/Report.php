@@ -174,7 +174,7 @@ class Report extends CI_Controller
     public function test()
     {
         $date = '2013-6-13';
-        $data['turnover'] = $this->ReportModel->getBookTurnoverByDate($date);
+        $data['turnover'] = $this->ReportModel->getRebateEventReport();
         $this->load->view('test', $data);
     }
 }

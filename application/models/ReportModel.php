@@ -166,4 +166,14 @@ class ReportModel extends CI_Model
         $dataResult = $this->db->get()->result();
         return $dataResult;
     }
+    
+    public function getRebateEventReport()
+    {
+        $this->db->select('re.name, SUM(os.totalPrice) as turnover');
+        $this->db->from('ordersummary as os, rebateevent as re, rebatecorrespond as rc');
+        $this->db->where("os.oid = rc.oid AND rc.reid = re.reid");
+        $this->db->group_by('rc.reid');
+        $dataResult = $this->db->get()->result();
+        return $dataResult;
+    }
 }
