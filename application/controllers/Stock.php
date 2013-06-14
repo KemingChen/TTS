@@ -67,7 +67,7 @@ class Stock extends CI_Controller
     public function addStockRecord($bid, $cost, $amount)
     {
         $this->StockModel->addStockRecord($bid, $cost, $amount);
-        echo 'OK';
+        echo $bid;
     }
 
 

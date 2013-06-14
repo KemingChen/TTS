@@ -21,7 +21,10 @@
                 $.ajax({url: "<?= base_url("Stock/addStockRecord") ?>/" + bid + "/" + cost + "/" + quantity}).
                     done(function(data){
                         showReminderMsg("成功進貨。");
-                        location.reload();
+                        $("#quantity" + data).parent().parent().remove();
+                    }).
+                    error(function(){
+                        showReminderMsg("進貨失敗>___<");
                     });  
             }
         }
@@ -33,8 +36,10 @@
         $("#searchbox").attr("disabled", true);
         $.ajax({url: "<?= base_url("Stock/getBookInfo")?>/" + isbns})
         .done(function(datas){
-            $("#content").html(datas + $("#content").html());
-            //$("#Error").html($(datas).find("script").toString());
+            trs = datas.match(/<tr\b[^>]*>([\s\S]*?)<\/tr>/gm);
+            scripts = datas.match(/<script\b[^>]*>([\s\S]*?)<\/script>/gm);
+            $("#content").html(trs + $("#content").html());
+            $("#Error").html(scripts);
             $("#searchbox").attr("disabled", false);
             console.log(datas);
         })
