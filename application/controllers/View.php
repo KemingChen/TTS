@@ -23,17 +23,15 @@ class View extends CI_Controller
 
     public function Category($categoryID = null, $offset = 0)
     {
+        $array = $this->CustomSearchModel->searchByCategory($categoryID, $offset, 20);
         $config['base_url'] = base_url("View/Category/$categoryID");
         $config['uri_segment'] = 4;
-        $config['total_rows'] = $this->BookModel->getCategoryAmount($categoryID);
+        $config['total_rows'] = $array["total_NumRows"];
         $this->initPaginationConfig($config);
         $this->pagination->initialize($config);
 
 
         $slideBarList = $this->MenuModel->getCategoryList();
-
-        //key($slideBarList) First Element's Key
-        //$categoryID = $categoryID === null ? key($slideBarList) : $categoryID;
         if ($categoryID != null)
         {
             $slideBarList[$categoryID]['Active'] = "active";
@@ -43,7 +41,6 @@ class View extends CI_Controller
         $content = "CategoryView";
         $data["cid"] = $categoryID;
         $data["category"] = $this->CategoryModel->getCategoryName($categoryID);
-        $array = $this->BrowseModel->GetBookByCategory($categoryID, $offset, 20);
         $data["list"] = $array["books"];
         $data["pagination"] = $this->pagination->create_links();
         $data['limit'] = 20;
@@ -54,17 +51,18 @@ class View extends CI_Controller
     public function SearchByName($name = "NoInput", $offset = 0)
     {
         $name = urldecode($name);
+        $array = $this->CustomSearchModel->searchByName($name, $offset, 20);
+        
         $config['base_url'] = base_url("View/SearchByName/$name");
         $config['uri_segment'] = 4;
-        $config['total_rows'] = $this->CustomSearchModel->getSearchByNameSize($name);
+        $config['total_rows'] = $array["total_NumRows"];
         $this->initPaginationConfig($config);
         $this->pagination->initialize($config);
-
 
         $slideBarList = $this->MenuModel->getCategoryList();
         $content = "CategoryView";
         $data["category"] = "以\" $name \"搜尋...";
-        $data["list"] = $this->CustomSearchModel->searchByName($name, $offset, 20);
+        $data["list"] = $array["books"];
         $data["pagination"] = $this->pagination->create_links();
         $data['limit'] = 20;
         $data['offset'] = $offset;
@@ -75,10 +73,11 @@ class View extends CI_Controller
     public function SearchByISBN($ISBN = "NoInput", $offset = 0)
     {
         $ISBN = urldecode($ISBN);
+        $array = $this->CustomSearchModel->searchByISBN($ISBN, $offset, 20);
+        
         $config['base_url'] = base_url("View/SearchByName/$ISBN");
         $config['uri_segment'] = 4;
-        $config['total_rows'] = $this->CustomSearchModel->getSearchByISBNSize($ISBN, $offset,
-            20);
+        $config['total_rows'] = $array["total_NumRows"];
         $this->initPaginationConfig($config);
         $this->pagination->initialize($config);
 
@@ -86,7 +85,7 @@ class View extends CI_Controller
         $slideBarList = $this->MenuModel->getCategoryList();
         $content = "CategoryView";
         $data["category"] = "以\" $ISBN \"搜尋...";
-        $data["list"] = $this->CustomSearchModel->searchByISBN($ISBN, $offset, 20);
+        $data["list"] = $array["books"];
         $data["pagination"] = $this->pagination->create_links();
         $data['limit'] = 20;
         $data['offset'] = $offset;
@@ -97,10 +96,11 @@ class View extends CI_Controller
     public function SearchByAuthor($author = "NoInput", $offset = 0)
     {
         $author = urldecode($author);
+        $array = $this->CustomSearchModel->searchByAuthor($author, $offset, 20);
+        
         $config['base_url'] = base_url("View/SearchByAuthor/$author");
         $config['uri_segment'] = 4;
-        $config['total_rows'] = $this->CustomSearchModel->getSearchByAuthorSize($author,
-            $offset, 20);
+        $config['total_rows'] = $array["total_NumRows"];
         $this->initPaginationConfig($config);
         $this->pagination->initialize($config);
 
@@ -108,7 +108,7 @@ class View extends CI_Controller
         $slideBarList = $this->MenuModel->getCategoryList();
         $content = "CategoryView";
         $data["category"] = "以\" $author \"搜尋...";
-        $data["list"] = $this->CustomSearchModel->searchByAuthor($author, $offset, 20);
+        $data["list"] = $array["books"];
         $data["pagination"] = $this->pagination->create_links();
         $data['limit'] = 20;
         $data['offset'] = $offset;
@@ -119,10 +119,11 @@ class View extends CI_Controller
     public function SearchByBooksellers($booksellers = "NoInput", $offset = 0)
     {
         $booksellers = urldecode($booksellers);
+        $array = $this->CustomSearchModel->searchByBooksellers($booksellers, $offset, 20);
+        
         $config['base_url'] = base_url("View/SearchByBooksellers/$booksellers");
         $config['uri_segment'] = 4;
-        $config['total_rows'] = $this->CustomSearchModel->getSearchByBooksellersSize($booksellers,
-            $offset, 20);
+        $config['total_rows'] = $array["total_NumRows"];
         $this->initPaginationConfig($config);
         $this->pagination->initialize($config);
 
@@ -130,8 +131,7 @@ class View extends CI_Controller
         $slideBarList = $this->MenuModel->getCategoryList();
         $content = "CategoryView";
         $data["category"] = "以\" $booksellers \"搜尋...";
-        $data["list"] = $this->CustomSearchModel->searchByBooksellers($booksellers, $offset,
-            20);
+        $data["list"] = $array["books"];
         $data["pagination"] = $this->pagination->create_links();
         $data['limit'] = 20;
         $data['offset'] = $offset;
@@ -142,10 +142,11 @@ class View extends CI_Controller
     public function SearchByPublishDate($publishDate = "NoInput", $offset = 0)
     {
         $publishDate = urldecode($publishDate);
+        $array = $this->CustomSearchModel->searchByPublishedDate($publishDate, $offset, 20);
+        
         $config['base_url'] = base_url("View/SearchByPublishDate/$publishDate");
         $config['uri_segment'] = 4;
-        $config['total_rows'] = $this->CustomSearchModel->getSearchPublishedDateSize($publishDate,
-            $offset, 20);
+        $config['total_rows'] = $array["total_NumRows"];
         $this->initPaginationConfig($config);
         $this->pagination->initialize($config);
 
@@ -153,8 +154,7 @@ class View extends CI_Controller
         $slideBarList = $this->MenuModel->getCategoryList();
         $content = "CategoryView";
         $data["category"] = "以\" $publishDate \"搜尋...";
-        $data["list"] = $this->CustomSearchModel->searchByPublishedDate($publishDate, $offset,
-            20);
+        $data["list"] = $array["books"];
         $data["pagination"] = $this->pagination->create_links();
         $data['limit'] = 20;
         $data['offset'] = $offset;
