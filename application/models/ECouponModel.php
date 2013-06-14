@@ -7,6 +7,7 @@ class ECouponModel extends CI_Model
     {
         parent::__construct();
         $this->load->database();
+        $this->load->helper('date');
     }
 
     public function browseSize()
@@ -56,10 +57,11 @@ class ECouponModel extends CI_Model
         $datestring = "%Y-%m-%d";
         $now = now();
         $now = mdate($datestring, $now);
+        //echo $now;
         $this->db->select('ecid');
         $this->db->from('ecoupon');
-        $this->db->where('startTime >=', $now);
-        $this->db->where('endTime <=', $now);
+        $this->db->where('startTime <=', $now);
+        $this->db->where('endTime >=', $now);
         $this->db->where('couponCode', $couponCode);
         $dataResult = $this->db->get()->result();
         return count($dataResult) > 0;
