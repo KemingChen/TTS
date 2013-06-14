@@ -16,7 +16,33 @@ class ViewReport extends CI_Controller
 
         $slideBarList["ViewReport"]['Active'] = "active";
 
-        $content = "ReportView";
+        $content = "BookSellReportView";
+        $result = $this->ReportModel->bookSellReport();
+        $data["list"] = $result["report"];
+        $data["pagination"] = $this->pagination->create_links();
+        $this->template->loadView("Manager", $slideBarList, $content, $data);
+    }
+    
+    public function bookSell($offset = 0)
+    {
+        $slideBarList = $this->MenuModel->getManagerList();
+
+        $slideBarList["ViewReport"]['Active'] = "active";
+
+        $content = "BookSellReportView";
+        $result = $this->ReportModel->bookSellReport();
+        $data["list"] = $result["report"];
+        $data["pagination"] = $this->pagination->create_links();
+        $this->template->loadView("Manager", $slideBarList, $content, $data);
+    }
+    
+    public function publisherSell($offset = 0)
+    {
+        $slideBarList = $this->MenuModel->getManagerList();
+
+        $slideBarList["ViewReport"]['Active'] = "active";
+
+        $content = "PublisherSellReportView";
         $result = $this->ReportModel->bookSellReport();
         $data["list"] = $result["report"];
         $data["pagination"] = $this->pagination->create_links();

@@ -1,46 +1,24 @@
 <div class="container-fluid">
 	<div class="row-fluid">
 		<div class="span12">
-            <h3>書本銷售狀況</h3>
 			<table class="table">
 				<thead>
 					<tr>
 						<th>
-							書名
+							報表分析
 						</th>
-						<th>
-							賣出數量
-						</th>
-						<th>
-                            獲利
-						</th>
+                        <th></th>
 					</tr>
 				</thead>
 				<tbody>
+                <td>
+                            <div class="btn-toolbar">
+                                <div class="btn-group">
+                                    <a href="<?=base_url("ViewReport/bookSell")?>" class="btn btn-success">Book Sell Report</a>
+                                </div>
+                            </div>
+						</td>
                 
-                <?php
-                    $isSuccess = FALSE;
-                    foreach ($list as $report){
-                        if($isSuccess){
-    					   echo '<tr class="success">';
-                        }else{
-					       echo "<tr>";
-                        }
-                        $isSuccess = ! $isSuccess;
-                ?>
-						<td>
-							<?=$report->name?>
-						</td>
-						<td>
-							<?=$report->TOTAL_QUANTITY?>
-						</td>
-						<td>
-                            <?=$report->profit ?>
-						</td>
-                        
-                <?php
-                    }
-                ?>
 				</tbody>
 			</table>
             <?=$pagination?>

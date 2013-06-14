@@ -11,21 +11,21 @@ class ReportModel extends CI_Model
     
     public function bookSellReport()
     {
-        $this->db->select("B.name as name, SUM(OI.quantity) AS TOTAL_QUANTITY , SUM((OI.soldPrice - OI.cost)  * OI.quantity) AS profit");
+        $this->db->select("B.name as name , SUM((OI.soldPrice - OI.cost)  * OI.quantity) AS profit");
         $this->db->from('BOOK AS B, ORDERITEM AS OI');
         $this->db->where("OI.bid = B.bid");
         $this->db->group_by('B.bid');
         $this->db->order_by('profit', 'DESC');
-        $data['report'] = $this->db->get()->result();
+        $data["report"] = $this->db->get()->result();
         return $data;
     }
     
-    public function categorySellReport()
+    public function publisherSellReport()
     {
-        $this->db->select(" b.pid , p.name, SUM((soldPrice - cost) * quantity ) AS profit, SUM( quantity ) AS sold_amount");
+        $this->db->select(" p.name, SUM((soldPrice - cost) * quantity ) AS profit");
         $this->db->from("ORDERITEM NATURAL JOIN book AS b JOIN publisher AS p ON b.pid = p.pid");
         $this->db->group_by('b.pid');
-        $data = $this->db->get();
+        $data["report"] = $this->db->get()->result();
         return $data;
     }
     
@@ -59,7 +59,6 @@ class ReportModel extends CI_Model
         $this->db->select("count(oid) as count");
         $this->db->from("rebateCorrespond");
         $data = $this->db->get();
-        print_r($data->result());
         return $data;
     }
     
