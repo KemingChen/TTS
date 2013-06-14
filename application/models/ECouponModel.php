@@ -53,9 +53,16 @@ class ECouponModel extends CI_Model
 
     public function isExist($couponCode)
     {
-        $query = $this->db->get_where('ecoupon', array("couponCode" => $couponCode));
-        $list = $query->result();
-        return count($list) > 0;
+        $datestring = "%Y-%m-%d";
+        $now = now();
+        $now = mdate($datestring, $now);
+        $this->db->select('ecid');
+        $this->db->from('ecoupon');
+        $this->db->where('startTime >=', $now);
+        $this->db->where('endTime <=', $now);
+        $this->db->where('couponCode', $couponCode);
+        $dataResult = $this->db->get()->result();
+        return count($dataResult) > 0;
     }
 
     public function getCustomerInformation($mid)
