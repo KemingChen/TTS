@@ -83,9 +83,10 @@ class ShoppingCartModel extends CI_Model
             GROUP BY b.bid';
 
         $data["cart"] = $this->db->query($sql)->result();
-        //echo $this->db->last_query();
-        $this->db->select('')->from('shoppingcartcorrespond')->where('mid', $mid);
-        $data["total_NumRows"] = $this->db->get()->num_rows();
+        
+        $this->db->from('shoppingcartcorrespond')->where('mid', $mid);
+        $data["total_NumRows"] = $this->db->count_all_results();
+                
         $data["after_discount_total_price"] = 0;
         foreach ($data["cart"] as $item) {
             $data["after_discount_total_price"] += $item->quantity * $item->soldPrice;
@@ -107,6 +108,7 @@ class ShoppingCartModel extends CI_Model
             
         }
         $data["totalPrice"] = round($data["after_discount_total_price"] - $data["rebatePrice"]);
+        
         return $data;
     }
 

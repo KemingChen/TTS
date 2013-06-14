@@ -114,8 +114,8 @@ function fixedEncodeURIComponent (str) {
 						<td>
                             <?= $discount->name ?>
 						</td>
-						<td>
-                            <?=$discount->name?>
+                        <td>
+                            <?= $discount->categoryName ?>
 						</td>
 						<td>
                             <?= $discount->startTime ?>
