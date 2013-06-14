@@ -127,4 +127,10 @@ class Report extends CI_Controller
         $data["report"] = $this->ReportModel->eCouponUtility();
         //$this->load->view('Report/browsePriceAdvice', $data);
     }
+    
+    public function test()
+    {
+        $data['turnover'] = $this->ReportModel->getEveryMonthTurnoverByYear(2013);
+        $this->load->view('test', $data);
+    }
 }

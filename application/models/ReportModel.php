@@ -7,6 +7,7 @@ class ReportModel extends CI_Model
     {
         parent::__construct();
         $this->load->database();
+        $this->load->helper('date');
     }
     
     public function bookSellReport()
@@ -136,20 +137,16 @@ class ReportModel extends CI_Model
     
     public function getEveryMonthTurnoverByYear($year)
     {
-        $data = array(
-                        '1' => $this->getTurnoverByYearAndMonth($year, 1),
-                        '2' => $this->getTurnoverByYearAndMonth($year, 2),
-                        '3' => $this->getTurnoverByYearAndMonth($year, 3),
-                        '4' => $this->getTurnoverByYearAndMonth($year, 4),
-                        '5' => $this->getTurnoverByYearAndMonth($year, 5),
-                        '6' => $this->getTurnoverByYearAndMonth($year, 6),
-                        '7' => $this->getTurnoverByYearAndMonth($year, 7),
-                        '8' => $this->getTurnoverByYearAndMonth($year, 8),
-                        '9' => $this->getTurnoverByYearAndMonth($year, 9),
-                        '10' => $this->getTurnoverByYearAndMonth($year, 10),
-                        '11' => $this->getTurnoverByYearAndMonth($year, 11),
-                        '12' => $this->getTurnoverByYearAndMonth($year, 12)
-        );
-        return $data;
+        $this->db->select('month(orderTime) as month, SUM(totalPrice) as turnover');
+        $this->db->from('ordersummary');
+        $this->db->where('year(orderTime)', $year);
+        $this->db->group_by('month(orderTime)');
+        $dataResult = $this->db->get()->result();
+        return $dataResult;
+    }
+    
+    public function getEveryDayTurnoverByYearAndMonth($year, $month)
+    {
+        // to do
     }
 }
