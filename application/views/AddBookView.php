@@ -77,7 +77,12 @@ if(isset($error)){
     
     function createLabel(name, tag, val)
     {
-        return "<label class='label label-important' style='font-size: larger;margin-right: 3px;'>"+name+" | <i class='icon-remove icon-black' style='color: black;' onclick='delete"+tag+"(this, "+val+")'></i></label>"
+        var str;
+        str =  "<label class='label label-important' style='font-size: larger;margin-right: 3px;'>";
+        str += name+" | ";
+        str += "<i class='icon-remove icon-black' style='color: black;' onclick='delete"+tag+"(this, "+val+")'>";
+        str += "</i>"+createInput(tag.toLowerCase(), val)+"</label>";
+        return str;
     }
     
     function arrayContainVal(array, val)
@@ -103,24 +108,25 @@ if(isset($error)){
         }
     }
     
-    function beforeClick()
-    {
-        for(var key in selectedWriters)
-        {
-            $("#inputs").append(createInput("writer", selectedWriters[key]));
-        }
-        
-        for(var key in selectedTranslator)
-        {
-            $("#inputs").append(createInput("translator", selectedTranslator[key]))
-        }
-        console.log(selectedWriters);
-        console.log(selectedTranslator);
-    }
-    
     function createInput(name, val)
     {
         return "<input type='hidden' name='"+name+"[]' value='"+val+"'/>";
+    }
+    
+    function checkData()
+    {
+        array = Array("cover", "name", "ISBN", "pid", "publishedDate", "description", "price");
+        show = Array("圖片", "書名", "ISBN", "出版社", "出版日期", "敘述", "價格");
+        input = Array("input", "input", "input", "input", "input", "textarea", "input");
+        for(var key in array)
+        {
+            if($(input[key]+"[name='"+array[key]+"']").val() == "")
+            {
+                showReminderMsg(show[key] + " 還沒有填哦0.0a");
+                return false;
+            }
+        }
+        return true;
     }
 </script>
 <div class="container-fluid">
@@ -224,7 +230,7 @@ if(isset($error)){
                         </td>
                     </tr>
                 </table>
-                <input id="sendEcoupon" type="submit" value="新增書品" class="btn" onclick="beforeClick();" />
+                <input id="sendEcoupon" type="submit" value="新增書品" class="btn" onclick="return checkData();" />
                 <div id="inputs" style="display: none;"></div>
             </form>
         </div>
