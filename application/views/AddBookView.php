@@ -115,6 +115,7 @@ if(isset($error)){
     
     function checkData()
     {
+        // 因為太麻煩了 隨便寫
         array = Array("cover", "name", "ISBN", "pid", "publishedDate", "description", "price");
         show = Array("圖片", "書名", "ISBN", "出版社", "出版日期", "敘述", "價格");
         input = Array("input", "input", "input", "input", "input", "textarea", "input");
@@ -125,6 +126,17 @@ if(isset($error)){
                 showReminderMsg(show[key] + " 還沒有填哦0.0a");
                 return false;
             }
+        }
+        var type = $("[name='cover']")[0].files[0].type;
+        if($("[name='cover']")[0].files[0].size >= 65536)
+        {
+            showReminderMsg("圖片檔案大小限制 64k 哦 >___<");
+            return false;
+        }
+        else if(type != "image/jpeg" && type != "image/png")
+        {
+            showReminderMsg("圖片檔案格式不對 >___<");
+            return false;
         }
         return true;
     }
