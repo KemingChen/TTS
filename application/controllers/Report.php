@@ -91,6 +91,11 @@ class Report extends CI_Controller
         $data['profit'] = $this->ReportModel->getProfitByYear($year);
         $this->load->view('Report/browseProfit', $data);
     }
+    
+    public function broweseEveryMonthTurnoverByYear($year)
+    {
+        $this->ReportModel->getEveryMonthTurnoverByYear($year);
+    }
     ////////////////////////////////////////////////
     public function authorSellReport()
     {
