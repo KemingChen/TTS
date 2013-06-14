@@ -1,6 +1,17 @@
 <div class="container-fluid">
 	<div class="row-fluid">
 		<div class="span12">
+            <?php echo validation_errors(); ?>
+            <?php echo form_open('OnShelf/ISBN'); ?>
+                <input type="text" class="search-query" name="ISBN" placeholder="請輸入ISBN"
+                <?php
+                if(isset($ISBN)){
+                    echo "value='$ISBN'";
+                }
+                ?>
+                />
+                <button type="submit" id="searchbox" class="btn btn-min">搜尋書籍</button>
+			</form>
 			<table class="table">
 				<thead>
 					<tr>

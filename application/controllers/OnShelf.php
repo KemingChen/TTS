@@ -8,21 +8,24 @@ class OnShelf extends CI_Controller
         $this->load->model("MenuModel");
         $this->load->library('pagination');
         $this->load->model("BookModel");
+        $this->load->library('form_validation');
+        $this->load->helper(array('form', 'url'));
     }
 
     public function index($page = 0)
     {
         $this->page($page);
     }
-    
-    public function on($bid){
-        $this->BookModel->updateOnShelf($bid, TRUE);
+
+    public function on($bid)
+    {
+        $this->BookModel->updateOnShelf($bid, true);
         $this->page();
     }
 
-    public function page($offset=0)
+    public function page($offset = 0)
     {
-        $config['base_url'] = base_url('OnShelf/page');
+        $config['base_url'] = base_url("OnShelf/page");
         $config['total_rows'] = $this->BookModel->getOffShelfAmount();
         $config['per_page'] = 20;
         $config['num_links'] = 5;
@@ -43,6 +46,20 @@ class OnShelf extends CI_Controller
         $result = $this->BookModel->selectBooks_by_OnShelfAttr(0, $offset, 20);
         $data["list"] = $result["books"];
         $data["pagination"] = $this->pagination->create_links();
+        $this->template->loadView("Manager", $slideBarList, $content, $data);
+    }
+    
+    public function ISBN($ISBN = "", $offset = 0)
+    {
+        $ISBN = $this->input->post("ISBN");
+        $slideBarList = $this->MenuModel->getManagerList();
+        $slideBarList["OnShelf"]['Active'] = "active";
+        $content = "OnShelfView";
+        $result = $this->BookModel->selectBooks_by_OnShelfAttrByISBN($ISBN, 0, $offset,
+            20);
+        $data["list"] = $result["books"];
+        $data["pagination"] = "";
+        $data['ISBN'] = $ISBN;
         $this->template->loadView("Manager", $slideBarList, $content, $data);
     }
 }

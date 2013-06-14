@@ -8,6 +8,8 @@ class OffShelf extends CI_Controller
         $this->load->model("MenuModel");
         $this->load->library('pagination');
         $this->load->model("BookModel");
+        $this->load->library('form_validation');
+        $this->load->helper(array('form', 'url'));
     }
 
     public function index($offset = 0)
@@ -43,6 +45,20 @@ class OffShelf extends CI_Controller
         $result = $this->BookModel->selectBooks_by_OnShelfAttr(TRUE, $offset, 20);
         $data["list"] = $result["books"];
         $data["pagination"] = $this->pagination->create_links();
+        $this->template->loadView("Manager", $slideBarList, $content, $data);
+    }
+    
+    public function ISBN($ISBN = "", $offset = 0)
+    {
+        $ISBN = $this->input->post("ISBN");
+        $slideBarList = $this->MenuModel->getManagerList();
+        $slideBarList["OffShelf"]['Active'] = "active";
+        $content = "OffShelfView";
+        $result = $this->BookModel->selectBooks_by_OnShelfAttrByISBN($ISBN, TRUE, $offset,
+            9999);
+        $data["list"] = $result["books"];
+        $data["pagination"] = "";
+        $data['ISBN'] = $ISBN;
         $this->template->loadView("Manager", $slideBarList, $content, $data);
     }
 }
