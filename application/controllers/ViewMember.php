@@ -134,10 +134,9 @@ class ViewMember extends CI_Controller
         return $info;
     }
 
-    public function order($couponCode = "")
+    public function order()
     {
         $mid = $this->authority->getMemberID();
-
 
         $originalShoppingCartData = $this->TransactionModel->getShoppingCartDataByMid($mid);
         $stockEnough = false;
@@ -147,7 +146,8 @@ class ViewMember extends CI_Controller
             $now = now();
             $now = mdate($datestring, $now);
             $data = array('mid' => $mid, 'orderTime' => $now, 'state' => 'processing');
-            $this->TransactionModel->order($mid, $data, $couponCode);
+            $ecoupon = $this->input->post("ecoupon");
+            $this->TransactionModel->order($mid, $data, $ecoupon);
             //loadview
             $slideBarList = $this->MenuModel->getMemberList();
             $data = $this->doShopCar($content);

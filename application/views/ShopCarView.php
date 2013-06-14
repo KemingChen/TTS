@@ -121,7 +121,6 @@ if ($total_NumRows <= 0) {
                 <h3>優惠</h3>
                 <label>ECoupon
                 <input type="text" name="ecoupon" id="ecoupon" onchange="ecouponCheck()"/><div class="btn" onclick="ecouponCheck()">檢查</div><i id="notify" class=""></i></label>
-                
             </div>
             
             

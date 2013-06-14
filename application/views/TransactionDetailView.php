@@ -63,6 +63,17 @@
             <td>折價</td>
             <td><?= $rebateEvent->price ?></td>
         </tr>
+        <tr class="error">
+            <td>酷碰券</td>
+            <?php
+            $ecouponPrice = $this->TransactionModel->getEcouponPriceFromEcouponCorrespondByOid($oid);
+            if($ecouponPrice>0){
+                echo "<td>$ecouponPrice</td>";
+            }else{
+                echo "<td>無</td>";
+            }
+            ?>
+        </tr>
         <?php
         }else{
         ?>

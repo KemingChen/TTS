@@ -65,9 +65,9 @@
                         echo $record->oid;							
     					echo "</td><td>";
                         echo $record->orderTime;
-    					echo "</td><td>";
+    					echo "</td><td><span class='label label-info'>";
                         echo $record->state; 
-    					echo "</td><td>";
+    					echo "</span></td><td>";
                         echo $record->totalPrice;
     					echo "</td><td>";
                         echo '<button type="button" class="btn btn-mini btn-info" onclick="showRecordInfo('. $record->oid .')">詳細資料</button>';
