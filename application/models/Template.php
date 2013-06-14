@@ -15,7 +15,14 @@ class Template extends CI_Model
     public function loadView($headerActiveID, $slideBarList, $content, $contentData)
     {
         $this->loadHeader($headerActiveID);
-        $this->loadSlideBarContent($slideBarList, $content, $contentData);
+        if($slideBarList!=null)
+        {
+            $this->loadSlideBarContent($slideBarList, $content, $contentData);
+        }
+        else
+        {
+            $this->load->view($content, $contentData);
+        }
         $this->loadFooter();
     }
 

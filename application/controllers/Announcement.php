@@ -14,7 +14,7 @@ class Announcement extends CI_Controller
     public function index()
     {
         $data = $this->getData();
-        $this->template->loadView("Announcement", array(), "AnnoucementView", $data);
+        $this->template->loadView("Announcement", null, "AnnoucementView", $data);
     }
     
     public function getData(){
