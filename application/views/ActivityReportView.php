@@ -25,7 +25,7 @@
                                 <a href="<?=base_url("ViewReport/ecouponUtility")?>" class="btn btn-success">ECoupon分析</a>
                             </div>
                             <div class="btn-group">
-                                <a href="<?=base_url("ViewReport/subIndex")?>" class="btn btn-success">年度分析</a>
+                                <a href="<?=base_url("ViewReport/yearSell")?>" class="btn btn-success">年度分析</a>
                             </div>
                         </div>
 						</td>
@@ -33,7 +33,6 @@
 		</div>
 	</div>
 </div>
-
 
 
 
@@ -67,7 +66,7 @@ Apache license (http://www.apache.org/licenses/LICENSE-2.0.html)
 //          ['Sleep', 7]
 //        ]);   
         var jsonData =$.ajax({
-          url: "<?=base_url("Report/bookSellReport")?>",
+          url: "<?=base_url("Report/revenueFromPromotionalActivities")?>",
           dataType:"json",
           async: false
           }).responseText;
@@ -75,7 +74,7 @@ Apache license (http://www.apache.org/licenses/LICENSE-2.0.html)
       
         // Create and draw the visualization.
         new google.visualization.PieChart(document.getElementById('visualization')).
-            draw(data, {title:"書籍營業額分析"});
+            draw(data, {title:"打折活動效益分析"});
       }
       
 

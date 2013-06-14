@@ -95,6 +95,24 @@ class Report extends CI_Controller
     public function broweseEveryMonthTurnoverByYear($year)
     {
         $this->ReportModel->getEveryMonthTurnoverByYear($year);
+        $list = array("cols" => array(), "rows" => array());
+        
+        array_push($list["cols"], array("id" => "", "label" => "BookName", "pattern" =>
+            "", "type" => "string"));
+        array_push($list["cols"], array("id" => "", "label" => "Profit", "pattern" => "",
+            "type" => "number"));
+        
+//        for($i=0;$i<$data->size();$i++)
+//        {
+//            array_push($list["rows"], array("c" => array(array("v" => "1", "f" => null),
+//                array("v" => (int)$row->turnover, "f" => null))));
+//        }
+        foreach ($data as $row) {
+            array_push($list["rows"], array("c" => array(array("v" => "1", "f" => null),
+                array("v" => (int)$row->turnover, "f" => null))));
+        }
+        $json = json_encode($list);
+        echo $json;
     }
     ////////////////////////////////////////////////
     public function authorSellReport()
@@ -105,8 +123,20 @@ class Report extends CI_Controller
 
     public function revenueFromPromotionalActivities()
     {
-        $data["report"] = $this->ReportModel->revenueFromPromotionalActivities();
-        $this->load->view('Report/browseRevenue', $data);
+        $data = $this->ReportModel->revenueFromPromotionalActivities();
+        $list = array("cols" => array(), "rows" => array());
+        
+        array_push($list["cols"], array("id" => "", "label" => "BookName", "pattern" =>
+            "", "type" => "string"));
+        array_push($list["cols"], array("id" => "", "label" => "TotalPrice", "pattern" => "",
+            "type" => "number"));
+
+        foreach ($data['report'] as $row) {
+            array_push($list["rows"], array("c" => array(array("v" => $row->name, "f" => null),
+                array("v" => (int)$row->total_price, "f" => null))));
+        }
+        $json = json_encode($list);
+        echo $json;
     }
 
     public function priceAdvice()
@@ -124,7 +154,20 @@ class Report extends CI_Controller
 
     public function eCouponUtility()
     {
-        $data["report"] = $this->ReportModel->eCouponUtility();
+        $data = $this->ReportModel->eCouponUtility();
+        $list = array("cols" => array(), "rows" => array());
+        
+        array_push($list["cols"], array("id" => "", "label" => "BookName", "pattern" =>
+            "", "type" => "string"));
+        array_push($list["cols"], array("id" => "", "label" => "TotalPrice", "pattern" => "",
+            "type" => "number"));
+
+        foreach ($data['report'] as $row) {
+            array_push($list["rows"], array("c" => array(array("v" => "haha", "f" => null),
+                array("v" => 100, "f" => null))));
+        }
+        $json = json_encode($list);
+        echo $json;
         //$this->load->view('Report/browsePriceAdvice', $data);
     }
     

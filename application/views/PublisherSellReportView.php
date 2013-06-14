@@ -18,6 +18,15 @@
                             <div class="btn-group">
                                 <a href="<?=base_url("ViewReport/publisherSell")?>" class="btn btn-success">出版社營業額分析</a>
                             </div>
+                            <div class="btn-group">
+                                <a href="<?=base_url("ViewReport/activityAnalize")?>" class="btn btn-success">打折活動效益分析</a>
+                            </div>
+                            <div class="btn-group">
+                                <a href="<?=base_url("ViewReport/ecouponUtility")?>" class="btn btn-success">ECoupon分析</a>
+                            </div>
+                            <div class="btn-group">
+                                <a href="<?=base_url("ViewReport/yearSell")?>" class="btn btn-success">年度分析</a>
+                            </div>
                         </div>
 						</td>
 				</tbody>

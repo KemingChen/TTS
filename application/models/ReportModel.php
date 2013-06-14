@@ -42,7 +42,7 @@ class ReportModel extends CI_Model
     
     public function revenueFromPromotionalActivities()
     {
-        $data = $this->db->query("SELECT data.name as name, SUM(data.totalPrice) as total_price FROM (	SELECT corspd.*, event.name, (item.soldPrice-item.cost)*item.quantity AS totalPrice	FROM DISCOUNTCORRESPOND corspd INNER JOIN ORDERITEM item ON corspd.oid=item.oid AND corspd.bid=item.bid	INNER JOIN DISCOUNTEVENT event ON event.deid=corspd.deid) AS data GROUP BY data.deid ORDER BY data.deid DESC");
+        $data["report"] = $this->db->query("SELECT data.name as name, SUM(data.totalPrice) as total_price FROM (	SELECT corspd.*, event.name, (item.soldPrice-item.cost)*item.quantity AS totalPrice	FROM DISCOUNTCORRESPOND corspd INNER JOIN ORDERITEM item ON corspd.oid=item.oid AND corspd.bid=item.bid	INNER JOIN DISCOUNTEVENT event ON event.deid=corspd.deid) AS data GROUP BY data.deid ORDER BY data.deid DESC")->result();
         return $data;
     }
     
@@ -65,9 +65,10 @@ class ReportModel extends CI_Model
     
     public function eCouponUtility()
     {
-        $maxCount = $this->db->query("SELECT  CASE	WHEN MAX(e.ecid) >= COUNT(ec.oid) THEN  MAX(e.ecid) WHEN MAX(e.ecid) < COUNT(ec.oid) THEN COUNT(ec.oid) END as count FROM ecoupon as e , ecouponcorrespond as ec")->result();
+        $couponCount = $this->db->query("SELECT count(e.ecid) as count FROM ecoupon as e")->result();
+        //$correspondCount = $this->db->query("SELECT count(oid) FROM ecouponcorrepond")->result();
         $used = $this->db->query("SELECT count(ec.oid) as count FROM ecouponcorrespond as ec")->result();
-        if($maxCount[0]->count != 0)$data = $used[0]->count / $maxCount[0]->count;
+        if($couponCount[0]->count != 0)$data["report"] = $used[0]->count / ($used[0]->count + $couponCount[0]->count);
         return $data;
     }   
 

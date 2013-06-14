@@ -25,15 +25,17 @@
                                 <a href="<?=base_url("ViewReport/ecouponUtility")?>" class="btn btn-success">ECoupon分析</a>
                             </div>
                             <div class="btn-group">
-                                <a href="<?=base_url("ViewReport/subIndex")?>" class="btn btn-success">年度分析</a>
+                                <a href="<?=base_url("ViewReport/yearSell/2013")?>" class="btn btn-success">年度分析</a>
                             </div>
                         </div>
 						</td>
+                        <td>
+                            <input type="text" class="search-query" id="year" />
+                        </td>
 				</tbody>
 		</div>
 	</div>
 </div>
-
 
 
 
@@ -66,16 +68,19 @@ Apache license (http://www.apache.org/licenses/LICENSE-2.0.html)
 //          ['Watch TV', 2],
 //          ['Sleep', 7]
 //        ]);   
+        var year = encodeURIComponent(($("#year").val().replace(" ", "")));
+        year = 2013;
         var jsonData =$.ajax({
-          url: "<?=base_url("Report/bookSellReport")?>",
+          url: "<?=base_url("Report/broweseEveryMonthTurnoverByYear/")?>" + year,
           dataType:"json",
           async: false
           }).responseText;
+          alert(jsonData);
         data = new google.visualization.DataTable(jsonData);
       
         // Create and draw the visualization.
         new google.visualization.PieChart(document.getElementById('visualization')).
-            draw(data, {title:"書籍營業額分析"});
+            draw(data, {title:"年度分析"});
       }
       
 
