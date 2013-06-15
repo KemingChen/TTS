@@ -95,7 +95,7 @@
                     </tr>
                     <tr>
                     <?php
-                    foreach ($latestPublishList as $book)
+                    foreach ($hotRankingList as $book)
                     {
                     ?>
                         <td>
@@ -131,7 +131,7 @@
                     </tr>
                     <tr>
                     <?php
-                    foreach ($latestPublishList as $book)
+                    foreach ($mostConcernedList as $book)
                     {
                     ?>
                         <td>

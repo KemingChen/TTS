@@ -18,7 +18,6 @@ class Announcement extends CI_Controller
     }
     
     public function getData(){
-        $this->db->cache_on();
         $temp = $this->BrowseModel->GetLatestBook(0, 5,false);
         $data["latestPublishList"] = $temp['books'];
         
@@ -42,7 +41,6 @@ class Announcement extends CI_Controller
         
         $data['size'] = $this->AnnouncementModel->getAnnouncementSize();
         $data["list"] = $this->AnnouncementModel->getAnnouncementList();
-        $this->db->cache_off();
         return $data;
     }
     
