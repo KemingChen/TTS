@@ -43,7 +43,7 @@
                     <tr></tr>
                         <td>
                             <div class="btn-toolbar">
-                                <div class="btn-group">
+                            <div class="btn-group">
                                 <a href="<?=base_url("ViewReport/activityAnalize")?>" class="btn btn-success">打折活動效益分析</a>
                             </div>
                             <div class="btn-group">
@@ -54,6 +54,9 @@
                             </div>
                             <br />
                             <br />
+                            <div class="btn-group">
+                                <a href="<?=base_url("ViewReport/linearAnalize")?>" class="btn btn-success">效益分析</a>
+                            </div>
                             <div class="btn-group">
                                 <a href="<?=base_url("ViewReport/bookSell")?>" class="btn btn-success">書籍營業額分析</a>
                             </div>
@@ -70,12 +73,7 @@
                             </div>
                             <div class="btn-group">
                                 <a href="<?=base_url("ViewReport/dallyBookSell")?>" class="btn btn-success">日營業分析</a>
-                            </div>
-                            <br />
-                            <br />
-                            <div class="btn-group">
-                                <a href="<?=base_url("ViewReport/linearAnalize")?>" class="btn btn-success">線性規劃</a>
-                            </div>
+                            </div>                            
                             </div>
     					</td>
                     <tr>
