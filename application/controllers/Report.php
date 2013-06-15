@@ -225,6 +225,24 @@ class Report extends CI_Controller
         echo $json;
     }
     
+    public function linear($isbn)
+    {
+        $data = $this->ReportModel->getDiscountAnalysisByIsbn($isbn);
+        $list = array("cols" => array(), "rows" => array());
+        
+        array_push($list["cols"], array("id" => "", "label" => "BookName", "pattern" =>
+            "", "type" => "string"));
+        array_push($list["cols"], array("id" => "", "label" => "Profit", "pattern" => "",
+            "type" => "number"));
+
+        foreach ($data['report'] as $row) {
+            array_push($list["rows"], array("c" => array(array("v" => $row->bName, "f" => null),
+                array("v" => (int)$row->profit, "f" => null))));
+        }
+        $json = json_encode($list);
+        echo $json;
+    }
+    
     public function test()
     {
         $isbn = '9789570410976';

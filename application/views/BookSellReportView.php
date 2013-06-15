@@ -41,6 +41,11 @@
                             <div class="btn-group">
                                 <a href="<?=base_url("ViewReport/dallyBookSell")?>" class="btn btn-success">日營業分析</a>
                             </div>
+                            <br />
+                            <br />
+                            <div class="btn-group">
+                                <a href="<?=base_url("ViewReport/linearAnalize")?>" class="btn btn-success">線性規劃</a>
+                            </div>
                         </div>
 						</td>
 				</tbody>

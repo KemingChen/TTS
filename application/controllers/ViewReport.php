@@ -139,6 +139,19 @@ class ViewReport extends CI_Controller
         $data["pagination"] = $this->pagination->create_links();
         $this->template->loadView("Manager", $slideBarList, $content, $data);
     }
+    
+    public function linearAnalize()
+    {
+        $slideBarList = $this->MenuModel->getManagerList();
+
+        $slideBarList["ViewReport"]['Active'] = "active";
+
+        $content = "LinearView";
+        //$result = $this->ReportModel->getDiscountAnalysisByIsbn($isbn);
+        //$data["list"] = $result["report"];
+        $data["pagination"] = $this->pagination->create_links();
+        $this->template->loadView("Manager", $slideBarList, $content, $data);
+    }
 }
 
 ?>

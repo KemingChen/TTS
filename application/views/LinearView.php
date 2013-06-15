@@ -13,17 +13,17 @@
 //          ['Watch TV', 2],
 //          ['Sleep', 7]
 //        ]);   
-    var year = encodeURIComponent(($("#year").val().replace(" ", "")));
+    var isbn = encodeURIComponent(($("#isbn").val().replace(" ", "")));
     var jsonData =$.ajax({
-      url: "<?=base_url("Report/broweseEveryMonthTurnoverByYear")?>" + '/' + year,
+      url: "<?=base_url("Report/linear")?>" + '/' + isbn,
       dataType:"json",
       async: false
       }).responseText;
-    //alert(jsonData);
     data = new google.visualization.DataTable(jsonData);
+  
     // Create and draw the visualization.
     new google.visualization.PieChart(document.getElementById('visualization')).
-        draw(data, {title:"每月營業額分析"});
+        draw(data, {title:"本書獲利"});
   }
   google.setOnLoadCallback(drawVisualization);
 </script>
@@ -80,7 +80,7 @@
     					</td>
                     <tr>
                         <td>
-                            年份：<input type="text" class="search-query" id="year" />
+                            ISBN：<input type="text" class="search-query" id="isbn" />
                             <div class="btn-group">
                                 <a class="btn btn-success" onclick=drawVisualization() >產生報表</a>
                             </div>
