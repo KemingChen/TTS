@@ -224,4 +224,11 @@ class Report extends CI_Controller
         $json = json_encode($list);
         echo $json;
     }
+    
+    public function test()
+    {
+        $isbn = '9789570410976';
+        $data['result'] = $this->ReportModel->getDiscountAnalysisByIsbn($isbn);
+        $this->load->view('test', $data);
+    }
 }
