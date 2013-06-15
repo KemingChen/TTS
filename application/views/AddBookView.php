@@ -119,6 +119,8 @@ if(isset($error)){
         array = Array("cover", "name", "ISBN", "pid", "publishedDate", "description", "price");
         show = Array("圖片", "書名", "ISBN", "出版社", "出版日期", "敘述", "價格");
         input = Array("input", "input", "input", "input", "input", "textarea", "input");
+        
+        
         for(var key in array)
         {
             if($(input[key]+"[name='"+array[key]+"']").val() == "")
@@ -126,6 +128,11 @@ if(isset($error)){
                 showReminderMsg(show[key] + " 還沒有填哦0.0a");
                 return false;
             }
+        }
+        if(!checkCategoryValid())
+        {
+            showReminderMsg("類別 還沒有選哦0.0a");
+            return false;
         }
         var type = $("[name='cover']")[0].files[0].type;
         if($("[name='cover']")[0].files[0].size >= 65536)
@@ -139,6 +146,19 @@ if(isset($error)){
             return false;
         }
         return true;
+    }
+    
+    function checkCategoryValid()
+    {
+        var categorys = $("[type=checkbox]");
+        for(var key in categorys)
+        {
+            if(categorys[key].name == "category[]" && categorys[key].checked)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 </script>
 <div class="container-fluid">
