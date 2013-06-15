@@ -4,7 +4,7 @@
 				<thead>
 					<tr>
 						<th>
-							觀看報表分析
+							<h3>觀看報表分析</h3>
 						</th>
                         <th></th>
 					</tr>
@@ -13,19 +13,32 @@
                         <td>
                         <div class="btn-toolbar">
                             <div class="btn-group">
+                                <a href="<?=base_url("ViewReport/activityAnalize")?>" class="btn btn-success">打折活動效益分析</a>
+                            </div>
+                            <div class="btn-group">
+                                <a href="<?=base_url("ViewReport/rebateSell")?>" class="btn btn-success">減價活動分析</a>
+                            </div>
+                            <div class="btn-group">
+                                <a href="<?=base_url("ViewReport/ecouponUtility")?>" class="btn btn-success">ECoupon分析</a>
+                            </div>
+                            <br />
+                            <br />
+                            <div class="btn-group">
                                 <a href="<?=base_url("ViewReport/bookSell")?>" class="btn btn-success">書籍營業額分析</a>
                             </div>
                             <div class="btn-group">
                                 <a href="<?=base_url("ViewReport/publisherSell")?>" class="btn btn-success">出版社營業額分析</a>
                             </div>
-                            <div class="btn-group">
-                                <a href="<?=base_url("ViewReport/activityAnalize")?>" class="btn btn-success">打折活動效益分析</a>
-                            </div>
-                            <div class="btn-group">
-                                <a href="<?=base_url("ViewReport/ecouponUtility")?>" class="btn btn-success">ECoupon分析</a>
-                            </div>
+                            <br />
+                            <br />
                             <div class="btn-group">
                                 <a href="<?=base_url("ViewReport/yearSell")?>" class="btn btn-success">年度分析</a>
+                            </div>
+                            <div class="btn-group">
+                                <a href="<?=base_url("ViewReport/daySell")?>" class="btn btn-success">月份分析</a>
+                            </div>
+                            <div class="btn-group">
+                                <a href="<?=base_url("ViewReport/dallyBookSell")?>" class="btn btn-success">日營業分析</a>
                             </div>
                         </div>
 						</td>

@@ -13,9 +13,9 @@
 //          ['Watch TV', 2],
 //          ['Sleep', 7]
 //        ]);   
-    var year = encodeURIComponent(($("#year").val().replace(" ", "")));
+    var date = encodeURIComponent(($("#date").val().replace(" ", "")));
     var jsonData =$.ajax({
-      url: "<?=base_url("Report/broweseEveryMonthTurnoverByYear")?>" + '/' + year,
+      url: "<?=base_url("Report/browseEveryDayBookTurnoverByDate")?>" + '/' + date,
       dataType:"json",
       async: false
       }).responseText;
@@ -75,7 +75,7 @@
     					</td>
                     <tr>
                         <td>
-                            年份：<input type="text" class="search-query" id="year" />
+                            日期(YYYY-MM-DD)：<input type="text" class="search-query" id="date" />
                             <div class="btn-group">
                                 <a class="btn btn-success" onclick=drawVisualization() >產生報表</a>
                             </div>

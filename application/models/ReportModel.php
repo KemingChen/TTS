@@ -63,12 +63,19 @@ class ReportModel extends CI_Model
         return $data;
     }
     
-    public function eCouponUtility()
+    public function eCouponUnUsedAmount()
     {
-        $couponCount = $this->db->query("SELECT count(e.ecid) as count FROM ecoupon as e")->result();
+        $data["report"] = $this->db->query("SELECT count(e.ecid) as count FROM ecoupon as e")->result();
         //$correspondCount = $this->db->query("SELECT count(oid) FROM ecouponcorrepond")->result();
         $used = $this->db->query("SELECT count(ec.oid) as count FROM ecouponcorrespond as ec")->result();
-        if($couponCount[0]->count != 0)$data["report"] = $used[0]->count / ($used[0]->count + $couponCount[0]->count);
+        //if($couponCount[0]->count != 0)$data["report"] = $used[0]->count / ($used[0]->count + $couponCount[0]->count);
+        //$data = ($used[0]->count + $couponCount[0]->count);
+        return $data;
+    }
+    
+    public function eCouponUsedAmount()
+    {
+        $data["report"] = $this->db->query("SELECT count(ec.oid) as count FROM ecouponcorrespond as ec")->result();
         return $data;
     }   
 
@@ -142,8 +149,8 @@ class ReportModel extends CI_Model
         $this->db->from('ordersummary');
         $this->db->where('year(orderTime)', $year);
         $this->db->group_by('month(orderTime)');
-        $dataResult = $this->db->get()->result();
-        return $dataResult;
+        $data["report"] = $this->db->get()->result();
+        return $data;
     }
     
     public function getEveryDayTurnoverByYearAndMonth($year, $month)
@@ -153,8 +160,8 @@ class ReportModel extends CI_Model
         $this->db->where('year(orderTime)', $year);
         $this->db->where('month(orderTime)', $month);
         $this->db->group_by('orderTime');
-        $dataResult = $this->db->get()->result();
-        return $dataResult;
+        $data["report"] = $this->db->get()->result();
+        return $data;
     }
     
     public function getBookTurnoverByDate($date)
@@ -163,8 +170,8 @@ class ReportModel extends CI_Model
         $this->db->from('ordersummary as os, orderItem as oi, book as b');
         $this->db->where("os.orderTime = '$date' AND os.oid = oi.oid AND oi.bid = b.bid");
         $this->db->group_by('oi.bid');
-        $dataResult = $this->db->get()->result();
-        return $dataResult;
+        $data["report"] = $this->db->get()->result();
+        return $data;
     }
     
     public function getRebateEventReport()
@@ -173,7 +180,7 @@ class ReportModel extends CI_Model
         $this->db->from('ordersummary as os, rebateevent as re, rebatecorrespond as rc');
         $this->db->where("os.oid = rc.oid AND rc.reid = re.reid");
         $this->db->group_by('rc.reid');
-        $dataResult = $this->db->get()->result();
-        return $dataResult;
+        $data["report"] = $this->db->get()->result();
+        return $data;
     }
 }

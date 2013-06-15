@@ -94,21 +94,52 @@ class Report extends CI_Controller
     
     public function broweseEveryMonthTurnoverByYear($year)
     {
-        $this->ReportModel->getEveryMonthTurnoverByYear($year);
+        $data = $this->ReportModel->getEveryMonthTurnoverByYear($year);
+        $list = array("cols" => array(), "rows" => array());
+        
+        array_push($list["cols"], array("id" => "", "label" => "Month", "pattern" =>
+            "", "type" => "string"));
+        array_push($list["cols"], array("id" => "", "label" => "Turnover", "pattern" => "",
+            "type" => "number"));
+
+        foreach ($data['report'] as $row) {
+            array_push($list["rows"], array("c" => array(array("v" => $row->month, "f" => null),
+                array("v" => (int)$row->turnover, "f" => null))));
+        }
+        $json = json_encode($list);
+        echo $json;
+    }
+    
+    public function browseEveryDayTurnoverByMonth($year, $month)
+    {
+        $data = $this->ReportModel->getEveryDayTurnoverByYearAndMonth($year, $month);
+        $list = array("cols" => array(), "rows" => array());
+        
+        array_push($list["cols"], array("id" => "", "label" => "Date", "pattern" =>
+            "", "type" => "string"));
+        array_push($list["cols"], array("id" => "", "label" => "Turnover", "pattern" => "",
+            "type" => "number"));
+
+        foreach ($data['report'] as $row) {
+            array_push($list["rows"], array("c" => array(array("v" => $row->date, "f" => null),
+                array("v" => (int)$row->turnover, "f" => null))));
+        }
+        $json = json_encode($list);
+        echo $json;
+    }
+    
+    public function browseEveryDayBookTurnoverByDate($date)
+    {
+        $data = $this->ReportModel->getBookTurnoverByDate($date);
         $list = array("cols" => array(), "rows" => array());
         
         array_push($list["cols"], array("id" => "", "label" => "BookName", "pattern" =>
             "", "type" => "string"));
-        array_push($list["cols"], array("id" => "", "label" => "Profit", "pattern" => "",
+        array_push($list["cols"], array("id" => "", "label" => "Turnover", "pattern" => "",
             "type" => "number"));
-        
-//        for($i=0;$i<$data->size();$i++)
-//        {
-//            array_push($list["rows"], array("c" => array(array("v" => "1", "f" => null),
-//                array("v" => (int)$row->turnover, "f" => null))));
-//        }
-        foreach ($data as $row) {
-            array_push($list["rows"], array("c" => array(array("v" => "1", "f" => null),
+
+        foreach ($data['report'] as $row) {
+            array_push($list["rows"], array("c" => array(array("v" => $row->name, "f" => null),
                 array("v" => (int)$row->turnover, "f" => null))));
         }
         $json = json_encode($list);
@@ -154,7 +185,8 @@ class Report extends CI_Controller
 
     public function eCouponUtility()
     {
-        $data = $this->ReportModel->eCouponUtility();
+        $unUsed = $this->ReportModel->eCouponUnUsedAmount();
+        $used = $this->ReportModel->eCouponUsedAmount();
         $list = array("cols" => array(), "rows" => array());
         
         array_push($list["cols"], array("id" => "", "label" => "BookName", "pattern" =>
@@ -162,19 +194,34 @@ class Report extends CI_Controller
         array_push($list["cols"], array("id" => "", "label" => "TotalPrice", "pattern" => "",
             "type" => "number"));
 
-        foreach ($data['report'] as $row) {
-            array_push($list["rows"], array("c" => array(array("v" => "haha", "f" => null),
-                array("v" => 100, "f" => null))));
+        foreach ($unUsed['report'] as $row) {
+            array_push($list["rows"], array("c" => array(array("v" => "UnUsedAmount", "f" => null),
+                array("v" => (int)$row->count, "f" => null))));
+        }
+        foreach ($used['report'] as $row) {
+            array_push($list["rows"], array("c" => array(array("v" => "UsedAmount", "f" => null),
+                array("v" => (int)$row->count, "f" => null))));
         }
         $json = json_encode($list);
         echo $json;
         //$this->load->view('Report/browsePriceAdvice', $data);
     }
     
-    public function test()
+    public function rebateSellReport()
     {
-        $date = '2013-6-13';
-        $data['turnover'] = $this->ReportModel->getRebateEventReport();
-        $this->load->view('test', $data);
+        $data = $this->ReportModel->getRebateEventReport();
+        $list = array("cols" => array(), "rows" => array());
+        
+        array_push($list["cols"], array("id" => "", "label" => "RebateName", "pattern" =>
+            "", "type" => "string"));
+        array_push($list["cols"], array("id" => "", "label" => "Trunover", "pattern" => "",
+            "type" => "number"));
+
+        foreach ($data['report'] as $row) {
+            array_push($list["rows"], array("c" => array(array("v" => $row->name, "f" => null),
+                array("v" => (int)$row->turnover, "f" => null))));
+        }
+        $json = json_encode($list);
+        echo $json;
     }
 }

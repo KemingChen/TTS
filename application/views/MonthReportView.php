@@ -14,8 +14,9 @@
 //          ['Sleep', 7]
 //        ]);   
     var year = encodeURIComponent(($("#year").val().replace(" ", "")));
+    var month = encodeURIComponent(($("#month").val().replace(" ", "")));
     var jsonData =$.ajax({
-      url: "<?=base_url("Report/broweseEveryMonthTurnoverByYear")?>" + '/' + year,
+      url: "<?=base_url("Report/browseEveryDayTurnoverByMonth")?>" + '/' + year + '/' + month,
       dataType:"json",
       async: false
       }).responseText;
@@ -76,6 +77,7 @@
                     <tr>
                         <td>
                             年份：<input type="text" class="search-query" id="year" />
+                            月份：<input type="text" class="search-query" id="month" />
                             <div class="btn-group">
                                 <a class="btn btn-success" onclick=drawVisualization() >產生報表</a>
                             </div>

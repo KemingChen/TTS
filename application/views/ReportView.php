@@ -25,14 +25,14 @@
                                 <a href="<?=base_url("ViewReport/ecouponUtility")?>" class="btn btn-success">ECoupon分析</a>
                             </div>
                             <div class="btn-group">
-                                <a href="<?=base_url("ViewReport/yearSell/2013")?>" class="btn btn-success">年度分析</a>
+                                <a href="<?=base_url("ViewReport/subIndex")?>" class="btn btn-success">年度分析</a>
                             </div>
                         </div>
 						</td>
                         <td>
                             年份：<input type="text" class="search-query" id="year" />
                             <div class="btn-group">
-                                <a class="btn btn-success" onclick=onSubmit("<?=base_url("ViewReport/yearSell/")?>") >產生報表</a>
+                                <a class="btn btn-success" onclick=drawVisualization() >產生報表</a>
                             </div>
                         </div>
                         </td>
@@ -41,12 +41,60 @@
 	</div>
 </div>
 <script>
-    function onSubmit(var string)
+    function onSubmit(url)
     {
-        //alert("hahaha");
-        alert(string);
-        
         var year = encodeURIComponent(($("#year").val().replace(" ", "")));
-        window.locatoin = url + year;
+        window.location = url +'/' + year;
     }
 </script>
+
+
+<!--
+You are free to copy and use this sample in accordance with the terms of the
+Apache license (http://www.apache.org/licenses/LICENSE-2.0.html)
+-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>
+      Google Visualization API Sample
+    </title>
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load('visualization', '1', {packages: ['corechart']});
+    </script>
+    <script type="text/javascript">
+      function drawVisualization() {
+        // Create and populate the data table.
+        //var data = google.visualization.arrayToDataTable([
+//          ['Task', 'Hours per Day'],
+//          ['Work', 11],
+//          ['Eat', 2],
+//          ['Commute', 2],
+//          ['Watch TV', 2],
+//          ['Sleep', 7]
+//        ]); 
+        var year = encodeURIComponent(($("#year").val().replace(" ", "")));
+        alert(year);
+        var jsonData =$.ajax({
+          url: "<?=base_url("Report/broweseEveryMonthTurnoverByYear")?>" + '/' + year,
+          dataType:"json",
+          async: false
+          }).responseText;
+        data = new google.visualization.DataTable(jsonData);
+      
+        // Create and draw the visualization.
+        new google.visualization.PieChart(document.getElementById('visualization')).
+            draw(data, {title:"每月營業額分析"});
+      }
+      
+
+      google.setOnLoadCallback(drawVisualization);
+    </script>
+  </head>
+  <body style="font-family: Arial;border: 0 none;">
+    <div id="visualization" style="width: 800px; height: 600px;"></div>
+  </body>
+</html>

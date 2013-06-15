@@ -48,6 +48,10 @@
 </div>
 
 
+
+
+
+
 <!--
 You are free to copy and use this sample in accordance with the terms of the
 Apache license (http://www.apache.org/licenses/LICENSE-2.0.html)
@@ -76,7 +80,7 @@ Apache license (http://www.apache.org/licenses/LICENSE-2.0.html)
 //          ['Sleep', 7]
 //        ]);   
         var jsonData =$.ajax({
-          url: "<?=base_url("Report/eCouponUtility")?>",
+          url: "<?=base_url("Report/rebateSellReport")?>",
           dataType:"json",
           async: false
           }).responseText;
@@ -84,7 +88,7 @@ Apache license (http://www.apache.org/licenses/LICENSE-2.0.html)
       
         // Create and draw the visualization.
         new google.visualization.PieChart(document.getElementById('visualization')).
-            draw(data, {title:"Ecoupon使用率分析"});
+            draw(data, {title:"減價活動分析"});
       }
       
 
