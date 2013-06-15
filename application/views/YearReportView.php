@@ -19,8 +19,8 @@
       dataType:"json",
       async: false
       }).responseText;
+    //alert(jsonData);
     data = new google.visualization.DataTable(jsonData);
-  
     // Create and draw the visualization.
     new google.visualization.PieChart(document.getElementById('visualization')).
         draw(data, {title:"每月營業額分析"});

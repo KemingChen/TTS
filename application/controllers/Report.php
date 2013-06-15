@@ -101,7 +101,7 @@ class Report extends CI_Controller
             "", "type" => "string"));
         array_push($list["cols"], array("id" => "", "label" => "Turnover", "pattern" => "",
             "type" => "number"));
-
+            
         foreach ($data['report'] as $row) {
             array_push($list["rows"], array("c" => array(array("v" => $row->month, "f" => null),
                 array("v" => (int)$row->turnover, "f" => null))));
