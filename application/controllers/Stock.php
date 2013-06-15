@@ -103,7 +103,7 @@ class Stock extends CI_Controller
                 $temp = $this->CustomSearchModel->searchByISBN($isbn);
                 if (count($temp) > 0)
                 {
-                    array_push($data["lists"], $temp);
+                    array_push($data["lists"], $temp["books"]);
                 }
                 else
                 {

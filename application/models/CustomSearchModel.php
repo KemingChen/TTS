@@ -29,7 +29,7 @@ class CustomSearchModel extends CI_Model
         $this->db->where("B.ISBN = '$isbn'");
         $data["total_NumRows"] = $this->db->count_all_results();
         
-        $this->db->select('B.bid, B.name, B.cover');
+        $this->db->select('B.bid, B.name, B.cover, B.isbn');
         $this->db->from('book AS B');
         $this->db->where("B.ISBN = '$isbn'");
         $this->db->limit($limit, $offset);

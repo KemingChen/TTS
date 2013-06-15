@@ -1,6 +1,6 @@
 <div class="container-fluid">
 	<div class="row-fluid">
-        <div class="span4 offset1">
+        <div class="span10 offset1">
             <div class="span12">
                 <div id="myCarousel" class="carousel slide">
                     <ol class="carousel-indicators">
@@ -37,8 +37,8 @@
                 </div>
     		</div>
         </div>
-		<div class="span6">
-            <div class="span12" id="hotRanking">
+		<div class="span10 offset1">
+            <div class="span12 hotRanking">
     			<h3>
     				近期新書
     			</h3>
@@ -74,7 +74,7 @@
     			</table>
             </div>
             
-    		<div class="span12" id="hotRanking">
+            <div class="span12 hotRanking">
     			<h3>
     				熱門暢銷書
     			</h3>
@@ -110,7 +110,7 @@
     			</table>
             </div>
             
-    		<div class="span12" id="hotRanking">
+            <div class="span12 hotRanking">
     			<h3>
     				最多人關注
     			</h3>
@@ -146,7 +146,7 @@
     			</table>
             </div>
             
-    		<div class="span12" id="hotRanking">
+            <div class="span12 hotRanking">
     			<h3>
     				<?=$categoryName?>類別暢銷書
     			</h3>

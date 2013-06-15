@@ -5,7 +5,7 @@ foreach($lists as $list)
     {
         ?>
         <tr>
-        <td><?= $book->ISBN ?></td>
+        <td><?= $book->isbn ?></td>
         <td style="width: 65%;"><?= $book->name ?></td>
         <td><input class="input" type="number" id="quantity<?=$book->bid?>"/></td>
         <td><input class="input" type="number" id="cost<?=$book->bid?>"/></td>
