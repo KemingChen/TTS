@@ -37,8 +37,7 @@
                 </div>
     		</div>
         </div>
-		<div class="span10 offset1">
-            <div class="span12 hotRanking">
+            <div class="span10 offset1 hotRanking">
     			<h3>
     				近期新書
     			</h3>
@@ -74,7 +73,7 @@
     			</table>
             </div>
             
-            <div class="span12 hotRanking">
+            <div class="span10 offset1 hotRanking">
     			<h3>
     				熱門暢銷書
     			</h3>
@@ -110,7 +109,7 @@
     			</table>
             </div>
             
-            <div class="span12 hotRanking">
+            <div class="span10 offset1 hotRanking">
     			<h3>
     				最多人關注
     			</h3>
@@ -146,7 +145,7 @@
     			</table>
             </div>
             
-            <div class="span12 hotRanking">
+            <div class="span10 offset1 hotRanking">
     			<h3>
     				<?=$categoryName?>類別暢銷書
     			</h3>
@@ -181,6 +180,5 @@
                     </tr>
     			</table>
             </div>
-        </div>
 	</div>
 </div>
