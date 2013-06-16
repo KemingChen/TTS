@@ -2,7 +2,7 @@
 	<div class="row-fluid">
         <div class="span10 offset1">
             <div class="span12">
-                <div id="myCarousel" class="carousel slide">
+                <div id="myCarousel" class="carousel slide visible-desktop">
                     <ol class="carousel-indicators">
                     <?php
                         $count = 0;
