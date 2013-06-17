@@ -236,11 +236,19 @@ class Report extends CI_Controller
             "type" => "number"));
 
         foreach ($data['report'] as $row) {
-            array_push($list["rows"], array("c" => array(array("v" => $row->bName, "f" => null),
+            array_push($list["rows"], array("c" => array(array("v" => $row->dName, "f" => null),
                 array("v" => (int)$row->profit, "f" => null))));
         }
         $json = json_encode($list);
         echo $json;
+    }
+    
+    public function linearBookName($isbn)
+    {
+        $data = $this->ReportModel->getDiscountAnalysisByIsbn($isbn);
+        $return = $data['report']->bName;
+        //echo "hff";
+        echo $return;
     }
     
     public function test()

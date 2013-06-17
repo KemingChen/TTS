@@ -194,4 +194,15 @@ class ReportModel extends CI_Model
         //return $profit > 0 ? $profit : 0;
         return $data;
     }
+    
+    public function linearBookName($isbn)
+    {
+        $queryString = "SELECT de.name as dName, b.Name as bName, Price, Cost, SUM( quantity), SUM(quantity * (Price - cost)) as profit , discount_rate FROM orderitem AS o 
+                        NATURAL JOIN discountcorrespond NATURAL JOIN discountevent as de JOIN book AS b ON b.bid = o.bid and b.ISBN = '".$isbn."' GROUP BY deid LIMIT 0 , 30";
+        $query = $this->db->query($queryString);
+        $data["report"] = $query->result();
+        //$profit = $queryResult[0]->totalPrice - $queryResult[0]->totalCost;
+        //return $profit > 0 ? $profit : 0;
+        return $data;
+    }
 }

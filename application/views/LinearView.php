@@ -3,6 +3,21 @@
   google.load('visualization', '1', {packages: ['corechart']});
 </script>
 <script type="text/javascript">
+  var bName
+  function Onclick(string)
+  {
+    var isbn = encodeURIComponent(($("#isbn").val().replace(" ", "")));
+    var url = string + '/' + isbn;
+    alert(url);
+    var data =$.ajax({
+      url: url,
+      dataType:"text",
+      async: false
+      }).responseText;
+    bName = data;
+    //bName= "gfdfh";
+    alert(bName);
+  }
   function drawVisualization() {
     // Create and populate the data table.
     //var data = google.visualization.arrayToDataTable([
@@ -23,7 +38,7 @@
   
     // Create and draw the visualization.
     new google.visualization.PieChart(document.getElementById('visualization')).
-        draw(data, {title:"本書獲利"});
+        draw(data, {title: bName});
   }
   google.setOnLoadCallback(drawVisualization);
 </script>
@@ -80,7 +95,7 @@
                         <td>
                             ISBN：<input type="text" class="search-query" id="isbn" />
                             <div class="btn-group">
-                                <a class="btn btn-success" onclick=drawVisualization() >產生報表</a>
+                                <a class="btn btn-success" onclick=Onclick("<?=base_url("ViewReport/linearAnalizeBookName/")?>");drawVisualization() >產生報表</a>
                             </div>
                         </td>
                     </tr>              
