@@ -166,7 +166,7 @@
                     </tr>
                     <tr>
                     <?php
-                    foreach ($latestPublishList as $book)
+                    foreach ($categoryBookList as $book)
                     {
                     ?>
                         <td>
