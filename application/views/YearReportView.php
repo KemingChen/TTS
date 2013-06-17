@@ -23,7 +23,7 @@
     data = new google.visualization.DataTable(jsonData);
     // Create and draw the visualization.
     new google.visualization.PieChart(document.getElementById('visualization')).
-        draw(data, {title:"每月營業額分析"});
+        draw(data, {title:"本年營業額分析"});
   }
   google.setOnLoadCallback(drawVisualization);
 </script>
