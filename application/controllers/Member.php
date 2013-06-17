@@ -44,9 +44,28 @@ class Member extends CI_Controller
         $slideBarList = $this->MenuModel->getAnnouncementList();
         $slideBarList["Announcement"]['Active'] = "active";
         $content = "AnnoucementView";
+        $data = $this->getData();
+        $this->template->loadView("Announcement", $slideBarList, $content, $data);
+    }
+    
+    public function getData()
+    {
+        $temp = $this->BrowseModel->GetLatestBook(0, 5,false);
+        $data["latestPublishList"] = $temp['books'];
+        $temp = $this->BrowseModel->GetHotRankingBook(0, 5,false);
+        $data["hotRankingList"] = $temp['books'];
+        $temp = $this->BrowseModel->GetMostConcernedBook(0, 5,false);
+        $data["mostConcernedList"] = $temp['books'];
+        $categoryList = $this->CategoryModel->getCategoryList();
+        $categoryIndex = rand(0, count($categoryList)-1);
+        $categoryID = $categoryList[$categoryIndex]->cid;
+        $categoryName = $categoryList[$categoryIndex]->name;
+        $data['categoryName'] = $categoryName;
+        $temp = $this->BrowseModel->GetBookByCategory($categoryID, 0, 5,false);
+        $data["categoryBookList"] = $temp['books'];
         $data['size'] = $this->AnnouncementModel->getAnnouncementSize();
         $data["list"] = $this->AnnouncementModel->getAnnouncementList();
-        $this->template->loadView("Announcement", $slideBarList, $content, $data);
+        return $data;
     }
     
     public function addPhone($mid, $phone)

@@ -9,6 +9,8 @@ class MemberModel extends CI_Model
         $this->load->database();
         $this->load->model("GmailModel");
         $this->load->model("AccountModel");
+        $this->load->model("AnnouncementModel");
+        $this->load->model("BrowseModel");
         $this->load->model("authority");
     }
 
@@ -47,9 +49,9 @@ class MemberModel extends CI_Model
         $subject = 'TaipeiTech Store';
         $name = $name;
         // local link
-        $link = 'http://localhost/TTS/Member/verificate/' . $mid;
+        // $link = 'http://localhost/TTS/Member/verificate/' . $mid;
         // online link
-        // $link = 'http://TTS/Member/verificate/'.$mid;
+        $link = 'http://islab1221.twbbs.org:1221/TTS/Member/verificate/'.$mid;
         $message = "親愛的$name" . "您好," . "\r\n" . '您的帳號已經註冊成功!.' . "\r\n\r\n" .
             '請點擊連結開通您的帳戶:' . "\r\n" . $link;
         $this->GmailModel->sendMail($recipient, $subject, $message);
