@@ -8,7 +8,7 @@
   {
     var isbn = encodeURIComponent(($("#isbn").val().replace(" ", "")));
     var url = string + '/' + isbn;
-    alert(url);
+    //alert(url);
     var data =$.ajax({
       url: url,
       dataType:"text",
@@ -16,7 +16,7 @@
       }).responseText;
     bName = data;
     //bName= "gfdfh";
-    alert(bName);
+    //alert(bName);
   }
   function drawVisualization() {
     // Create and populate the data table.
