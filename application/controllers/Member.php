@@ -41,11 +41,8 @@ class Member extends CI_Controller
     
     public function browseIndex()
     {
-        $slideBarList = $this->MenuModel->getAnnouncementList();
-        $slideBarList["Announcement"]['Active'] = "active";
-        $content = "AnnoucementView";
         $data = $this->getData();
-        $this->template->loadView("Announcement", $slideBarList, $content, $data);
+        $this->template->loadView("Announcement", null, "AnnoucementView", $data);
     }
     
     public function getData()

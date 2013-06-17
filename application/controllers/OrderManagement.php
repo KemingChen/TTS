@@ -45,7 +45,7 @@ class OrderManagement extends CI_Controller
     }
     
     public function modifyOrderSummaryState($oid, $state){
-        $this->TransactionModel->modifyOrderSummaryState($oid, $state);
+        $this->TransactionModel->manageOrderState($oid, $state);
         echo "OK";
     }
 }

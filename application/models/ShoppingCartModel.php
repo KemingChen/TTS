@@ -95,7 +95,7 @@ class ShoppingCartModel extends CI_Model
         $this->db->select('name,threshold,price')->from('rebateevent');
         $this->db->where('Now() between startTime and endTime + INTERVAL 1 DAY');
         $this->db->where($data["after_discount_total_price"] . ' >= threshold', '', false);
-        $this->db->order_by('(price/threshold)', 'desc');
+        $this->db->order_by('price', 'desc');
         $this->db->limit(1,0);
         
         $query = $rebate = $this->db->get(); //->row(0);
