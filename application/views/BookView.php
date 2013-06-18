@@ -130,14 +130,19 @@
             
             <tr>
             <?php
-            if(sizeof($discounts)>0){
+            if($discount!=null){
                 echo '<td>優惠</td><td><i class="icon-chevron-right"></i>';
-                foreach($discounts as $discount)
-                {
-                    echo '<div class="label label-info">'.$discount->name.'</div>';
-                }
-                echo '</td>';
-            }?>
+                echo '<div class="label label-info">'.$discount->name.'</div>';
+                echo '</td>'; 
+            }
+//            if(sizeof($discounts)>0){
+//                echo '<td>優惠</td><td><i class="icon-chevron-right"></i>';
+//                foreach($discounts as $discount)
+//                {
+//                    echo '<div class="label label-info">'.$discount->name.'</div>';
+//                }
+//                echo '</td>';
+//            }?>
             </tr>
         </table>
         <?php
