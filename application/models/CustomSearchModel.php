@@ -26,12 +26,12 @@ class CustomSearchModel extends CI_Model
     public function searchByISBN($isbn, $offset=0, $limit=99999)
     {
         $this->db->from('book AS B');
-        $this->db->where("B.ISBN = '$isbn'");
+        $this->db->like("B.ISBN", "$isbn");
         $data["total_NumRows"] = $this->db->count_all_results();
-        
+        //echo $this->db->last_query();
         $this->db->select('B.bid, B.name, B.cover, B.isbn');
         $this->db->from('book AS B');
-        $this->db->where("B.ISBN = '$isbn'");
+        $this->db->like("B.ISBN" , "$isbn");
         $this->db->limit($limit, $offset);
         $data["books"] = $this->db->get()->result();
         return $data;
