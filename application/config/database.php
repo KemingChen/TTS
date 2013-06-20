@@ -48,7 +48,7 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-$db['default']['hostname'] = 'islab1221.twbbs.org:2819';
+$db['default']['hostname'] = '140.124.181.7:2819';
 $db['default']['username'] = 'TaipeiTech';
 $db['default']['password'] = '13579';
 $db['default']['database'] = 'taipeitech';
